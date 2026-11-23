@@ -1,0 +1,11 @@
+.agents/
+.claude/skills/
+_brief.md
+skills-lock.json
+
+# Kaynak görseller (siteye img/ altındaki WebP sürümleri gider)
+profil.jpg
+panel-giris.png
+
+# Yerel önizleme ayarı
+.claude/launch.json

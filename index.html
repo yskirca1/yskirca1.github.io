@@ -4,9 +4,824 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Yusuf Selim Kırca</title>
-  <meta name="description" content="Yusuf Selim Kırca — kişisel site. Yakında.">
+  <meta name="description" content="Yusuf Selim Kırca · KOBİ Pazarlama, Kuveyt Türk · Endüstri Mühendisliği, İTÜ. Projeler, geziler ve iletişim.">
+  <meta property="og:title" content="Yusuf Selim Kırca">
+  <meta property="og:description" content="Hâlâ öğreniyorum. / Still learning.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yusufselimkirca.com/">
+  <meta property="og:image" content="https://yusufselimkirca.com/img/profil.webp">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230F5C6E'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' fill='%23FAF8F5'%3EY%3C/text%3E%3C/svg%3E">
+
+  <!-- Fontlar: başlıklar Newsreader, gövde Inter (ikisi de Türkçe karakter destekli) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       1) RENKLER VE ÖLÇÜLER — tasarımı buradan değiştirebilirsin
+       ============================================================ */
+    :root {
+      --zemin: #FAF8F5;        /* arka plan */
+      --metin: #1C1B19;        /* ana metin */
+      --ikincil: #5C5A55;      /* ikincil metin */
+      --vurgu: #0F5C6E;        /* petrol mavisi */
+      --vurgu-koyu: #0A4654;   /* vurgunun üzerine gelince */
+      --cizgi: #E7E3DC;        /* çizgiler ve haritada gidilmemiş ülkeler */
+      --ev: #1C1B19;           /* haritada Türkiye ("ev") */
+      --serif: "Newsreader", Georgia, "Times New Roman", serif;
+      --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --dar: 44rem;            /* yazı sütunu genişliği */
+      --genis: 66rem;          /* harita ve görseller için geniş sütun */
+      --kenar: 1.25rem;        /* sayfa kenar boşluğu */
+    }
+
+    /* ============================================================
+       2) TEMEL
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--zemin);
+      color: var(--metin);
+      font-family: var(--sans);
+      font-size: 1.0625rem;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    [hidden] { display: none !important; }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: var(--vurgu); text-decoration-thickness: 1px; text-underline-offset: 0.2em; transition: color 0.2s; }
+    a:hover { color: var(--vurgu-koyu); }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+    p { margin: 0 0 1.1em; }
+
+    /* Klavye ile gezerken görünen odak çerçevesi */
+    :focus-visible { outline: 2px solid var(--vurgu); outline-offset: 3px; border-radius: 3px; }
+
+    .gizli-etiket { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .atla { position: absolute; left: 1rem; top: -4rem; background: var(--vurgu); color: #fff; padding: 0.6rem 1rem; border-radius: 4px; z-index: 100; }
+    .atla:focus { top: 1rem; color: #fff; }
+
+    .dar { max-width: var(--dar); margin-inline: auto; padding-inline: var(--kenar); }
+    .genis { max-width: var(--genis); margin-inline: auto; padding-inline: var(--kenar); }
+
+    /* ============================================================
+       3) ÜST ŞERİT
+       ============================================================ */
+    .ust {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(250, 248, 245, 0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--cizgi);
+    }
+    .ust-ic { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 3.75rem; }
+    .ust-ad { font-family: var(--serif); font-size: 1.2rem; color: var(--metin); text-decoration: none; padding: 0.5rem 0; }
+    .ust-sag { display: flex; align-items: center; gap: 0.5rem; }
+    .menu { display: none; position: absolute; left: 0; right: 0; top: 100%; background: var(--zemin); border-bottom: 1px solid var(--cizgi); padding: 0.5rem var(--kenar) 1rem; }
+    .menu.acik { display: block; }
+    .menu a { display: block; padding: 0.75rem 0; color: var(--metin); text-decoration: none; font-size: 1rem; }
+    .menu a:hover { color: var(--vurgu); }
+    .menu-dugme { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; background: none; border: 0; border-radius: 6px; }
+    .menu-dugme svg { width: 1.4rem; height: 1.4rem; }
+    .dil { display: inline-flex; border: 1px solid var(--cizgi); border-radius: 999px; padding: 2px; }
+    .dil button { background: none; border: 0; border-radius: 999px; min-width: 2.75rem; min-height: 2.4rem; font-size: 0.85rem; font-weight: 500; color: var(--ikincil); transition: background 0.2s, color 0.2s; }
+    .dil button[aria-pressed="true"] { background: var(--vurgu); color: #fff; }
+
+    /* ============================================================
+       4) GİRİŞ
+       ============================================================ */
+    .giris { padding-block: 3.5rem 3rem; }
+    .giris img { width: 8.5rem; height: 8.5rem; border-radius: 50%; object-fit: cover; margin-bottom: 1.75rem; }
+    .giris h1 { font-size: clamp(2.5rem, 9vw, 4.25rem); }
+    .giris-alt { margin: 1.1rem 0 0; color: var(--ikincil); line-height: 1.6; }
+    .giris-alt span { display: block; }
+    .imza { margin: 1.75rem 0 0; font-family: var(--serif); font-style: italic; font-size: 1.5rem; color: var(--vurgu); }
+
+    /* ============================================================
+       5) BÖLÜMLER (ortak)
+       ============================================================ */
+    .bolum { padding-block: 3.5rem; border-top: 1px solid var(--cizgi); }
+    .bolum-etiket { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); margin: 0 0 0.9rem; }
+    .bolum h2 { font-size: clamp(1.9rem, 6vw, 2.6rem); margin-bottom: 1.5rem; }
+
+    /* ============================================================
+       6) PROJELER
+       ============================================================ */
+    .proje { padding-top: 2.5rem; margin-top: 2.5rem; border-top: 1px solid var(--cizgi); }
+    .proje:first-of-type { padding-top: 0; margin-top: 0; border-top: 0; }
+    .proje-bas { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; }
+    .proje h3 { font-size: clamp(1.5rem, 5vw, 1.9rem); }
+    .durum { font-size: 0.8rem; font-weight: 500; color: var(--vurgu); border: 1px solid var(--vurgu); border-radius: 999px; padding: 0.15rem 0.75rem; white-space: nowrap; }
+    .proje-alt { font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: var(--ikincil); margin: 0.5rem 0 1.5rem; }
+    .gorseller { display: grid; gap: 1rem; margin: 0 0 1.75rem; }
+    .gorseller img { width: 100%; border: 1px solid var(--cizgi); border-radius: 8px; }
+    .gorsel-not { font-size: 0.9rem; font-style: italic; color: var(--ikincil); margin: 0; }
+    .adimlar { margin: 0; }
+    .adimlar dt { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--vurgu); margin-top: 1.4rem; }
+    .adimlar dt:first-child { margin-top: 0; }
+    .adimlar dd { margin: 0.3rem 0 0; }
+    .dugme { display: inline-block; margin-top: 1.75rem; padding: 0.7rem 1.3rem; background: var(--vurgu); color: #fff; text-decoration: none; border-radius: 6px; font-weight: 500; transition: background 0.2s; }
+    .dugme:hover { background: var(--vurgu-koyu); color: #fff; }
+
+    /* ============================================================
+       7) GEZİLER
+       ============================================================ */
+    .sayac { display: flex; align-items: baseline; gap: 0.6rem; margin: 0 0 1rem; }
+    .sayac b { font-family: var(--serif); font-weight: 500; font-size: 4rem; line-height: 1; color: var(--vurgu); }
+    .sayac span { font-size: 1.15rem; color: var(--ikincil); }
+    .duraklar { margin: 0 0 1.75rem; }
+    .duraklar-etiket { color: var(--ikincil); }
+    .durak-liste { list-style: none; margin: 0.3rem 0 0; padding: 0; }
+    .durak-liste li { position: relative; padding: 0.15rem 0; }
+    .durak { display: inline-block; padding: 0.35rem 0; border-bottom: 1px dashed var(--vurgu); cursor: default; }
+    .sehirler { display: none; position: absolute; left: 0; top: 100%; z-index: 5; background: var(--metin); color: var(--zemin); font-size: 0.9rem; padding: 0.35rem 0.7rem; border-radius: 5px; white-space: nowrap; }
+    .durak:hover + .sehirler, .durak:focus-visible + .sehirler { display: block; }
+
+    .harita-kutu { position: relative; border: 1px solid var(--cizgi); border-radius: 8px; background: #fff; overflow: hidden; aspect-ratio: 4 / 3; }
+    .harita-kutu svg { display: block; width: 100%; height: 100%; touch-action: pan-x pan-y; }
+    .harita-kutu svg.suruklenebilir { cursor: grab; }
+    .harita-kutu svg.surukleniyor { cursor: grabbing; }
+    .ulke { fill: var(--cizgi); stroke: #fff; stroke-width: 0.5; vector-effect: non-scaling-stroke; }
+    .ulke.gidilen { fill: var(--vurgu); }
+    .ulke.ev { fill: var(--ev); }
+    .nokta { stroke: #fff; vector-effect: non-scaling-stroke; fill: var(--vurgu); }
+    .nokta-alan { fill: transparent; }
+    .harita-durum { position: absolute; inset: 0; display: grid; place-items: center; color: var(--ikincil); font-size: 0.95rem; }
+    .harita-dugmeler { position: absolute; right: 0.6rem; bottom: 0.6rem; display: grid; gap: 0.4rem; }
+    .harita-dugmeler button { width: 2.75rem; height: 2.75rem; background: var(--zemin); border: 1px solid var(--cizgi); border-radius: 6px; font-size: 1.3rem; line-height: 1; display: grid; place-items: center; transition: background 0.2s; }
+    .harita-dugmeler button:hover { background: var(--cizgi); }
+    .harita-dugmeler svg { width: 1.1rem; height: 1.1rem; }
+    .ipucu { position: absolute; z-index: 6; pointer-events: none; background: var(--metin); color: var(--zemin); font-size: 0.9rem; padding: 0.3rem 0.65rem; border-radius: 5px; white-space: nowrap; transform: translate(-50%, -140%); }
+    .harita-alt { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; justify-content: space-between; font-size: 0.9rem; color: var(--ikincil); margin: 0.75rem 0 0; }
+    .gosterge { display: flex; gap: 1.1rem; list-style: none; margin: 0; padding: 0; }
+    .gosterge i { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 2px; margin-right: 0.4rem; vertical-align: -0.05rem; }
+    .ulke-listesi { margin-top: 0.75rem; font-size: 0.95rem; color: var(--ikincil); }
+    .ulke-listesi summary { cursor: pointer; padding: 0.5rem 0; color: var(--vurgu); width: fit-content; }
+    .ulke-listesi ul { margin: 0.25rem 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.2rem 0.5rem; }
+    .ulke-listesi li:not(:last-child)::after { content: " ·"; }
+
+    .serit { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin: 2.5rem 0 0; padding: 0; list-style: none; }
+    .serit li { aspect-ratio: 4 / 5; background: var(--cizgi); border-radius: 6px; overflow: hidden; }
+    .serit img { width: 100%; height: 100%; object-fit: cover; }
+    .daha { margin: 1rem 0 0; }
+
+    /* ============================================================
+       8) İLETİŞİM VE ALT BİLGİ
+       ============================================================ */
+    .iletisim-satir { font-size: 1.15rem; margin: 0; }
+    .iletisim-satir .ayrac { color: var(--ikincil); margin-inline: 0.6rem; }
+    .yakinda { color: var(--ikincil); }
+    #linkedin, #eposta { white-space: nowrap; }
+    .alt { border-top: 1px solid var(--cizgi); padding-block: 2rem 3rem; color: var(--ikincil); font-size: 0.9rem; }
+
+    /* ============================================================
+       9) GENİŞ EKRAN (tablet ve masaüstü)
+       ============================================================ */
+    @media (min-width: 48rem) {
+      :root { --kenar: 2rem; }
+      .menu-dugme { display: none; }
+      .menu { display: flex; position: static; gap: 1.75rem; padding: 0; border: 0; background: none; margin-right: 0.75rem; }
+      .menu a { padding: 0.5rem 0; font-size: 0.95rem; }
+      .giris { padding-block: 6rem 5rem; display: grid; grid-template-columns: auto 1fr; gap: 3rem; align-items: center; }
+      .giris img { width: 12rem; height: 12rem; margin: 0; }
+      .bolum { padding-block: 5.5rem; }
+      .gorseller.iki { grid-template-columns: 1fr 1fr; }
+      .adimlar { display: grid; grid-template-columns: 8.5rem 1fr; gap: 1.4rem 1.5rem; }
+      .adimlar dt { margin-top: 0.35rem; }
+      .adimlar dd { margin: 0; }
+      .durak-liste { display: inline; }
+      .durak-liste li { display: inline-block; }
+      .durak-liste li:not(:last-child)::after { content: "—"; color: var(--ikincil); margin-inline: 0.6rem; }
+      .harita-kutu { aspect-ratio: 1000 / 455; }
+      .serit { grid-template-columns: repeat(6, 1fr); gap: 0.75rem; }
+    }
+
+    /* Hareket azaltma tercihi */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
+  </style>
 </head>
-<body style="font-family: system-ui, sans-serif; display:grid; place-items:center; min-height:100vh; margin:0; color:#1a1a1a; background:#fafafa;">
-  <p>Yusuf Selim Kırca · Yakında / Coming soon</p>
+<body>
+
+<a class="atla" href="#icerik" data-m="atla"></a>
+
+<!-- ================= ÜST ŞERİT ================= -->
+<header class="ust">
+  <div class="genis ust-ic">
+    <a class="ust-ad" href="#ust">Yusuf Selim Kırca</a>
+    <div class="ust-sag">
+      <nav class="menu" id="menu" aria-label="Bölümler">
+        <a href="#hakkimda" data-m="menuHakkimda"></a>
+        <a href="#projeler" data-m="menuProjeler"></a>
+        <a href="#geziler" data-m="menuGeziler"></a>
+        <a href="#iletisim" data-m="menuIletisim"></a>
+      </nav>
+      <div class="dil" role="group" aria-label="Dil / Language">
+        <button type="button" data-dil="tr" aria-pressed="true" aria-label="Türkçe">TR</button>
+        <button type="button" data-dil="en" aria-pressed="false" aria-label="English">EN</button>
+      </div>
+      <button type="button" class="menu-dugme" id="menuDugme" aria-expanded="false" aria-controls="menu">
+        <span class="gizli-etiket" data-m="menuDugme"></span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="icerik">
+
+  <!-- ================= GİRİŞ ================= -->
+  <section class="genis giris" id="ust">
+    <img src="img/profil.webp" width="640" height="640" alt="Yusuf Selim Kırca" fetchpriority="high">
+    <div>
+      <h1>Yusuf Selim Kırca</h1>
+      <p class="giris-alt">
+        <span data-m="girisSatir1"></span>
+        <span data-m="girisSatir2"></span>
+      </p>
+      <p class="imza" data-m="imza"></p>
+    </div>
+  </section>
+
+  <!-- ================= HAKKIMDA ================= -->
+  <section class="bolum" id="hakkimda">
+    <div class="dar">
+      <p class="bolum-etiket" data-m="menuHakkimda"></p>
+      <h2 data-m="hakkimdaBaslik"></h2>
+      <p data-m="hakkimda1"></p>
+      <p data-m="hakkimda2"></p>
+      <p data-m="hakkimda3"></p>
+    </div>
+  </section>
+
+  <!-- ================= PROJELER ================= -->
+  <section class="bolum" id="projeler">
+    <div class="dar">
+      <h2 data-m="menuProjeler"></h2>
+
+      <!-- Proje 1: ReviewRadar -->
+      <article class="proje">
+        <div class="proje-bas">
+          <h3>ReviewRadar</h3>
+          <span class="durum" data-m="rrDurum"></span>
+        </div>
+        <p class="proje-alt" data-m="rrAlt"></p>
+        <div class="gorseller">
+          <img src="img/reviewradar.webp" width="1440" height="900" loading="lazy" data-m-alt="rrGorselAlt" alt="">
+        </div>
+        <dl class="adimlar">
+          <dt data-m="sorun"></dt>      <dd data-m="rrSorun"></dd>
+          <dt data-m="neYaptim"></dt>   <dd data-m="rrNeYaptim"></dd>
+          <dt data-m="sonuc"></dt>      <dd data-m="rrSonuc"></dd>
+        </dl>
+        <a class="dugme" href="https://yusufselimkirca.com/reviewradar/" target="_blank" rel="noopener" data-m="rrDugme"></a>
+      </article>
+
+      <!-- Proje 2: Firma Ortakları Kontrol Paneli -->
+      <article class="proje">
+        <div class="proje-bas">
+          <h3 data-m="panelBaslik"></h3>
+          <span class="durum" data-m="panelDurum"></span>
+        </div>
+        <p class="proje-alt" data-m="panelAlt"></p>
+        <div class="gorseller iki">
+          <img src="img/panel-giris.webp" width="1424" height="884" loading="lazy" data-m-alt="panelGirisAlt" alt="">
+          <img src="img/panel-ornek.webp" width="1440" height="900" loading="lazy" data-m-alt="panelOrnekAlt" alt="">
+        </div>
+        <dl class="adimlar">
+          <dt data-m="sorun"></dt>      <dd data-m="panelSorun"></dd>
+          <dt data-m="neYaptik"></dt>   <dd data-m="panelNeYaptik"></dd>
+          <dt data-m="sonuc"></dt>      <dd><span data-m="panelSonuc"></span><p class="gorsel-not" style="margin-top:1rem" data-m="panelNot"></p></dd>
+        </dl>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= GEZİLER ================= -->
+  <section class="bolum" id="geziler">
+    <div class="genis">
+      <h2 data-m="menuGeziler"></h2>
+      <p class="sayac"><b id="sayac"></b> <span data-m="ulke"></span></p>
+      <div class="duraklar">
+        <span class="duraklar-etiket"><span data-m="sonDuraklar"></span>:</span>
+        <ul class="durak-liste" id="durakListe"></ul>
+      </div>
+
+      <div class="harita-kutu" id="haritaKutu">
+        <svg id="harita" role="img" aria-labelledby="haritaBaslik"><title id="haritaBaslik"></title></svg>
+        <div class="harita-durum" id="haritaDurum" data-m="haritaYukleniyor"></div>
+        <div class="harita-dugmeler">
+          <button type="button" id="yakinlas"><span class="gizli-etiket" data-m="yakinlastir"></span><span aria-hidden="true">+</span></button>
+          <button type="button" id="uzaklas"><span class="gizli-etiket" data-m="uzaklastir"></span><span aria-hidden="true">−</span></button>
+          <button type="button" id="sifirla"><span class="gizli-etiket" data-m="sifirla"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4.5h4.5"/></svg>
+          </button>
+        </div>
+        <div class="ipucu" id="ipucu" hidden></div>
+      </div>
+      <div class="harita-alt">
+        <ul class="gosterge">
+          <li><i style="background:var(--vurgu)"></i><span data-m="gidilen"></span></li>
+          <li><i style="background:var(--ev)"></i><span data-m="ev"></span></li>
+        </ul>
+        <span data-m="haritaIpucu"></span>
+      </div>
+      <!-- Ekran okuyucu ve klavye kullanıcıları için yazılı ülke listesi -->
+      <details class="ulke-listesi">
+        <summary data-m="ulkeListesi"></summary>
+        <ul id="ulkeListesi"></ul>
+      </details>
+
+      <ul class="serit" id="serit" aria-hidden="true"></ul>
+      <p class="daha" id="daha" hidden><a target="_blank" rel="noopener" data-m="dahaFazla"></a></p>
+    </div>
+  </section>
+
+  <!-- ================= İLETİŞİM ================= -->
+  <section class="bolum" id="iletisim">
+    <div class="dar">
+      <h2 data-m="menuIletisim"></h2>
+      <p class="iletisim-satir">
+        <span id="linkedin"></span><span class="ayrac" aria-hidden="true">·</span><span id="eposta"></span>
+      </p>
+    </div>
+  </section>
+</main>
+
+<!-- ================= ALT BİLGİ ================= -->
+<footer class="alt">
+  <div class="dar">© 2026 Yusuf Selim Kırca</div>
+</footer>
+
+<noscript><p style="padding:2rem;text-align:center">Bu sayfa JavaScript ile çalışır. / This page needs JavaScript.</p></noscript>
+
+<script>
+/* ==================================================================
+   A) SIK DEĞİŞECEK VERİLER — siteyi güncellerken önce buraya bak
+   ================================================================== */
+
+// Gidilen ülkeler (iki harfli ülke kodu). Yeni ülke eklemek için koda ekle,
+// adını da aşağıdaki ULKE_ADLARI listesine yaz. Sayaç kendiliğinden güncellenir.
+const ULKELER = ["BA","US","PS","IL","IT","NL","ZA","JP","KW","MK","MU","EG","SC","SA","TZ","TN","TR","OM"];
+const EV = "TR";   // "ev" ülkesi: haritada farklı renkte, sayaca dahil değil
+
+const ULKE_ADLARI = {
+  BA: { tr: "Bosna-Hersek", en: "Bosnia and Herzegovina" },
+  US: { tr: "Amerika Birleşik Devletleri", en: "United States" },
+  PS: { tr: "Filistin", en: "Palestine" },
+  IL: { tr: "İsrail", en: "Israel" },
+  IT: { tr: "İtalya", en: "Italy" },
+  NL: { tr: "Hollanda", en: "Netherlands" },
+  ZA: { tr: "Güney Afrika", en: "South Africa" },
+  JP: { tr: "Japonya", en: "Japan" },
+  KW: { tr: "Kuveyt", en: "Kuwait" },
+  MK: { tr: "Kuzey Makedonya", en: "North Macedonia" },
+  MU: { tr: "Mauritius", en: "Mauritius" },
+  EG: { tr: "Mısır", en: "Egypt" },
+  SC: { tr: "Seyşeller", en: "Seychelles" },
+  SA: { tr: "Suudi Arabistan", en: "Saudi Arabia" },
+  TZ: { tr: "Tanzanya", en: "Tanzania" },
+  TN: { tr: "Tunus", en: "Tunisia" },
+  TR: { tr: "Türkiye", en: "Türkiye" },
+  OM: { tr: "Umman", en: "Oman" }
+};
+
+// Son duraklar. tarihler: "YIL-AY". Ay adları dile göre kendiliğinden yazılır.
+const SON_DURAKLAR = [
+  { ulke: "JP", tarihler: ["2026-01", "2026-07"], sehirler: { tr: "Tokyo, Osaka, Kyoto", en: "Tokyo, Osaka, Kyoto" } },
+  { ulke: "MU", tarihler: ["2025-07"] },
+  { ulke: "IT", tarihler: ["2024-12"], sehirler: { tr: "Venedik", en: "Venice" } }
+];
+
+// Bekleyenler: adres gelince tırnakların arasına yaz, gerisi kendiliğinden açılır.
+const LINKEDIN_ADRESI = "";   // ör. "https://www.linkedin.com/in/..."
+const VSCO_ADRESI = "";       // boşken "Daha fazlası" linki gizli kalır
+
+// Gezi fotoğrafları. Boşken 6 gri kutu görünür.
+// Örnek: { dosya: "img/gezi-1.webp", tr: "Kyoto'da bir sokak", en: "A street in Kyoto" }
+const FOTOGRAFLAR = [];
+
+// E-posta parçalı yazılır ki adres toplayan robotlar kolayca bulamasın.
+const EPOSTA = ["yskirca", "gmail", "com"];
+
+// Haritada bu alandan küçük ülkeler ayrıca nokta ile gösterilir.
+const NOKTA_ESIGI = 16;
+
+/* ==================================================================
+   B) METİNLER — Türkçe ve İngilizce yan yana, tek yerde
+   ================================================================== */
+const METINLER = {
+  tr: {
+    atla: "İçeriğe geç",
+    menuHakkimda: "Hakkımda", menuProjeler: "Projeler", menuGeziler: "Geziler", menuIletisim: "İletişim",
+    menuDugme: "Menü",
+    girisSatir1: "KOBİ Pazarlama · Kuveyt Türk",
+    girisSatir2: "Endüstri Mühendisliği, İTÜ (son sınıf)",
+    imza: "Hâlâ öğreniyorum.",
+
+    hakkimdaBaslik: "Merhaba, ben Yusuf.",
+    hakkimda1: "İTÜ Endüstri Mühendisliği'nde son sınıftayım. Yaklaşık bir buçuk yıldır, kampüs programı kapsamında Kuveyt Türk'te KOBİ Pazarlama bünyesinde, Firma Ortakları Yönetimi biriminde çalışıyorum.",
+    hakkimda2: "Bir iş ihtiyacı çıktığında, o işi en iyi bilen kişi olarak aracını da kendim tasarlamayı tercih ediyorum. Yazılımcı değilim, ama yapay zekâ araçlarıyla bunu yapmak artık mümkün: sorunu tanımlıyorum, aracı birlikte kuruyoruz, gerçekten işe yarayana kadar iyileştiriyorum. Aşağıdaki projeler bu şekilde ortaya çıktı.",
+    hakkimda3: "İş dışında fotoğraf ve video çekip düzenliyorum, fırsat buldukça da yeni ülkeler görüyorum.",
+
+    sorun: "Sorun", neYaptim: "Ne yaptım", neYaptik: "Ne yaptık", sonuc: "Sonuç",
+
+    rrDurum: "Devam ediyor",
+    rrAlt: "KOBİ'ler için rakip yorum analizi",
+    rrSorun: "Yeni bir ürün kategorisine girmek isteyen küçük bir işletme o pazarda müşterilerin neyi sevdiğini, neye kızdığını bilmeden yola çıkıyor. Bu bilgi aslında binlerce ürün yorumunda duruyor, ama tek tek okumak kimsenin zamanı yetecek bir iş değil.",
+    rrNeYaptim: "Hamilik Okulu'nda pazarlama alanında değer üreten bir proje geliştirmemiz istendi. Ben bu fikri seçtim ve ürünü baştan sona yapay zekâyla kurdum. Veri toplamayı, analizi ve kodu yapay zekâ yaptı. Ürünün ne olacağını, tasarımını ve her iyileştirmeyi ben yönlendirdim.",
+    rrSonuc: "12 kategoride 141 ürüne ait 24.500 yorum analiz edildi. Kullanıcı bir kategoriyi aradığında rakiplerin en çok şikâyet aldığı konuları, müşterilerin beğendiği yönleri ve pazara girerken dikkat edilmesi gerekenleri tek ekranda görüyor. Proje 2027 yazına kadar geliştirilmeye devam edecek.",
+    rrDugme: "Siteyi aç →",
+    rrGorselAlt: "ReviewRadar ana sayfasının ekran görüntüsü: arama kutusu ve kategori kartları",
+
+    panelBaslik: "Firma Ortakları Kontrol Paneli",
+    panelDurum: "Kullanıma alınıyor",
+    panelAlt: "Her ay yeniden hazırlanan raporlardan kalıcı bir araca",
+    panelSorun: "Ekip olarak her ay aynı verileri farklı Excel raporlarından derliyor, listeleri sıfırdan oluşturuyorduk. Her kişinin elinde verinin farklı bir versiyonu oluyordu, şubelere iletilmesi de ayrı bir iş yüküydü.",
+    panelNeYaptik: "<a href=\"https://www.linkedin.com/in/beyza%C3%A7iftci/\" target=\"_blank\" rel=\"noopener\">Beyza Çiftci Aytunç</a> ile birlikte, bu tekrar eden işleri tek bir panelde toplamaya karar verdik ve paneli yapay zekâ destekli araçlarla geliştirdik. Panel, firma ortağı performansını bankadan şubeye kadar her seviyede izlemeyi sağlıyor. Temsilcilere günlük öncelik listeleri ve aksiyon dosyaları hazırlıyor. Kullanıcıların sade bir dille sordukları soruları müşteri listesine çeviriyor. Yönetim raporunu da kendisi oluşturuyor.",
+    panelSonuc: "Çalışmayı Yapay Zekâ Laboratuvarı'nda örnek verilerle sunduk ve KOBİ Bankacılığı'ndan sorumlu Genel Müdür Yardımcımızın ödülüne layık görüldük. Panel şimdi ekibin günlük işinin bir parçası olmak üzere kullanıma alınıyor.",
+    panelNot: "Ekran görüntüleri örnek verilerle hazırlanmıştır.",
+    panelGirisAlt: "Kontrol Paneli giriş ekranı",
+    panelOrnekAlt: "Kontrol Paneli'nin örnek verilerle hazırlanmış temsili ekranı: soru kutusu, dört metrik kartı ve segment tablosu",
+
+    ulke: "ülke",
+    sonDuraklar: "Son duraklar",
+    haritaBaslik: "Gidilen ülkeleri gösteren dünya haritası",
+    haritaYukleniyor: "Harita yükleniyor…",
+    haritaHata: "Harita yüklenemedi.",
+    yakinlastir: "Yakınlaştır", uzaklastir: "Uzaklaştır", sifirla: "Haritayı ilk haline getir",
+    gidilen: "Gidilen", ev: "Ev",
+    haritaIpucu: "Yakınlaştırma: + / −, iki parmak ya da Ctrl + tekerlek",
+    ulkeListesi: "Ülke listesi",
+    dahaFazla: "Daha fazlası →",
+
+    eposta: "E-posta",
+    yakinda: "(adres eklenecek)"
+  },
+
+  en: {
+    atla: "Skip to content",
+    menuHakkimda: "About", menuProjeler: "Projects", menuGeziler: "Travels", menuIletisim: "Contact",
+    menuDugme: "Menu",
+    girisSatir1: "SME Marketing · Kuveyt Türk",
+    girisSatir2: "Industrial Engineering, ITU (final year)",
+    imza: "Still learning.",
+
+    hakkimdaBaslik: "Hi, I'm Yusuf.",
+    hakkimda1: "I'm a final-year Industrial Engineering student at ITU. For about a year and a half, through a campus programme, I've been working at Kuveyt Türk in SME Marketing, within the Business Partners Management unit.",
+    hakkimda2: "When a business need comes up, I prefer to design the tool myself, as the person who knows the work best. I'm not a software developer, but AI tools now make this possible: I define the problem, we build the tool together, and I keep refining it until it actually works. The projects below came about this way.",
+    hakkimda3: "Outside work, I shoot and edit photos and videos, and I visit new countries whenever I get the chance.",
+
+    sorun: "Problem", neYaptim: "What I did", neYaptik: "What we did", sonuc: "Result",
+
+    rrDurum: "In progress",
+    rrAlt: "Competitor review analysis for SMEs",
+    rrSorun: "A small business entering a new product category often starts without knowing what customers in that market love or complain about. That insight already exists in thousands of product reviews, but nobody has time to read them one by one.",
+    rrNeYaptim: "At Hamilik Okulu, we were asked to build a project that creates value in marketing. I chose this idea and built the product end to end with AI. AI handled data collection, analysis and the code. I directed what the product should be, its design, and every improvement.",
+    rrSonuc: "24,500 reviews of 141 products across 12 categories analysed. Users search a category and see, on one screen, competitors' most common complaints, what customers like, and what to watch for when entering the market. Development continues through summer 2027.",
+    rrDugme: "Open the site →",
+    rrGorselAlt: "Screenshot of the ReviewRadar home page: search box and category cards",
+
+    panelBaslik: "Business Partners Dashboard",
+    panelDurum: "Rolling out",
+    panelAlt: "From monthly rebuilt reports to a lasting tool",
+    panelSorun: "Every month, our team pulled the same data from different Excel reports and rebuilt the same lists from scratch. Everyone ended up with a slightly different version of the numbers, and getting them to branches was a job of its own.",
+    panelNeYaptik: "Together with <a href=\"https://www.linkedin.com/in/beyza%C3%A7iftci/\" target=\"_blank\" rel=\"noopener\">Beyza Çiftci Aytunç</a>, we decided to bring this repetitive work into a single dashboard and built it with AI-assisted tools. It tracks business partner performance at every level, from the whole bank down to individual branches. It prepares daily priority lists and action files for representatives, turns questions asked in plain language into customer lists, and generates the management report on its own.",
+    panelSonuc: "We presented the work at the AI Lab using sample data, and it received an award from the Deputy General Manager responsible for SME Banking. The dashboard is now being rolled out to become part of the team's daily routine.",
+    panelNot: "Screenshots use sample data.",
+    panelGirisAlt: "Dashboard sign-in screen",
+    panelOrnekAlt: "Representative dashboard screen built with sample data: a question box, four metric cards and a segment table",
+
+    ulke: "countries",
+    sonDuraklar: "Latest stops",
+    haritaBaslik: "World map showing the countries visited",
+    haritaYukleniyor: "Loading map…",
+    haritaHata: "The map could not be loaded.",
+    yakinlastir: "Zoom in", uzaklastir: "Zoom out", sifirla: "Reset the map",
+    gidilen: "Visited", ev: "Home",
+    haritaIpucu: "Zoom: + / −, two fingers, or Ctrl + scroll",
+    ulkeListesi: "Country list",
+    dahaFazla: "More →",
+
+    eposta: "Email",
+    yakinda: "(address to come)"
+  }
+};
+
+/* ==================================================================
+   C) DİL — metinleri sayfaya yazar
+   ================================================================== */
+let dil = "tr";
+try { dil = localStorage.getItem("dil") === "en" ? "en" : "tr"; } catch (e) {}
+
+function m(anahtar) { return METINLER[dil][anahtar]; }
+
+function metinleriYaz() {
+  document.documentElement.lang = dil;
+  // data-m="anahtar" taşıyan her öğenin içine o dildeki metin yazılır
+  document.querySelectorAll("[data-m]").forEach(el => { el.innerHTML = m(el.dataset.m); });
+  document.querySelectorAll("[data-m-alt]").forEach(el => { el.alt = m(el.dataset.mAlt); });
+  document.querySelectorAll(".dil button").forEach(b => b.setAttribute("aria-pressed", b.dataset.dil === dil));
+  document.getElementById("haritaBaslik").textContent = m("haritaBaslik");
+  duraklariYaz();
+  ulkeListesiniYaz();
+  iletisimiYaz();
+  const daha = document.querySelector("#daha a");
+  if (VSCO_ADRESI) { daha.href = VSCO_ADRESI; document.getElementById("daha").hidden = false; }
+}
+
+document.querySelectorAll(".dil button").forEach(b => b.addEventListener("click", () => {
+  dil = b.dataset.dil;
+  try { localStorage.setItem("dil", dil); } catch (e) {}
+  metinleriYaz();
+}));
+
+/* ==================================================================
+   D) MOBİL MENÜ
+   ================================================================== */
+const menu = document.getElementById("menu");
+const menuDugme = document.getElementById("menuDugme");
+function menuyuAyarla(acik) {
+  menu.classList.toggle("acik", acik);
+  menuDugme.setAttribute("aria-expanded", acik);
+}
+menuDugme.addEventListener("click", () => menuyuAyarla(!menu.classList.contains("acik")));
+menu.addEventListener("click", e => { if (e.target.closest("a")) menuyuAyarla(false); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") menuyuAyarla(false); });
+
+/* ==================================================================
+   E) GEZİLER — sayaç, son duraklar, ülke listesi, fotoğraf şeridi
+   ================================================================== */
+document.getElementById("sayac").textContent = ULKELER.filter(k => k !== EV).length;
+
+function ulkeAdi(kod) { return ULKE_ADLARI[kod] ? ULKE_ADLARI[kod][dil] : kod; }
+
+// ["2026-01","2026-07"] -> "Ocak & Temmuz 2026"
+function tarihYaz(tarihler) {
+  const ayAdi = t => {
+    const ad = new Intl.DateTimeFormat(dil, { month: "long" }).format(new Date(t + "-15"));
+    return ad.charAt(0).toLocaleUpperCase(dil) + ad.slice(1);
+  };
+  const yillar = tarihler.map(t => t.slice(0, 4));
+  if (yillar.every(y => y === yillar[0])) return tarihler.map(ayAdi).join(" & ") + " " + yillar[0];
+  return tarihler.map(t => ayAdi(t) + " " + t.slice(0, 4)).join(" & ");
+}
+
+function duraklariYaz() {
+  const liste = document.getElementById("durakListe");
+  liste.innerHTML = "";
+  SON_DURAKLAR.forEach(d => {
+    const li = document.createElement("li");
+    const yazi = ulkeAdi(d.ulke) + " · " + tarihYaz(d.tarihler);
+    if (d.sehirler) {
+      // Şehirler: üzerine gelince görünür (tıklama gerekmez); klavyede Tab, telefonda dokunma da aynı işi görür
+      const dugme = document.createElement("span");
+      dugme.className = "durak"; dugme.textContent = yazi;
+      dugme.tabIndex = 0;   // klavyeyle ve telefonda dokununca da odaklanabilsin
+      const sehir = document.createElement("span");
+      sehir.className = "sehirler"; sehir.textContent = d.sehirler[dil];
+      li.append(dugme, sehir);
+    } else {
+      li.textContent = yazi;
+    }
+    liste.append(li);
+  });
+}
+
+function ulkeListesiniYaz() {
+  const liste = document.getElementById("ulkeListesi");
+  liste.innerHTML = "";
+  ULKELER.map(k => ulkeAdi(k) + (k === EV ? " (" + m("ev").toLocaleLowerCase(dil) + ")" : ""))
+    .sort((a, b) => a.localeCompare(b, dil))
+    .forEach(ad => { const li = document.createElement("li"); li.textContent = ad; liste.append(li); });
+}
+
+function seridiYaz() {
+  const serit = document.getElementById("serit");
+  if (FOTOGRAFLAR.length === 0) {
+    for (let i = 0; i < 6; i++) serit.append(document.createElement("li"));   // gri yer tutucular
+    return;
+  }
+  serit.removeAttribute("aria-hidden");
+  FOTOGRAFLAR.forEach(f => {
+    const li = document.createElement("li");
+    const img = document.createElement("img");
+    img.src = f.dosya; img.alt = f[dil] || ""; img.loading = "lazy"; img.width = 800; img.height = 1000;
+    li.append(img); serit.append(li);
+  });
+}
+
+/* ==================================================================
+   F) İLETİŞİM — LinkedIn ve gizlenmiş e-posta
+   ================================================================== */
+function iletisimiYaz() {
+  const li = document.getElementById("linkedin");
+  li.innerHTML = LINKEDIN_ADRESI
+    ? '<a href="' + LINKEDIN_ADRESI + '" target="_blank" rel="noopener">LinkedIn</a>'
+    : 'LinkedIn <span class="yakinda">' + m("yakinda") + '</span>';
+  const adres = EPOSTA[0] + "@" + EPOSTA[1] + "." + EPOSTA[2];
+  const a = document.createElement("a");
+  a.href = "mailto:" + adres; a.textContent = adres; a.setAttribute("aria-label", m("eposta") + ": " + adres);
+  document.getElementById("eposta").replaceChildren(a);
+}
+
+/* ==================================================================
+   G) HARİTA
+   Veri: data/world-50m.json (orta detay) ve data/world-10m.json (yüksek
+   detay). İkisi de Natural Earth'ten üretildi; her ülkenin çizimi hazır
+   bir SVG yolu olarak durur (k: ülke kodu, d: yol, c: merkez, a: alan).
+   ================================================================== */
+const svg = document.getElementById("harita");
+const kutu = document.getElementById("haritaKutu");
+const ipucu = document.getElementById("ipucu");
+const SVGNS = "http://www.w3.org/2000/svg";
+const HARITA_G = 1000, HARITA_Y = 455;   // haritanın kendi ölçüsü
+const EN_YAKIN = 16;                     // en fazla kaç kat yakınlaşılır
+const BASLANGIC_MERKEZ = 625;            // dar ekranda ilk görünümün ortası (Avrupa–Afrika–Asya)
+
+let gorunum = { x: 0, y: 0, g: HARITA_G };   // şu an görünen alan (sol, üst, genişlik)
+let ilkGenislik = HARITA_G;
+let yollar = {};            // ülke anahtarı -> <path>
+let noktalar = [];          // küçük ülke noktaları
+let yuklendi = false, detayIstendi = false;
+
+function kutuOrani() { return kutu.clientHeight / kutu.clientWidth; }
+
+// Görünümü sınırlar içinde tutar ve SVG'ye uygular
+function gorunumuUygula() {
+  if (!kutu.clientWidth || !kutu.clientHeight) return;
+  gorunum.g = Math.min(Math.max(gorunum.g, HARITA_G / EN_YAKIN), HARITA_G);
+  const yuk = gorunum.g * kutuOrani();
+  gorunum.x = Math.min(Math.max(gorunum.x, 0), HARITA_G - gorunum.g);
+  gorunum.y = yuk >= HARITA_Y ? (HARITA_Y - yuk) / 2 : Math.min(Math.max(gorunum.y, 0), HARITA_Y - yuk);
+  svg.setAttribute("viewBox", gorunum.x + " " + gorunum.y + " " + gorunum.g + " " + yuk);
+  // Noktalar ekranda hep aynı boyda kalsın
+  const birim = gorunum.g / kutu.clientWidth;   // 1 ekran pikseli kaç harita birimi
+  noktalar.forEach(n => {
+    n.gorunen.setAttribute("r", 4.5 * birim);
+    n.gorunen.setAttribute("stroke-width", 1.5);
+    n.alan.setAttribute("r", 14 * birim);
+  });
+  svg.classList.toggle("suruklenebilir", gorunum.g < ilkGenislik - 1);
+  // Yakınlaşınca yüksek detayı arka planda yükle
+  if (yuklendi && !detayIstendi && gorunum.g < ilkGenislik / 1.5) { detayIstendi = true; veriYukle("data/world-10m.json"); }
+}
+
+function ilkGorunum() {
+  // Dar (dikey) kutuda harita yüksekliği dolduracak kadar yakından başlar
+  ilkGenislik = Math.min(HARITA_G, HARITA_Y / kutuOrani());
+  const yuk = ilkGenislik * kutuOrani();
+  gorunum = { g: ilkGenislik, x: ilkGenislik < HARITA_G ? BASLANGIC_MERKEZ - ilkGenislik / 2 : 0, y: (HARITA_Y - yuk) / 2 };
+  gorunumuUygula();
+}
+
+// Ekrandaki bir noktayı harita koordinatına çevirir
+function haritaNoktasi(ekranX, ekranY) {
+  const r = svg.getBoundingClientRect();
+  return { x: gorunum.x + (ekranX - r.left) / r.width * gorunum.g, y: gorunum.y + (ekranY - r.top) / r.width * gorunum.g };
+}
+
+// kat > 1 yakınlaştırır. (ekranX, ekranY) noktası yerinde kalır.
+function yakinlastir(kat, ekranX, ekranY) {
+  const r = svg.getBoundingClientRect();
+  if (ekranX === undefined) { ekranX = r.left + r.width / 2; ekranY = r.top + r.height / 2; }
+  const p = haritaNoktasi(ekranX, ekranY);
+  const yeniG = Math.min(Math.max(gorunum.g / kat, HARITA_G / EN_YAKIN), HARITA_G);
+  gorunum.x = p.x - (ekranX - r.left) / r.width * yeniG;
+  gorunum.y = p.y - (ekranY - r.top) / r.width * yeniG;
+  gorunum.g = yeniG;
+  gorunumuUygula();
+}
+
+function durumSinifi(kod) { return kod === EV ? " ev" : ULKELER.includes(kod) ? " gidilen" : ""; }
+
+// Veriyi indirir; ülkeleri çizer ya da (yüksek detayda) çizimleri yeniler
+function veriYukle(dosya) {
+  return fetch(dosya).then(c => { if (!c.ok) throw new Error(dosya); return c.json(); }).then(veri => {
+    veri.ulkeler.forEach(u => {
+      const anahtar = u.k || u.ad;
+      let yol = yollar[anahtar];
+      if (!yol) {
+        yol = document.createElementNS(SVGNS, "path");
+        yol.setAttribute("class", "ulke" + durumSinifi(u.k));
+        if (ULKELER.includes(u.k)) yol.dataset.k = u.k;
+        // gidilen ülkeler üstte dursun diye sona, diğerleri başa eklenir
+        if (ULKELER.includes(u.k)) svg.append(yol); else svg.prepend(yol);
+        yollar[anahtar] = yol;
+        // Küçük ülkeler için nokta: biri görünen, biri dokunmayı kolaylaştıran geniş alan
+        if (ULKELER.includes(u.k) && u.a < NOKTA_ESIGI) {
+          const alan = document.createElementNS(SVGNS, "circle");
+          const gorunen = document.createElementNS(SVGNS, "circle");
+          [alan, gorunen].forEach(c => { c.setAttribute("cx", u.c[0]); c.setAttribute("cy", u.c[1]); c.dataset.k = u.k; c.dataset.nokta = "1"; });
+          alan.setAttribute("class", "nokta-alan"); gorunen.setAttribute("class", "nokta");
+          if (u.k === EV) gorunen.style.fill = "var(--ev)";
+          noktalar.push({ alan, gorunen });
+        }
+      }
+      yol.setAttribute("d", u.d);
+    });
+    noktalar.forEach(n => svg.append(n.alan, n.gorunen));   // noktalar en üstte
+    yuklendi = true;
+    document.getElementById("haritaDurum").hidden = true;
+    gorunumuUygula();
+  });
+}
+
+// Harita, bölüme yaklaşılınca yüklenir (sayfa açılışını yavaşlatmasın diye)
+new IntersectionObserver((girisler, gozcu) => {
+  if (!girisler[0].isIntersecting) return;
+  gozcu.disconnect();
+  veriYukle("data/world-50m.json").catch(() => { document.getElementById("haritaDurum").textContent = m("haritaHata"); });
+}, { rootMargin: "600px" }).observe(kutu);
+
+// Kutunun boyutu değişince (ekran döndürme, pencere küçültme) görünümü yeniden ayarla
+let ilkGorunumHazir = false;
+new ResizeObserver(() => {
+  if (!kutu.clientWidth || !kutu.clientHeight) return;
+  if (!ilkGorunumHazir) { ilkGorunumHazir = true; ilkGorunum(); return; }
+  ilkGenislik = Math.min(HARITA_G, HARITA_Y / kutuOrani());
+  gorunumuUygula();
+}).observe(kutu);
+
+// --- Düğmeler ---
+document.getElementById("yakinlas").addEventListener("click", () => yakinlastir(1.6));
+document.getElementById("uzaklas").addEventListener("click", () => yakinlastir(1 / 1.6));
+document.getElementById("sifirla").addEventListener("click", ilkGorunum);
+
+// --- Masaüstü: Ctrl + tekerlek yakınlaştırır; normal tekerlek sayfayı kaydırır ---
+svg.addEventListener("wheel", e => {
+  if (!e.ctrlKey && !e.metaKey) return;
+  e.preventDefault();
+  yakinlastir(e.deltaY < 0 ? 1.25 : 1 / 1.25, e.clientX, e.clientY);
+}, { passive: false });
+
+// --- Masaüstü: yakınlaşmışken fareyle sürükleyerek kaydırma ---
+let surukle = null;
+svg.addEventListener("pointerdown", e => {
+  if (e.pointerType !== "mouse" || e.button !== 0) return;
+  surukle = { x: e.clientX, y: e.clientY, basladi: false };
+});
+window.addEventListener("pointermove", e => {
+  if (!surukle) return;
+  const dx = e.clientX - surukle.x, dy = e.clientY - surukle.y;
+  if (!surukle.basladi && Math.hypot(dx, dy) < 4) return;   // küçük titremeleri sürükleme sayma
+  surukle.basladi = true;
+  svg.classList.add("surukleniyor");
+  const birim = gorunum.g / svg.getBoundingClientRect().width;
+  gorunum.x -= dx * birim; gorunum.y -= dy * birim;
+  surukle.x = e.clientX; surukle.y = e.clientY;
+  gorunumuUygula();
+});
+window.addEventListener("pointerup", () => { surukle = null; svg.classList.remove("surukleniyor"); });
+
+// --- Mobil: iki parmakla yakınlaştırma ve kaydırma (tek parmak sayfayı kaydırır) ---
+let cimdik = null;
+function parmaklar(e) {
+  const a = e.touches[0], b = e.touches[1];
+  return { mesafe: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY), x: (a.clientX + b.clientX) / 2, y: (a.clientY + b.clientY) / 2 };
+}
+svg.addEventListener("touchstart", e => { if (e.touches.length === 2) cimdik = parmaklar(e); }, { passive: true });
+svg.addEventListener("touchmove", e => {
+  if (e.touches.length !== 2 || !cimdik) return;
+  e.preventDefault();
+  const simdi = parmaklar(e);
+  const birim = gorunum.g / svg.getBoundingClientRect().width;
+  gorunum.x -= (simdi.x - cimdik.x) * birim; gorunum.y -= (simdi.y - cimdik.y) * birim;
+  yakinlastir(simdi.mesafe / cimdik.mesafe, simdi.x, simdi.y);
+  cimdik = simdi;
+}, { passive: false });
+svg.addEventListener("touchend", e => { if (e.touches.length < 2) cimdik = null; });
+
+// --- Ülke adı: üzerine gelince ya da dokununca ---
+let ipucuZamani;
+function ipucuGoster(e) {
+  const hedef = e.target.closest("[data-k]");
+  if (!hedef || (surukle && surukle.basladi)) { ipucu.hidden = true; return; }
+  const r = kutu.getBoundingClientRect();
+  ipucu.textContent = ulkeAdi(hedef.dataset.k);
+  ipucu.hidden = false;
+  const yarim = ipucu.offsetWidth / 2 + 4;
+  ipucu.style.left = Math.min(Math.max(e.clientX - r.left, yarim), r.width - yarim) + "px";
+  ipucu.style.top = Math.max(e.clientY - r.top, 44) + "px";
+}
+svg.addEventListener("pointermove", e => { if (e.pointerType === "mouse") ipucuGoster(e); });
+svg.addEventListener("pointerleave", () => { ipucu.hidden = true; });
+svg.addEventListener("click", e => {
+  ipucuGoster(e);
+  clearTimeout(ipucuZamani);
+  ipucuZamani = setTimeout(() => { ipucu.hidden = true; }, 2500);
+});
+
+/* ==================================================================
+   H) BAŞLAT
+   ================================================================== */
+seridiYaz();
+metinleriYaz();
+</script>
 </body>
 </html>
