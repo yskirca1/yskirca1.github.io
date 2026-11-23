@@ -490,7 +490,7 @@
 
 // Gidilen ülkeler (iki harfli ülke kodu). Yeni ülke eklemek için koda ekle,
 // adını da aşağıdaki ULKE_ADLARI listesine yaz. Sayaç kendiliğinden güncellenir.
-const ULKELER = ["BA","US","PS","IL","IT","NL","ZA","JP","KW","MK","MU","EG","SC","SA","TZ","TN","TR","OM"];
+const ULKELER = ["BA","US","PS","IL","IT","NL","ZA","JP","KW","MK","MU","EG","SC","SA","TZ","TN","TR","OM","CU"];
 const EV = "TR";   // "ev" ülkesi: haritada farklı renkte, sayaca dahil değil
 
 const ULKE_ADLARI = {
@@ -511,7 +511,8 @@ const ULKE_ADLARI = {
   TZ: { tr: "Tanzanya", en: "Tanzania" },
   TN: { tr: "Tunus", en: "Tunisia" },
   TR: { tr: "Türkiye", en: "Türkiye" },
-  OM: { tr: "Umman", en: "Oman" }
+  OM: { tr: "Umman", en: "Oman" },
+  CU: { tr: "Küba", en: "Cuba" }
 };
 
 // Son duraklar. tarihler: "YIL-AY". Ay adları dile göre kendiliğinden yazılır.
@@ -628,6 +629,14 @@ const FOTOGRAFLAR = [
 
   // Seyşeller · Ocak 2020
   { dosya: "img/sc-01.webp", ulke: "SC", tr: "Seyşeller'de bir kumsal", en: "A beach in the Seychelles" },
+
+  // Küba
+  { dosya: "img/cu-01.webp", ulke: "CU", sehir: { tr: "Havana", en: "Havana" }, tr: "Havana sokakları", en: "The streets of Havana" },
+  { dosya: "img/cu-02.webp", ulke: "CU", sehir: { tr: "Havana", en: "Havana" }, tr: "Fusterlandia'da mozaikler", en: "Mosaics in Fusterlandia" },
+  { dosya: "img/cu-03.webp", ulke: "CU", sehir: { tr: "Havana", en: "Havana" }, tr: "Fusterlandia, Havana", en: "Fusterlandia, Havana" },
+  { dosya: "img/cu-04.webp", ulke: "CU", sehir: { tr: "Havana", en: "Havana" }, tr: "Klasik bir araba", en: "A classic car" },
+  { dosya: "img/cu-05.webp", ulke: "CU", sehir: { tr: "Havana", en: "Havana" }, tr: "Havana'da eski bir bina", en: "An old building in Havana" },
+  { dosya: "img/cu-06.webp", ulke: "CU", sehir: { tr: "Havana", en: "Havana" }, tr: "Hotel Nacional, Havana", en: "Hotel Nacional, Havana" },
 
   // Güney Afrika · Mart 2019
   { dosya: "img/za-01.webp", ulke: "ZA", sehir: "Cape Town", tr: "Bo-Kaap, Cape Town", en: "Bo-Kaap, Cape Town" },
