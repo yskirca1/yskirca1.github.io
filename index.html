@@ -122,6 +122,8 @@
     .gorseller { display: grid; gap: 1rem; margin: 0 0 1.75rem; }
     .gorseller img { width: 100%; border: 1px solid var(--cizgi); border-radius: 8px; }
     .gorsel-not { font-size: 0.9rem; font-style: italic; color: var(--ikincil); margin: 0; }
+    .gorseller figure { margin: 0; }
+    .gorseller figcaption { margin-top: 0.5rem; font-size: 0.85rem; line-height: 1.5; }
     .adimlar { margin: 0; }
     .adimlar dt { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--vurgu); margin-top: 1.4rem; }
     .adimlar dt:first-child { margin-top: 0; }
@@ -342,7 +344,10 @@
         <p class="proje-alt" data-m="panelAlt"></p>
         <div class="gorseller iki">
           <img src="img/panel-giris.webp" width="1424" height="884" loading="lazy" data-m-alt="panelGirisAlt" alt="">
-          <img src="img/panel-ornek.webp" width="1440" height="900" loading="lazy" data-m-alt="panelOrnekAlt" alt="">
+          <figure>
+            <img src="img/panel-ornek.webp" width="1440" height="900" loading="lazy" data-m-alt="panelOrnekAlt" alt="">
+            <figcaption class="gorsel-not" data-m="panelOrnekNot"></figcaption>
+          </figure>
         </div>
         <dl class="adimlar">
           <dt data-m="sorun"></dt>      <dd data-m="panelSorun"></dd>
@@ -505,6 +510,25 @@ const FOTOGRAFLAR = [
   { dosya: "img/jp-02.webp", ulke: "JP", sehir: "Tokyo", tr: "Tokyo'da bir cadde", en: "A street in Tokyo" },
   { dosya: "img/jp-25.webp", ulke: "JP", sehir: "Tokyo", tr: "Tokyo Skytree", en: "Tokyo Skytree" },
   { dosya: "img/jp-28.webp", ulke: "JP", sehir: "Tokyo", tr: "Sokak arasından havai fişekler, Tokyo", en: "Fireworks between the buildings, Tokyo" },
+  // Tokyo · Ocak 2026
+  { dosya: "img/tk-01.webp", ulke: "JP", sehir: "Tokyo", tr: "Odaiba'da gece", en: "Odaiba at night" },
+  { dosya: "img/tk-02.webp", ulke: "JP", sehir: "Tokyo", tr: "Odaiba'daki dev Gundam heykeli", en: "The giant Gundam statue in Odaiba" },
+  { dosya: "img/tk-03.webp", ulke: "JP", sehir: "Tokyo", tr: "Tokyo Körfezi", en: "Tokyo Bay" },
+  { dosya: "img/tk-04.webp", ulke: "JP", sehir: "Tokyo", tr: "Sensō-ji, Asakusa", en: "Sensō-ji, Asakusa" },
+  { dosya: "img/tk-05.webp", ulke: "JP", sehir: "Tokyo", tr: "Sensō-ji pagodası", en: "Sensō-ji pagoda" },
+  { dosya: "img/tk-06.webp", ulke: "JP", sehir: "Tokyo", tr: "Rainbow Köprüsü", en: "Rainbow Bridge" },
+  { dosya: "img/tk-07.webp", ulke: "JP", sehir: "Tokyo", tr: "Meiji Tapınağı'nın toriisi", en: "The torii of Meiji Shrine" },
+  { dosya: "img/tk-08.webp", ulke: "JP", sehir: "Tokyo", tr: "Meiji Tapınağı'nın ormanı", en: "The forest of Meiji Shrine" },
+  { dosya: "img/tk-09.webp", ulke: "JP", sehir: "Tokyo", tr: "Meiji Tapınağı", en: "Meiji Shrine" },
+  { dosya: "img/tk-10.webp", ulke: "JP", sehir: "Tokyo", tr: "Shibuya", en: "Shibuya" },
+  { dosya: "img/tk-11.webp", ulke: "JP", sehir: "Tokyo", tr: "Shibuya kavşağı", en: "Shibuya Crossing" },
+  { dosya: "img/tk-12.webp", ulke: "JP", sehir: "Tokyo", tr: "Yakiniku", en: "Yakiniku" },
+  { dosya: "img/tk-13.webp", ulke: "JP", sehir: "Tokyo", tr: "Ueno Parkı", en: "Ueno Park" },
+  { dosya: "img/tk-14.webp", ulke: "JP", sehir: "Tokyo", tr: "Ueno Tōshō-gū", en: "Ueno Tōshō-gū" },
+  { dosya: "img/tk-15.webp", ulke: "JP", sehir: "Tokyo", tr: "Tokyo Ulusal Müzesi'nde bir heykel", en: "A statue at the Tokyo National Museum" },
+  { dosya: "img/tk-16.webp", ulke: "JP", sehir: "Tokyo", tr: "Budist heykelleri, Tokyo Ulusal Müzesi", en: "Buddhist statues, Tokyo National Museum" },
+  { dosya: "img/tk-17.webp", ulke: "JP", sehir: "Tokyo", tr: "Samuray zırhı", en: "Samurai armour" },
+  { dosya: "img/tk-18.webp", ulke: "JP", sehir: "Tokyo", tr: "Katana", en: "A katana" },
   { dosya: "img/jp-04.webp", ulke: "JP", sehir: "Osaka", tr: "Glico tabelası, Dotonbori", en: "The Glico sign, Dotonbori" },
   { dosya: "img/jp-05.webp", ulke: "JP", sehir: "Osaka", tr: "Kapalı bir çarşı, Osaka", en: "A covered shopping street, Osaka" },
   { dosya: "img/jp-06.webp", ulke: "JP", sehir: "Osaka", tr: "Tsutenkaku Kulesi, Osaka", en: "Tsutenkaku Tower, Osaka" },
@@ -574,8 +598,9 @@ const FOTOGRAFLAR = [
 // E-posta parçalı yazılır ki adres toplayan robotlar kolayca bulamasın.
 const EPOSTA = ["yskirca", "gmail", "com"];
 
-// Haritada bu alandan küçük ülkeler ayrıca nokta ile gösterilir.
-const NOKTA_ESIGI = 16;
+// Haritada bu alandan küçük ülkeler ayrıca nokta ile gösterilir
+// (şu an yalnızca Mauritius ve Seyşeller; Filistin ve Kuveyt kendi şekilleriyle görünür).
+const NOKTA_ESIGI = 3;
 
 /* ==================================================================
    B) METİNLER — Türkçe ve İngilizce yan yana, tek yerde
@@ -609,8 +634,9 @@ const METINLER = {
     panelAlt: "Her ay yeniden hazırlanan raporlardan kalıcı bir araca",
     panelSorun: "Ekip olarak her ay aynı verileri farklı Excel raporlarından derliyor, listeleri sıfırdan oluşturuyorduk. Her kişinin elinde verinin farklı bir versiyonu oluyordu, şubelere iletilmesi de ayrı bir iş yüküydü.",
     panelNeYaptik: "<a href=\"https://www.linkedin.com/in/beyza%C3%A7iftci/\" target=\"_blank\" rel=\"noopener\">Beyza Çiftci Aytunç</a> ile birlikte, bu tekrar eden işleri tek bir panelde toplamaya karar verdik ve paneli yapay zekâ destekli araçlarla geliştirdik. Panel, firma ortağı performansını bankadan şubeye kadar her seviyede izlemeyi sağlıyor. Temsilcilere günlük öncelik listeleri ve aksiyon dosyaları hazırlıyor. Kullanıcıların sade bir dille sordukları soruları müşteri listesine çeviriyor. Yönetim raporunu da kendisi oluşturuyor.",
-    panelSonuc: "Çalışmayı Yapay Zekâ Laboratuvarı'nda örnek verilerle sunduk ve KOBİ Bankacılığı'ndan sorumlu Genel Müdür Yardımcımızın ödülüne layık görüldük. Panel şimdi ekibin günlük işinin bir parçası olmak üzere kullanıma alınıyor.",
+    panelSonuc: "Çalışmayı Kuveyt Türk bünyesindeki Yapay Zekâ Laboratuvarı'nda örnek verilerle sunduk ve KOBİ Bankacılığı'ndan sorumlu Genel Müdür Yardımcımızın ödülüne layık görüldük. Panel şimdi ekibin günlük işinin bir parçası olmak üzere kullanıma alınıyor.",
     panelNot: "Ekran görüntüleri örnek verilerle hazırlanmıştır.",
+    panelOrnekNot: "Uygulama içi ekranda tasarımdan veriye her şey temsilidir, orijinal uygulama değildir.",
     panelGirisAlt: "Kontrol Paneli giriş ekranı",
     panelOrnekAlt: "Kontrol Paneli'nin örnek verilerle hazırlanmış temsili ekranı: soru kutusu, dört metrik kartı ve segment tablosu",
 
@@ -660,8 +686,9 @@ const METINLER = {
     panelAlt: "From monthly rebuilt reports to a lasting tool",
     panelSorun: "Every month, our team pulled the same data from different Excel reports and rebuilt the same lists from scratch. Everyone ended up with a slightly different version of the numbers, and getting them to branches was a job of its own.",
     panelNeYaptik: "Together with <a href=\"https://www.linkedin.com/in/beyza%C3%A7iftci/\" target=\"_blank\" rel=\"noopener\">Beyza Çiftci Aytunç</a>, we decided to bring this repetitive work into a single dashboard and built it with AI-assisted tools. It tracks business partner performance at every level, from the whole bank down to individual branches. It prepares daily priority lists and action files for representatives, turns questions asked in plain language into customer lists, and generates the management report on its own.",
-    panelSonuc: "We presented the work at the AI Lab using sample data, and it received an award from the Deputy General Manager responsible for SME Banking. The dashboard is now being rolled out to become part of the team's daily routine.",
+    panelSonuc: "We presented the work at Kuveyt Türk's AI Lab using sample data, and it received an award from the Deputy General Manager responsible for SME Banking. The dashboard is now being rolled out to become part of the team's daily routine.",
     panelNot: "Screenshots use sample data.",
+    panelOrnekNot: "In the in-app screen, everything from design to data is representative; it is not the original application.",
     panelGirisAlt: "Dashboard sign-in screen",
     panelOrnekAlt: "Representative dashboard screen built with sample data: a question box, four metric cards and a segment table",
 
