@@ -9,7 +9,14 @@
   <meta property="og:description" content="Hâlâ öğreniyorum. / Still learning.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://yusufselimkirca.com/">
-  <meta property="og:image" content="https://yusufselimkirca.com/img/profil.webp">
+  <meta property="og:site_name" content="Yusuf Selim Kırca">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:image" content="https://yusufselimkirca.com/img/paylasim.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Yusuf Selim Kırca · Hâlâ öğreniyorum.">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://yusufselimkirca.com/">
 
   <!-- Arama motorları için kişi bilgisi (Google bu sayfanın kime ait olduğunu buradan anlar) -->
@@ -154,6 +161,11 @@
     .sayac b { font-family: var(--serif); font-weight: 500; font-size: 4rem; line-height: 1; color: var(--vurgu); }
     .sayac span { font-size: 1.15rem; color: var(--ikincil); }
     .duraklar { margin: 0 0 1.75rem; }
+    .su-siralar { margin-top: 2.25rem; padding: 1.25rem 1.5rem; border-left: 3px solid var(--vurgu); background: #F3F0EA; border-radius: 0 6px 6px 0; }
+    .su-siralar .bolum-etiket { margin-bottom: 0.6rem; }
+    .su-siralar-tarih { color: var(--ikincil); font-weight: 500; letter-spacing: 0.06em; }
+    .su-siralar ul { margin: 0; padding-left: 1.1rem; }
+    .su-siralar li { margin: 0.25rem 0; }
     .duraklar-etiket { color: var(--ikincil); }
     .durak-liste { list-style: none; margin: 0.3rem 0 0; padding: 0; }
     .durak-liste li { position: relative; padding: 0.15rem 0; }
@@ -323,6 +335,12 @@
       <p data-m="hakkimda1"></p>
       <p data-m="hakkimda2"></p>
       <p data-m="hakkimda3"></p>
+
+      <!-- Şu sıralar: listeyi betiğin üstündeki SU_SIRALAR'dan güncelle -->
+      <div class="su-siralar">
+        <p class="bolum-etiket"><span data-m="suSiralar"></span> <span class="su-siralar-tarih" id="suSiralarTarih"></span></p>
+        <ul id="suSiralarListe"></ul>
+      </div>
     </div>
   </section>
 
@@ -497,6 +515,15 @@ const ULKE_ADLARI = {
 };
 
 // Son duraklar. tarihler: "YIL-AY". Ay adları dile göre kendiliğinden yazılır.
+// Şu sıralar: Hakkımda'nın altında görünen kısa liste. Ayda bir güncellemek yeter.
+// tarih: "YIL-AY" (ay adı dile göre kendiliğinden yazılır)
+const SU_SIRALAR_TARIH = "2026-11";
+const SU_SIRALAR = [
+  { tr: "İTÜ'de bitirme projem üzerinde çalışıyorum.", en: "Working on my graduation project at ITU." },
+  { tr: "ReviewRadar'ı geliştirmeye devam ediyorum.", en: "Continuing to develop ReviewRadar." },
+  { tr: "Kontrol Paneli'ni ekibin günlük işine yerleştiriyoruz.", en: "Rolling the dashboard out into the team's daily work." }
+];
+
 const SON_DURAKLAR = [
   { ulke: "JP", tarihler: ["2026-01", "2026-07"], sehirler: { tr: "Tokyo, Osaka, Kyoto", en: "Tokyo, Osaka, Kyoto" } },
   { ulke: "MU", tarihler: ["2025-07"] },
@@ -657,9 +684,10 @@ const METINLER = {
     imza: "Hâlâ öğreniyorum.",
 
     hakkimdaBaslik: "Merhaba, ben Yusuf.",
+    suSiralar: "Şu sıralar",
     hakkimda1: "İTÜ Endüstri Mühendisliği'nde son sınıftayım. Yaklaşık bir buçuk yıldır, kampüs programı kapsamında Kuveyt Türk'te KOBİ Pazarlama bünyesinde, Firma Ortakları Yönetimi biriminde çalışıyorum.",
     hakkimda2: "Bir iş ihtiyacı çıktığında, o işi en iyi bilen kişi olarak aracını da kendim tasarlamayı tercih ediyorum. Yazılımcı değilim, ama yapay zekâ araçlarıyla bunu yapmak artık mümkün: sorunu tanımlıyorum, aracı birlikte kuruyoruz, gerçekten işe yarayana kadar iyileştiriyorum. Aşağıdaki projeler bu şekilde ortaya çıktı.",
-    hakkimda3: "İş dışında fotoğraf ve video çekip düzenliyorum, fırsat buldukça da yeni ülkeler görüyorum.",
+    hakkimda3: "İş dışında gezmeyi ve gezdikçe gördüklerimi paylaşmayı seviyorum.",
 
     sorun: "Sorun", neYaptim: "Ne yaptım", neYaptik: "Ne yaptık", sonuc: "Sonuç",
 
@@ -709,9 +737,10 @@ const METINLER = {
     imza: "Still learning.",
 
     hakkimdaBaslik: "Hi, I'm Yusuf.",
+    suSiralar: "Right now",
     hakkimda1: "I'm a final-year Industrial Engineering student at ITU. For about a year and a half, through a campus programme, I've been working at Kuveyt Türk in SME Marketing, within the Business Partners Management unit.",
     hakkimda2: "When a business need comes up, I prefer to design the tool myself, as the person who knows the work best. I'm not a software developer, but AI tools now make this possible: I define the problem, we build the tool together, and I keep refining it until it actually works. The projects below came about this way.",
-    hakkimda3: "Outside work, I shoot and edit photos and videos, and I visit new countries whenever I get the chance.",
+    hakkimda3: "Outside work, I love to travel and to share what I see along the way.",
 
     sorun: "Problem", neYaptim: "What I did", neYaptik: "What we did", sonuc: "Result",
 
@@ -769,6 +798,7 @@ function metinleriYaz() {
   document.querySelectorAll(".dil button").forEach(b => b.setAttribute("aria-pressed", b.dataset.dil === dil));
   document.getElementById("haritaBaslik").textContent = m("haritaBaslik");
   duraklariYaz();
+  suSiralariYaz();
   ulkeListesiniYaz();
   seridiYaz();
   if (ulkePanel.open) paneliYaz();
@@ -821,6 +851,14 @@ function tarihYaz(tarihler) {
   const yillar = tarihler.map(t => t.slice(0, 4));
   if (yillar.every(y => y === yillar[0])) return tarihler.map(ayAdi).join(" & ") + " " + yillar[0];
   return tarihler.map(t => ayAdi(t) + " " + t.slice(0, 4)).join(" & ");
+}
+
+function suSiralariYaz() {
+  const liste = document.getElementById("suSiralarListe");
+  liste.innerHTML = "";
+  SU_SIRALAR.forEach(x => { const li = document.createElement("li"); li.textContent = x[dil]; liste.append(li); });
+  const ay = new Intl.DateTimeFormat(dil, { month: "long", year: "numeric" }).format(new Date(SU_SIRALAR_TARIH + "-15"));
+  document.getElementById("suSiralarTarih").textContent = "· " + ay;
 }
 
 function duraklariYaz() {
@@ -1239,5 +1277,8 @@ window.addEventListener("hashchange", sayfayiGoster);
 metinleriYaz();
 sayfayiGoster();
 </script>
+
+<!-- Ziyaretçi sayacı: Cloudflare Web Analytics (çerez kullanmaz, kişiyi izlemez; sonuçlar Cloudflare panelinde) -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "6826d7dd5a68458283f2d2ac217636ae"}'></script>
 </body>
 </html>
