@@ -161,7 +161,19 @@
     .giris-ozet { margin: 0.9rem 0 0; font-family: var(--serif); font-size: clamp(1.25rem, 3.6vw, 1.5rem); line-height: 1.4; color: var(--metin); max-width: 30rem; }
     .giris-baglantilar { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; margin: 1.5rem 0 0; }
     .giris-baglantilar a { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; color: var(--metin); text-decoration: none; font-size: 0.95rem; }
-    .giris-baglantilar a:hover { color: var(--vurgu); }
+    .giris-baglantilar a:hover, .eposta-tetik:hover { color: var(--vurgu); }
+    .giris-baglantilar .eposta-tetik { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; padding: 0; background: none; border: 0; color: var(--metin); font-size: 0.95rem; }
+    .iletisim-satir .eposta-tetik { padding: 0; background: none; border: 0; font-size: inherit; color: var(--vurgu); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+
+    /* E-posta menüsü */
+    .eposta-menu { position: absolute; z-index: 60; min-width: 16rem; max-width: calc(100vw - 1.5rem); padding: 0.9rem 1rem; background: var(--zemin); color: var(--metin); border: 1px solid var(--cizgi); border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); }
+    .eposta-adres { margin: 0 0 0.75rem; font-weight: 500; word-break: break-all; }
+    .eposta-dugmeler { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .eposta-dugmeler button, .eposta-dugmeler a { flex: 1 1 auto; display: inline-flex; justify-content: center; align-items: center; min-height: 2.5rem; padding: 0 0.9rem; border-radius: 6px; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: background 0.2s; }
+    .eposta-dugmeler button { background: none; border: 1px solid var(--cizgi); color: var(--metin); }
+    .eposta-dugmeler button:hover { background: var(--zemin-2); }
+    .eposta-dugmeler a { background: var(--vurgu); color: var(--vurgu-uzeri); border: 1px solid var(--vurgu); }
+    .eposta-dugmeler a:hover { background: var(--vurgu-koyu); color: var(--vurgu-uzeri); }
     .giris-baglantilar svg { width: 1.15rem; height: 1.15rem; }
     .imza { margin: 1.75rem 0 0; font-family: var(--serif); font-style: italic; font-size: 1.5rem; color: var(--vurgu); }
 
@@ -371,10 +383,10 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.8v1.6h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.6 4.77 6V21h-4v-5c0-1.2-.02-2.73-1.66-2.73-1.67 0-1.93 1.3-1.93 2.64V21h-4z"/></svg>
           <span>LinkedIn</span>
         </a>
-        <a id="girisEposta">
+        <button type="button" class="eposta-tetik" id="girisEposta" aria-haspopup="dialog" aria-expanded="false" aria-controls="epostaMenu">
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>
           <span data-m="eposta"></span>
-        </a>
+        </button>
       </p>
     </div>
   </section>
@@ -502,6 +514,15 @@
 <footer class="alt">
   <div class="dar">© 2026 Yusuf Selim Kırca</div>
 </footer>
+
+<!-- ================= E-POSTA MENÜSÜ (adresi göster, kopyala ya da e-posta gönder) ================= -->
+<div class="eposta-menu" id="epostaMenu" role="dialog" hidden>
+  <p class="eposta-adres" id="epostaAdres"></p>
+  <div class="eposta-dugmeler">
+    <button type="button" id="epostaKopyala"></button>
+    <a id="epostaGonder"></a>
+  </div>
+</div>
 
 <!-- ================= ÜLKE FOTOĞRAFLARI PANELİ ================= -->
 <dialog class="ulke-panel" id="ulkePanel" aria-labelledby="panelBaslik">
@@ -751,6 +772,7 @@ const METINLER = {
     oncekiFoto: "Önceki fotoğraf", sonrakiFoto: "Sonraki fotoğraf",
 
     eposta: "E-posta",
+    kopyala: "Kopyala", kopyalandi: "Kopyalandı ✓", epostaGonder: "E-posta gönder", epostaMenusu: "E-posta adresi",
     yakinda: "(adres eklenecek)"
   },
 
@@ -806,6 +828,7 @@ const METINLER = {
     oncekiFoto: "Previous photo", sonrakiFoto: "Next photo",
 
     eposta: "Email",
+    kopyala: "Copy", kopyalandi: "Copied ✓", epostaGonder: "Send an email", epostaMenusu: "Email address",
     yakinda: "(address to come)"
   }
 };
@@ -1078,15 +1101,74 @@ function iletisimiYaz() {
   li.innerHTML = LINKEDIN_ADRESI
     ? '<a href="' + LINKEDIN_ADRESI + '" target="_blank" rel="noopener">LinkedIn</a>'
     : 'LinkedIn <span class="yakinda">' + m("yakinda") + '</span>';
-  const adres = EPOSTA[0] + "@" + EPOSTA[1] + "." + EPOSTA[2];
-  const a = document.createElement("a");
-  a.href = "mailto:" + adres; a.textContent = adres; a.setAttribute("aria-label", m("eposta") + ": " + adres);
+  const adres = epostaAdresi();
+  const a = document.createElement("button");
+  a.type = "button"; a.className = "eposta-tetik"; a.textContent = adres;
+  a.setAttribute("aria-haspopup", "dialog"); a.setAttribute("aria-expanded", "false"); a.setAttribute("aria-controls", "epostaMenu");
+  a.addEventListener("click", () => epostaMenusuAc(a));
   document.getElementById("eposta").replaceChildren(a);
   const gl = document.getElementById("girisLinkedin");
   if (LINKEDIN_ADRESI) gl.href = LINKEDIN_ADRESI; else gl.hidden = true;
-  const ge = document.getElementById("girisEposta");
-  ge.href = "mailto:" + adres; ge.setAttribute("aria-label", m("eposta") + ": " + adres);
+  document.getElementById("girisEposta").setAttribute("aria-label", m("eposta") + ": " + adres);
+  // Menü açıksa dil değişince metinleri de yenile
+  document.getElementById("epostaMenu").setAttribute("aria-label", m("epostaMenusu"));
+  document.getElementById("epostaKopyala").textContent = m("kopyala");
+  const gonder = document.getElementById("epostaGonder");
+  gonder.textContent = m("epostaGonder"); gonder.href = "mailto:" + adres;
+  document.getElementById("epostaAdres").textContent = adres;
 }
+
+function epostaAdresi() { return EPOSTA[0] + "@" + EPOSTA[1] + "." + EPOSTA[2]; }
+
+/* ------------------------------------------------------------------
+   E-posta menüsü: tıklayınca e-posta programı hemen açılmaz; önce adres
+   gösterilir, "Kopyala" ya da "E-posta gönder" seçilir.
+   ------------------------------------------------------------------ */
+const epostaMenu = document.getElementById("epostaMenu");
+let epostaTetik = null;
+
+function epostaMenusuKapat(odakGeriDonsun) {
+  if (epostaMenu.hidden) return;
+  epostaMenu.hidden = true;
+  if (epostaTetik) { epostaTetik.setAttribute("aria-expanded", "false"); if (odakGeriDonsun) epostaTetik.focus(); }
+  epostaTetik = null;
+}
+
+function epostaMenusuAc(tetik) {
+  if (!epostaMenu.hidden && epostaTetik === tetik) { epostaMenusuKapat(true); return; }
+  epostaMenusuKapat(false);
+  epostaTetik = tetik;
+  document.getElementById("epostaKopyala").textContent = m("kopyala");
+  epostaMenu.hidden = false;
+  tetik.setAttribute("aria-expanded", "true");
+  // Bağlantının hemen altına yerleştir, ekrandan taşmasın
+  const r = tetik.getBoundingClientRect();
+  const gen = epostaMenu.offsetWidth;
+  const sol = Math.min(Math.max(window.scrollX + r.left, window.scrollX + 12), window.scrollX + document.documentElement.clientWidth - gen - 12);
+  epostaMenu.style.left = sol + "px";
+  epostaMenu.style.top = (window.scrollY + r.bottom + 8) + "px";
+  document.getElementById("epostaKopyala").focus();
+}
+
+document.getElementById("girisEposta").addEventListener("click", e => epostaMenusuAc(e.currentTarget));
+document.getElementById("epostaKopyala").addEventListener("click", async e => {
+  const dugme = e.currentTarget;
+  try { await navigator.clipboard.writeText(epostaAdresi()); }
+  catch (hata) {
+    // Panoya yazma izni yoksa adresi seçili bırak; kullanıcı Ctrl+C ile kopyalar
+    const secim = window.getSelection(); const aralik = document.createRange();
+    aralik.selectNodeContents(document.getElementById("epostaAdres")); secim.removeAllRanges(); secim.addRange(aralik);
+    return;
+  }
+  dugme.textContent = m("kopyalandi");
+  setTimeout(() => { if (!epostaMenu.hidden) dugme.textContent = m("kopyala"); }, 1800);
+});
+document.getElementById("epostaGonder").addEventListener("click", () => setTimeout(() => epostaMenusuKapat(false), 100));
+document.addEventListener("click", e => {
+  if (!epostaMenu.hidden && !epostaMenu.contains(e.target) && !e.target.closest(".eposta-tetik")) epostaMenusuKapat(false);
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape") epostaMenusuKapat(true); });
+window.addEventListener("resize", () => epostaMenusuKapat(false));
 
 /* ==================================================================
    G) HARİTA
