@@ -172,9 +172,31 @@
 
     .serit { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin: 2.5rem 0 0; padding: 0; list-style: none; }
     .serit li { aspect-ratio: 4 / 5; background: var(--cizgi); border-radius: 6px; overflow: hidden; }
-    .serit img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease-out; }
-    .serit button { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
-    .serit button:hover img { transform: scale(1.04); }
+    .serit img, .panel-izgara img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease-out; }
+    .serit button, .panel-izgara button { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+    .serit button:hover img, .panel-izgara button:hover img { transform: scale(1.04); }
+
+    /* Haritada fotoğrafı olan ülkeler tıklanabilir */
+    #harita .fotolu { cursor: pointer; }
+
+    /* Ülke fotoğrafları paneli (haritada bir ülkeye tıklayınca açılır) */
+    .ulke-panel { width: min(56rem, calc(100vw - 1.5rem)); max-height: calc(100dvh - 1.5rem); padding: 0; border: 0; border-radius: 10px; background: var(--zemin); color: var(--metin); box-shadow: 0 20px 60px rgba(28, 27, 25, 0.25); }
+    .ulke-panel::backdrop { background: rgba(28, 27, 25, 0.55); }
+    .ulke-panel[open] { display: flex; flex-direction: column; }
+    body:has(.ulke-panel[open]) { overflow: hidden; }
+    .panel-bas { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: 1.25rem 1.25rem 0.25rem; }
+    .panel-bas h2 { font-size: clamp(1.6rem, 5vw, 2.2rem); }
+    .panel-bas p { margin: 0.3rem 0 0; color: var(--ikincil); font-size: 0.95rem; }
+    .panel-kapat { flex: none; width: 2.75rem; height: 2.75rem; border: 1px solid var(--cizgi); border-radius: 50%; background: none; display: grid; place-items: center; transition: background 0.2s; }
+    .panel-kapat:hover { background: var(--cizgi); }
+    .panel-kapat svg { width: 1.2rem; height: 1.2rem; }
+    .sehir-secici { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0.75rem 1.25rem 0; list-style: none; }
+    .sehir-secici button { min-height: 2.5rem; padding: 0 1rem; border: 1px solid var(--cizgi); border-radius: 999px; background: none; font-size: 0.9rem; transition: background 0.2s, color 0.2s; }
+    .sehir-secici button:hover { border-color: var(--vurgu); }
+    .sehir-secici button[aria-pressed="true"] { background: var(--vurgu); border-color: var(--vurgu); color: #fff; }
+    .panel-izgara { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: repeat(2, 1fr); align-content: start; gap: 0.5rem; margin: 0; padding: 1rem 1.25rem 1.25rem; list-style: none; overflow-y: auto; }
+    .panel-izgara button { aspect-ratio: 4 / 5; height: auto; border-radius: 6px; overflow: hidden; background: var(--cizgi); }
+    .ulke-listesi button { background: none; border: 0; padding: 0.15rem 0; color: var(--vurgu); text-decoration: underline; text-underline-offset: 0.2em; font-size: inherit; }
 
     /* Fotoğraf büyütme kutusu (fotoğrafa tıklayınca açılır) */
     .buyutec { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: var(--zemin); }
@@ -223,6 +245,9 @@
       .durak-liste li:not(:last-child)::after { content: "—"; color: var(--ikincil); margin-inline: 0.6rem; }
       .harita-kutu { aspect-ratio: 1000 / 455; }
       .serit { grid-template-columns: repeat(6, 1fr); gap: 0.75rem; }
+      .panel-izgara { grid-template-columns: repeat(3, 1fr); gap: 0.75rem; padding: 1.25rem 1.75rem 1.75rem; }
+      .panel-bas { padding: 1.75rem 1.75rem 0.25rem; }
+      .sehir-secici { padding: 0.75rem 1.75rem 0; }
     }
 
     /* Hareket azaltma tercihi */
@@ -384,6 +409,21 @@
   <div class="dar">© 2026 Yusuf Selim Kırca</div>
 </footer>
 
+<!-- ================= ÜLKE FOTOĞRAFLARI PANELİ ================= -->
+<dialog class="ulke-panel" id="ulkePanel" aria-labelledby="panelBaslik">
+  <div class="panel-bas">
+    <div>
+      <h2 id="panelBaslik"></h2>
+      <p id="panelAlt"></p>
+    </div>
+    <button type="button" class="panel-kapat" id="panelKapat"><span class="gizli-etiket" data-m="kapat"></span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <ul class="sehir-secici" id="sehirSecici" role="group"></ul>
+  <ul class="panel-izgara" id="panelIzgara"></ul>
+</dialog>
+
 <!-- ================= FOTOĞRAF BÜYÜTME KUTUSU ================= -->
 <dialog class="buyutec" id="buyutec">
   <div class="buyutec-ust">
@@ -448,16 +488,19 @@ const SON_DURAKLAR = [
 const LINKEDIN_ADRESI = "";   // ör. "https://www.linkedin.com/in/..."
 const VSCO_ADRESI = "";       // boşken "Daha fazlası" linki gizli kalır
 
-// Gezi fotoğrafları. Boşken 6 gri kutu görünür.
-// Tıklanınca fotoğraf büyük açılır; altında tr/en açıklama yazar.
-// Örnek: { dosya: "img/gezi-1.webp", tr: "Kyoto'da bir sokak", en: "A street in Kyoto" }
+// Gezi fotoğrafları.
+//   ulke:   iki harfli ülke kodu (haritada o ülkeye tıklayınca bu fotoğraf çıkar)
+//   sehir:  şehir adı; adı dile göre değişiyorsa { tr: "Venedik", en: "Venice" } yaz
+//   vitrin: true ise Geziler bölümündeki fotoğraf şeridinde de görünür (en fazla 6 tane seç)
+//   tr/en:  fotoğrafın altında yazan açıklama
+// Bir ülkenin birden fazla şehri varsa, panelde şehir seçme düğmeleri kendiliğinden çıkar.
 const FOTOGRAFLAR = [
-  { dosya: "img/gezi-1.webp", tr: "Kiyomizu-dera, Kyoto", en: "Kiyomizu-dera, Kyoto" },
-  { dosya: "img/gezi-2.webp", tr: "Fushimi Inari'de toriiler, Kyoto", en: "Torii gates at Fushimi Inari, Kyoto" },
-  { dosya: "img/gezi-3.webp", tr: "Arashiyama bambu ormanı, Kyoto", en: "Arashiyama bamboo grove, Kyoto" },
-  { dosya: "img/gezi-4.webp", tr: "Nara Parkı'nda bir geyik", en: "A deer in Nara Park" },
-  { dosya: "img/gezi-5.webp", tr: "Dotonbori, Osaka", en: "Dotonbori, Osaka" },
-  { dosya: "img/gezi-6.webp", tr: "Sumida Nehri havai fişekleri, Tokyo", en: "Sumida River fireworks, Tokyo" }
+  { dosya: "img/gezi-1.webp", ulke: "JP", sehir: "Kyoto", vitrin: true, tr: "Kiyomizu-dera, Kyoto", en: "Kiyomizu-dera, Kyoto" },
+  { dosya: "img/gezi-2.webp", ulke: "JP", sehir: "Kyoto", vitrin: true, tr: "Fushimi Inari'de toriiler, Kyoto", en: "Torii gates at Fushimi Inari, Kyoto" },
+  { dosya: "img/gezi-3.webp", ulke: "JP", sehir: "Kyoto", vitrin: true, tr: "Arashiyama bambu ormanı, Kyoto", en: "Arashiyama bamboo grove, Kyoto" },
+  { dosya: "img/gezi-4.webp", ulke: "JP", sehir: "Nara", vitrin: true, tr: "Nara Parkı'nda bir geyik", en: "A deer in Nara Park" },
+  { dosya: "img/gezi-5.webp", ulke: "JP", sehir: "Osaka", vitrin: true, tr: "Dotonbori, Osaka", en: "Dotonbori, Osaka" },
+  { dosya: "img/gezi-6.webp", ulke: "JP", sehir: "Tokyo", vitrin: true, tr: "Sumida Nehri havai fişekleri, Tokyo", en: "Sumida River fireworks, Tokyo" }
 ];
 
 // E-posta parçalı yazılır ki adres toplayan robotlar kolayca bulamasın.
@@ -510,7 +553,8 @@ const METINLER = {
     haritaHata: "Harita yüklenemedi.",
     yakinlastir: "Yakınlaştır", uzaklastir: "Uzaklaştır", sifirla: "Haritayı ilk haline getir",
     gidilen: "Gidilen", ev: "Ev",
-    haritaIpucu: "Yakınlaştırma: + / −, iki parmak ya da Ctrl + tekerlek",
+    haritaIpucu: "Fotoğraflı ülkelere tıklayın · Yakınlaştırma: + / −, iki parmak ya da Ctrl + tekerlek",
+    tumu: "Tümü", fotoAdet: "fotoğraf", sehirSec: "Şehir seç", fotolarinaBak: "fotoğraflara bak",
     ulkeListesi: "Ülke listesi",
     dahaFazla: "Daha fazlası →",
     fotoBuyut: "Fotoğrafı büyüt", fotoKutusu: "Fotoğraf", kapat: "Kapat",
@@ -560,7 +604,8 @@ const METINLER = {
     haritaHata: "The map could not be loaded.",
     yakinlastir: "Zoom in", uzaklastir: "Zoom out", sifirla: "Reset the map",
     gidilen: "Visited", ev: "Home",
-    haritaIpucu: "Zoom: + / −, two fingers, or Ctrl + scroll",
+    haritaIpucu: "Click a country with photos · Zoom: + / −, two fingers, or Ctrl + scroll",
+    tumu: "All", fotoAdet: "photos", sehirSec: "Choose a city", fotolarinaBak: "see photos",
     ulkeListesi: "Country list",
     dahaFazla: "More →",
     fotoBuyut: "Enlarge photo", fotoKutusu: "Photo", kapat: "Close",
@@ -589,6 +634,7 @@ function metinleriYaz() {
   duraklariYaz();
   ulkeListesiniYaz();
   seridiYaz();
+  if (ulkePanel.open) paneliYaz();
   document.getElementById("buyutec").setAttribute("aria-label", m("fotoKutusu"));
   iletisimiYaz();
   const daha = document.querySelector("#daha a");
@@ -664,30 +710,107 @@ function duraklariYaz() {
 function ulkeListesiniYaz() {
   const liste = document.getElementById("ulkeListesi");
   liste.innerHTML = "";
-  ULKELER.map(k => ulkeAdi(k) + (k === EV ? " (" + m("ev").toLocaleLowerCase(dil) + ")" : ""))
-    .sort((a, b) => a.localeCompare(b, dil))
-    .forEach(ad => { const li = document.createElement("li"); li.textContent = ad; liste.append(li); });
+  ULKELER.map(k => ({ k, ad: ulkeAdi(k) + (k === EV ? " (" + m("ev").toLocaleLowerCase(dil) + ")" : "") }))
+    .sort((a, b) => a.ad.localeCompare(b.ad, dil))
+    .forEach(u => {
+      const li = document.createElement("li");
+      if (ulkeFotolari(u.k).length) {
+        // Fotoğrafı olan ülke: klavyeyle de açılabilsin diye düğme
+        const dugme = document.createElement("button");
+        dugme.type = "button"; dugme.textContent = u.ad;
+        dugme.addEventListener("click", () => ulkePaneliAc(u.k));
+        li.append(dugme);
+      } else {
+        li.textContent = u.ad;
+      }
+      liste.append(li);
+    });
+}
+
+// Küçük fotoğraf düğmesi: tıklayınca "liste" içindeki "sira"ncı fotoğraf büyük açılır
+function kucukFoto(f, liste, sira) {
+  const li = document.createElement("li");
+  const dugme = document.createElement("button");
+  dugme.type = "button";
+  dugme.setAttribute("aria-label", m("fotoBuyut") + (f[dil] ? ": " + f[dil] : ""));
+  dugme.addEventListener("click", () => buyutecAc(liste, sira, dugme));
+  const img = document.createElement("img");
+  img.src = f.dosya; img.alt = ""; img.loading = "lazy"; img.width = 800; img.height = 1000;
+  dugme.append(img); li.append(dugme);
+  return li;
+}
+
+function vitrinFotolari() {
+  const v = FOTOGRAFLAR.filter(f => f.vitrin);
+  return (v.length ? v : FOTOGRAFLAR).slice(0, 6);
 }
 
 function seridiYaz() {
   const serit = document.getElementById("serit");
   serit.innerHTML = "";
-  if (FOTOGRAFLAR.length === 0) {
+  const liste = vitrinFotolari();
+  if (liste.length === 0) {
     for (let i = 0; i < 6; i++) serit.append(document.createElement("li"));   // gri yer tutucular
     return;
   }
   serit.removeAttribute("aria-hidden");
-  FOTOGRAFLAR.forEach((f, sira) => {
+  liste.forEach((f, sira) => serit.append(kucukFoto(f, liste, sira)));
+}
+
+/* ------------------------------------------------------------------
+   Ülke fotoğrafları paneli
+   Haritada (ya da ülke listesinde) fotoğrafı olan bir ülkeye tıklayınca açılır.
+   Ülkenin birden fazla şehri varsa üstte şehir düğmeleri çıkar.
+   ------------------------------------------------------------------ */
+const ulkePanel = document.getElementById("ulkePanel");
+let panelUlke = null, panelSehir = null;
+
+function sehirAdi(s) { return typeof s === "string" ? s : (s ? s[dil] : ""); }
+function ulkeFotolari(kod) { return FOTOGRAFLAR.filter(f => f.ulke === kod); }
+
+function paneliYaz() {
+  const hepsi = ulkeFotolari(panelUlke);
+  const sehirler = [...new Set(hepsi.map(f => sehirAdi(f.sehir)).filter(Boolean))];
+  const liste = panelSehir ? hepsi.filter(f => sehirAdi(f.sehir) === panelSehir) : hepsi;
+  document.getElementById("panelBaslik").textContent = ulkeAdi(panelUlke);
+  document.getElementById("panelAlt").textContent = hepsi.length + " " + m("fotoAdet") + (sehirler.length === 1 ? " · " + sehirler[0] : "");
+
+  // Şehir düğmeleri (tek şehir varsa gösterilmez)
+  const secici = document.getElementById("sehirSecici");
+  secici.innerHTML = "";
+  secici.setAttribute("aria-label", m("sehirSec"));
+  secici.hidden = sehirler.length < 2;
+  [null, ...sehirler].forEach(sehir => {
     const li = document.createElement("li");
     const dugme = document.createElement("button");
     dugme.type = "button";
-    dugme.setAttribute("aria-label", m("fotoBuyut") + (f[dil] ? ": " + f[dil] : ""));
-    dugme.addEventListener("click", () => buyutecAc(sira));
-    const img = document.createElement("img");
-    img.src = f.dosya; img.alt = ""; img.loading = "lazy"; img.width = 800; img.height = 1000;
-    dugme.append(img); li.append(dugme); serit.append(li);
+    const adet = sehir ? hepsi.filter(f => sehirAdi(f.sehir) === sehir).length : hepsi.length;
+    dugme.textContent = (sehir || m("tumu")) + " (" + adet + ")";
+    dugme.setAttribute("aria-pressed", panelSehir === sehir);
+    dugme.addEventListener("click", () => {
+      panelSehir = sehir;
+      paneliYaz();
+      // Düğmeler yeniden çizildi; odak yeni seçili düğmede kalsın
+      secici.querySelector('[aria-pressed="true"]').focus();
+    });
+    li.append(dugme); secici.append(li);
   });
+
+  const izgara = document.getElementById("panelIzgara");
+  izgara.innerHTML = "";
+  liste.forEach((f, sira) => izgara.append(kucukFoto(f, liste, sira)));
 }
+
+function ulkePaneliAc(kod) {
+  if (!ulkeFotolari(kod).length) return;
+  panelUlke = kod; panelSehir = null;
+  paneliYaz();
+  ulkePanel.showModal();
+  document.getElementById("panelIzgara").scrollTop = 0;
+}
+
+document.getElementById("panelKapat").addEventListener("click", () => ulkePanel.close());
+ulkePanel.addEventListener("click", e => { if (e.target === ulkePanel) ulkePanel.close(); });   // panelin dışına tıklama
 
 /* ------------------------------------------------------------------
    Fotoğraf büyütme kutusu
@@ -697,11 +820,13 @@ function seridiYaz() {
 const buyutec = document.getElementById("buyutec");
 const buyutecResim = document.getElementById("buyutecResim");
 let fotoSira = 0;
+let aktifListe = [];      // şu an gezilen fotoğraflar (şerit ya da seçili ülke/şehir)
+let donusOdak = null;     // kutu kapanınca odağın döneceği küçük fotoğraf
 
 function fotoGoster(sira) {
-  const adet = FOTOGRAFLAR.length;
+  const adet = aktifListe.length;
   fotoSira = (sira + adet) % adet;   // sondan başa, baştan sona döner
-  const f = FOTOGRAFLAR[fotoSira];
+  const f = aktifListe[fotoSira];
   buyutecResim.src = f.dosya;
   buyutecResim.alt = f[dil] || "";
   document.getElementById("buyutecAlt").textContent = f[dil] || "";
@@ -709,18 +834,19 @@ function fotoGoster(sira) {
   document.getElementById("buyutecOnceki").hidden = adet < 2;
   document.getElementById("buyutecSonraki").hidden = adet < 2;
   // Bir sonraki ve önceki fotoğrafı önceden yükle ki geçiş beklemesin
-  [1, -1].forEach(k => { new Image().src = FOTOGRAFLAR[(fotoSira + k + adet) % adet].dosya; });
+  [1, -1].forEach(k => { new Image().src = aktifListe[(fotoSira + k + adet) % adet].dosya; });
 }
 
-function buyutecAc(sira) {
+function buyutecAc(liste, sira, kucuk) {
+  aktifListe = liste;
+  donusOdak = kucuk || null;
   fotoGoster(sira);
   buyutec.showModal();
 }
 
 buyutec.addEventListener("close", () => {
-  // Kapanınca odak, en son bakılan fotoğrafın küçüğüne döner
-  const kucuk = document.querySelectorAll("#serit button")[fotoSira];
-  if (kucuk) kucuk.focus();
+  // Kapanınca odak, fotoğrafın açıldığı küçük resme döner
+  if (donusOdak && donusOdak.isConnected) donusOdak.focus();
 });
 document.getElementById("buyutecKapat").addEventListener("click", () => buyutec.close());
 document.getElementById("buyutecOnceki").addEventListener("click", () => fotoGoster(fotoSira - 1));
@@ -851,6 +977,7 @@ function veriYukle(dosya) {
       yol.setAttribute("d", u.d);
     });
     noktalar.forEach(n => svg.append(n.alan, n.gorunen));   // noktalar en üstte
+    svg.querySelectorAll("[data-k]").forEach(el => el.classList.toggle("fotolu", ulkeFotolari(el.dataset.k).length > 0));
     yuklendi = true;
     document.getElementById("haritaDurum").hidden = true;
     gorunumuUygula();
@@ -902,7 +1029,11 @@ window.addEventListener("pointermove", e => {
   surukle.x = e.clientX; surukle.y = e.clientY;
   gorunumuUygula();
 });
-window.addEventListener("pointerup", () => { surukle = null; svg.classList.remove("surukleniyor"); });
+let sonSurukleme = 0;     // sürüklemenin sonundaki tıklama ülke paneli açmasın
+window.addEventListener("pointerup", () => {
+  if (surukle && surukle.basladi) sonSurukleme = Date.now();
+  surukle = null; svg.classList.remove("surukleniyor");
+});
 
 // --- Mobil: iki parmakla yakınlaştırma ve kaydırma (tek parmak sayfayı kaydırır) ---
 let cimdik = null;
@@ -928,7 +1059,8 @@ function ipucuGoster(e) {
   const hedef = e.target.closest("[data-k]");
   if (!hedef || (surukle && surukle.basladi)) { ipucu.hidden = true; return; }
   const r = kutu.getBoundingClientRect();
-  ipucu.textContent = ulkeAdi(hedef.dataset.k);
+  const adet = ulkeFotolari(hedef.dataset.k).length;
+  ipucu.textContent = ulkeAdi(hedef.dataset.k) + (adet ? " · " + m("fotolarinaBak") : "");
   ipucu.hidden = false;
   const yarim = ipucu.offsetWidth / 2 + 4;
   ipucu.style.left = Math.min(Math.max(e.clientX - r.left, yarim), r.width - yarim) + "px";
@@ -937,6 +1069,9 @@ function ipucuGoster(e) {
 svg.addEventListener("pointermove", e => { if (e.pointerType === "mouse") ipucuGoster(e); });
 svg.addEventListener("pointerleave", () => { ipucu.hidden = true; });
 svg.addEventListener("click", e => {
+  if (Date.now() - sonSurukleme < 300) return;
+  const hedef = e.target.closest("[data-k]");
+  if (hedef && ulkeFotolari(hedef.dataset.k).length) { ipucu.hidden = true; ulkePaneliAc(hedef.dataset.k); return; }
   ipucuGoster(e);
   clearTimeout(ipucuZamani);
   ipucuZamani = setTimeout(() => { ipucu.hidden = true; }, 2500);
