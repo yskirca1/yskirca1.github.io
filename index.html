@@ -157,9 +157,7 @@
     .duraklar-etiket { color: var(--ikincil); }
     .durak-liste { list-style: none; margin: 0.3rem 0 0; padding: 0; }
     .durak-liste li { position: relative; padding: 0.15rem 0; }
-    .durak { display: inline-block; padding: 0.35rem 0; border-bottom: 1px dashed var(--vurgu); cursor: default; }
-    .sehirler { display: none; position: absolute; left: 0; top: 100%; z-index: 5; background: var(--metin); color: var(--zemin); font-size: 0.9rem; padding: 0.35rem 0.7rem; border-radius: 5px; white-space: nowrap; }
-    .durak:hover + .sehirler, .durak:focus-visible + .sehirler { display: block; }
+    .sehirler { color: var(--ikincil); }
 
     .harita-kutu { position: relative; border: 1px solid var(--cizgi); border-radius: 8px; background: #fff; overflow: hidden; aspect-ratio: 4 / 3; }
     .harita-kutu svg { display: block; width: 100%; height: 100%; touch-action: pan-x pan-y; }
@@ -831,16 +829,12 @@ function duraklariYaz() {
   SON_DURAKLAR.forEach(d => {
     const li = document.createElement("li");
     const yazi = ulkeAdi(d.ulke) + " · " + tarihYaz(d.tarihler);
+    li.textContent = yazi;
     if (d.sehirler) {
-      // Şehirler: üzerine gelince görünür (tıklama gerekmez); klavyede Tab, telefonda dokunma da aynı işi görür
-      const dugme = document.createElement("span");
-      dugme.className = "durak"; dugme.textContent = yazi;
-      dugme.tabIndex = 0;   // klavyeyle ve telefonda dokununca da odaklanabilsin
+      // Şehirler yanına açık renkte yazılır (tıklanabilir görünmesin diye düz metin)
       const sehir = document.createElement("span");
-      sehir.className = "sehirler"; sehir.textContent = d.sehirler[dil];
-      li.append(dugme, sehir);
-    } else {
-      li.textContent = yazi;
+      sehir.className = "sehirler"; sehir.textContent = " (" + d.sehirler[dil] + ")";
+      li.append(sehir);
     }
     liste.append(li);
   });
