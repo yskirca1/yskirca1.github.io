@@ -177,6 +177,9 @@
       .ust-sag { gap: 0.3rem; }
       .dil button { min-width: 2.4rem; }
     }
+    /* Tema değişiminde mürekkep geçişi (View Transitions): eski görüntü altta, yeni tema mürekkep maskesiyle üstte */
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+    ::view-transition-new(root) { -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
     .tema-dugme { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; padding: 0; background: none; border: 1px solid var(--cizgi); border-radius: 50%; color: var(--metin); transition: background 0.2s; }
     .tema-dugme:hover { background: var(--zemin-2); }
     .tema-dugme svg { width: 1.15rem; height: 1.15rem; }
@@ -929,11 +932,86 @@ function temaDugmesiniYaz() {
   // Telefonda tarayıcı çubuğunun rengi
   document.querySelectorAll('meta[name="theme-color"]').forEach(x => x.setAttribute("content", koyu ? "#161513" : "#FAF8F5"));
 }
-document.getElementById("temaDugme").addEventListener("click", () => {
-  const yeni = koyuMu() ? "acik" : "koyu";
+function temayiUygula(yeni) {
   document.documentElement.dataset.tema = yeni;
   try { localStorage.setItem("tema", yeni); } catch (e) {}
   temaDugmesiniYaz();
+}
+
+/* Mürekkep geçişi: yeni tema, sayfanın birkaç yerine düşen mürekkep damlalarıyla yayılır.
+   - İlk ve en büyük damla düğmenin olduğu yerden başlar, sonunda bütün ekranı kaplar.
+   - Diğer damlalar rastgele yerlerde, farklı boyut ve gecikmeyle açılır; etraflarında küçük sıçramalar olur.
+   - Damlaların kenarı dalgalanarak büyür (mürekkebin kâğıtta yayılması gibi).
+   Her kare küçük bir tuvalde çizilip maske olarak kullanılır. Desteklemeyen tarayıcılarda
+   ve "hareketi azalt" açıksa tema anında değişir. */
+function murekkepKareleri(ox, oy) {
+  const W = window.innerWidth, H = window.innerHeight;
+  const O = 0.33;                                   // maske çözünürlüğü (ekranın dörtte biri; kenarlar zaten yumuşak)
+  const cw = Math.max(2, Math.round(W * O)), ch = Math.max(2, Math.round(H * O));
+  const rastgele = (a, b) => a + Math.random() * (b - a);
+  const kosegen = Math.hypot(W, H);
+  const enUzak = (x, y) => Math.max(Math.hypot(x, y), Math.hypot(W - x, y), Math.hypot(x, H - y), Math.hypot(W - x, H - y));
+  // Damlalar: x, y, en büyük yarıçap, başlama ve bitiş zamanı (0–1), dalga evresi
+  const damlalar = [{ x: ox, y: oy, R: enUzak(ox, oy) * 1.1, b: 0, s: 1, f: rastgele(0, 6), ana: true }];
+  const adet = 3 + Math.floor(Math.random() * 3);
+  for (let i = 0; i < adet; i++) {
+    damlalar.push({ x: rastgele(0.1, 0.9) * W, y: rastgele(0.15, 0.9) * H, R: kosegen * rastgele(0.12, 0.3), b: rastgele(0, 0.25), s: rastgele(0.55, 0.85), f: rastgele(0, 6) });
+  }
+  // Küçük sıçrama damlaları (ana damlaların çevresinde)
+  const kucukler = [];
+  damlalar.forEach(d => {
+    const n = 2 + Math.floor(Math.random() * 3);
+    for (let i = 0; i < n; i++) {
+      const aci = rastgele(0, Math.PI * 2), uzak = rastgele(40, 160);
+      kucukler.push({ x: d.x + Math.cos(aci) * uzak, y: d.y + Math.sin(aci) * uzak, R: rastgele(6, 22), b: d.b + rastgele(0.02, 0.12), s: d.b + rastgele(0.25, 0.45), f: rastgele(0, 6) });
+    }
+  });
+  const yumusak = t => 1 - Math.pow(1 - t, 3);   // küçük damlalar: hızlı düşer, yavaşlayarak yayılır
+  const ana = t => t * t * (3 - 2 * t) * (0.25 + 0.75 * t);   // ana damla: yavaş başlar, sonda ekranı kaplar
+  const tuval = document.createElement("canvas");
+  tuval.width = cw; tuval.height = ch;
+  const c = tuval.getContext("2d");
+  const kareler = [], N = 36;
+  for (let k = 0; k <= N; k++) {
+    const t = k / N;
+    c.clearRect(0, 0, cw, ch);
+    c.fillStyle = "#000";
+    c.filter = "blur(1px)";   // mürekkep kenarı hafif yumuşak
+    if (k === N) { c.fillRect(0, 0, cw, ch); }
+    else {
+      [...damlalar, ...kucukler].forEach(d => {
+        const u = Math.min(1, Math.max(0, (t - d.b) / (d.s - d.b)));
+        if (u <= 0) return;
+        const r = d.R * (d.ana ? ana(u) : yumusak(u));
+        // Dalgalı kenar: iki farklı dalga, zamanla kayar
+        c.beginPath();
+        for (let a = 0; a <= 64; a++) {
+          const th = (a / 64) * Math.PI * 2;
+          const dalga = 1 + 0.07 * Math.sin(5 * th + d.f + t * 9) + 0.04 * Math.sin(9 * th - d.f * 1.7 - t * 13) + 0.025 * Math.sin(17 * th + d.f * 2.3);
+          const px = (d.x + Math.cos(th) * r * dalga) * O, py = (d.y + Math.sin(th) * r * dalga) * O;
+          a ? c.lineTo(px, py) : c.moveTo(px, py);
+        }
+        c.closePath(); c.fill();
+      });
+    }
+    kareler.push("url(" + tuval.toDataURL("image/png") + ")");
+  }
+  return kareler;
+}
+
+document.getElementById("temaDugme").addEventListener("click", e => {
+  const yeni = koyuMu() ? "acik" : "koyu";
+  const hareketAzalt = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!document.startViewTransition || hareketAzalt) { temayiUygula(yeni); return; }
+  const r = e.currentTarget.getBoundingClientRect();
+  const kareler = murekkepKareleri(r.left + r.width / 2, r.top + r.height / 2);
+  const gecis = document.startViewTransition(() => temayiUygula(yeni));
+  gecis.ready.then(() => {
+    document.documentElement.animate(
+      kareler.map(k => ({ maskImage: k, webkitMaskImage: k })),
+      { duration: 1100, easing: "linear", fill: "both", pseudoElement: "::view-transition-new(root)" }
+    );
+  }).catch(() => {});
 });
 koyuSistem.addEventListener("change", temaDugmesiniYaz);
 
