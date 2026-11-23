@@ -143,7 +143,7 @@
     .durum { font-size: 0.8rem; font-weight: 500; color: var(--vurgu); border: 1px solid var(--vurgu); border-radius: 999px; padding: 0.15rem 0.75rem; white-space: nowrap; }
     .proje-alt { font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: var(--ikincil); margin: 0.5rem 0 1.5rem; }
     .gorseller { display: grid; gap: 1rem; margin: 0 0 1.75rem; }
-    .gorseller img { width: 100%; border: 1px solid var(--cizgi); border-radius: 8px; }
+    .gorseller img, .gorseller video { width: 100%; height: auto; display: block; border: 1px solid var(--cizgi); border-radius: 8px; background: #1a1d24; }
     .gorsel-not { font-size: 0.9rem; font-style: italic; color: var(--ikincil); margin: 0; }
     .gorseller figure { margin: 0; }
     .gorseller figcaption { margin-top: 0.5rem; font-size: 0.85rem; line-height: 1.5; }
@@ -357,7 +357,10 @@
         </div>
         <p class="proje-alt" data-m="rrAlt"></p>
         <div class="gorseller">
-          <img src="img/reviewradar.webp" width="1440" height="900" loading="lazy" data-m-alt="rrGorselAlt" alt="">
+          <!-- ReviewRadar'ın 16 saniyelik sessiz demosu: kendiliğinden ve döngüde oynar -->
+          <video id="rrDemo" width="1280" height="800" muted loop playsinline preload="metadata" poster="img/reviewradar.webp" data-m-aria="rrVideoAlt">
+            <source src="img/reviewradar-demo.mp4" type="video/mp4">
+          </video>
         </div>
         <dl class="adimlar">
           <dt data-m="sorun"></dt>      <dd data-m="rrSorun"></dd>
@@ -548,46 +551,21 @@ const FOTOGRAFLAR = [
   { dosya: "img/gezi-4.webp", ulke: "JP", sehir: "Nara", vitrin: true, tr: "Nara Parkı'nda bir geyik", en: "A deer in Nara Park" },
   { dosya: "img/gezi-5.webp", ulke: "JP", sehir: "Osaka", vitrin: true, tr: "Dotonbori, Osaka", en: "Dotonbori, Osaka" },
   { dosya: "img/gezi-6.webp", ulke: "JP", sehir: "Tokyo", vitrin: true, tr: "Sumida Nehri havai fişekleri, Tokyo", en: "Sumida River fireworks, Tokyo" },
-  { dosya: "img/jp-01.webp", ulke: "JP", sehir: "Tokyo", tr: "Beş katlı pagoda, Tokyo", en: "Five-storied pagoda, Tokyo" },
-  { dosya: "img/jp-02.webp", ulke: "JP", sehir: "Tokyo", tr: "Tokyo'da bir cadde", en: "A street in Tokyo" },
   { dosya: "img/jp-25.webp", ulke: "JP", sehir: "Tokyo", tr: "Tokyo Skytree", en: "Tokyo Skytree" },
-  { dosya: "img/jp-28.webp", ulke: "JP", sehir: "Tokyo", tr: "Sokak arasından havai fişekler, Tokyo", en: "Fireworks between the buildings, Tokyo" },
   // Tokyo · Ocak 2026
-  { dosya: "img/tk-01.webp", ulke: "JP", sehir: "Tokyo", tr: "Odaiba'da gece", en: "Odaiba at night" },
-  { dosya: "img/tk-02.webp", ulke: "JP", sehir: "Tokyo", tr: "Odaiba'daki dev Gundam heykeli", en: "The giant Gundam statue in Odaiba" },
-  { dosya: "img/tk-03.webp", ulke: "JP", sehir: "Tokyo", tr: "Tokyo Körfezi", en: "Tokyo Bay" },
   { dosya: "img/tk-04.webp", ulke: "JP", sehir: "Tokyo", tr: "Sensō-ji, Asakusa", en: "Sensō-ji, Asakusa" },
   { dosya: "img/tk-05.webp", ulke: "JP", sehir: "Tokyo", tr: "Sensō-ji pagodası", en: "Sensō-ji pagoda" },
-  { dosya: "img/tk-06.webp", ulke: "JP", sehir: "Tokyo", tr: "Rainbow Köprüsü", en: "Rainbow Bridge" },
   { dosya: "img/tk-07.webp", ulke: "JP", sehir: "Tokyo", tr: "Meiji Tapınağı'nın toriisi", en: "The torii of Meiji Shrine" },
-  { dosya: "img/tk-08.webp", ulke: "JP", sehir: "Tokyo", tr: "Meiji Tapınağı'nın ormanı", en: "The forest of Meiji Shrine" },
-  { dosya: "img/tk-09.webp", ulke: "JP", sehir: "Tokyo", tr: "Meiji Tapınağı", en: "Meiji Shrine" },
-  { dosya: "img/tk-10.webp", ulke: "JP", sehir: "Tokyo", tr: "Shibuya", en: "Shibuya" },
   { dosya: "img/tk-11.webp", ulke: "JP", sehir: "Tokyo", tr: "Shibuya kavşağı", en: "Shibuya Crossing" },
-  { dosya: "img/tk-12.webp", ulke: "JP", sehir: "Tokyo", tr: "Yakiniku", en: "Yakiniku" },
-  { dosya: "img/tk-13.webp", ulke: "JP", sehir: "Tokyo", tr: "Ueno Parkı", en: "Ueno Park" },
   { dosya: "img/tk-14.webp", ulke: "JP", sehir: "Tokyo", tr: "Ueno Tōshō-gū", en: "Ueno Tōshō-gū" },
-  { dosya: "img/tk-15.webp", ulke: "JP", sehir: "Tokyo", tr: "Tokyo Ulusal Müzesi'nde bir heykel", en: "A statue at the Tokyo National Museum" },
-  { dosya: "img/tk-16.webp", ulke: "JP", sehir: "Tokyo", tr: "Budist heykelleri, Tokyo Ulusal Müzesi", en: "Buddhist statues, Tokyo National Museum" },
-  { dosya: "img/tk-17.webp", ulke: "JP", sehir: "Tokyo", tr: "Samuray zırhı", en: "Samurai armour" },
-  { dosya: "img/tk-18.webp", ulke: "JP", sehir: "Tokyo", tr: "Katana", en: "A katana" },
   { dosya: "img/jp-04.webp", ulke: "JP", sehir: "Osaka", tr: "Glico tabelası, Dotonbori", en: "The Glico sign, Dotonbori" },
-  { dosya: "img/jp-05.webp", ulke: "JP", sehir: "Osaka", tr: "Kapalı bir çarşı, Osaka", en: "A covered shopping street, Osaka" },
   { dosya: "img/jp-06.webp", ulke: "JP", sehir: "Osaka", tr: "Tsutenkaku Kulesi, Osaka", en: "Tsutenkaku Tower, Osaka" },
-  { dosya: "img/jp-07.webp", ulke: "JP", sehir: "Osaka", tr: "Ramen", en: "Ramen" },
   { dosya: "img/jp-08.webp", ulke: "JP", sehir: "Osaka", tr: "Osaka Kalesi", en: "Osaka Castle" },
   { dosya: "img/jp-10.webp", ulke: "JP", sehir: "Nara", tr: "Kasuga Taisha'da fenerler, Nara", en: "Lanterns at Kasuga Taisha, Nara" },
-  { dosya: "img/jp-11.webp", ulke: "JP", tr: "Kyoto'ya giden tren", en: "A train bound for Kyoto" },
-  { dosya: "img/jp-12.webp", ulke: "JP", tr: "Tren penceresinden", en: "From the train window" },
-  { dosya: "img/jp-14.webp", ulke: "JP", sehir: "Kyoto", tr: "Kiyomizu-dera'dan Kyoto", en: "Kyoto from Kiyomizu-dera" },
   { dosya: "img/jp-15.webp", ulke: "JP", sehir: "Kyoto", tr: "Higashiyama sokakları, Kyoto", en: "The streets of Higashiyama, Kyoto" },
   { dosya: "img/jp-16.webp", ulke: "JP", sehir: "Kyoto", tr: "Yasaka Pagodası, Kyoto", en: "Yasaka Pagoda, Kyoto" },
   { dosya: "img/jp-17.webp", ulke: "JP", sehir: "Kyoto", tr: "Arashiyama'da nehir, Kyoto", en: "The river at Arashiyama, Kyoto" },
-  { dosya: "img/jp-19.webp", ulke: "JP", sehir: "Kyoto", tr: "Gece bir kale kapısı, Kyoto", en: "A castle gate at night, Kyoto" },
-  { dosya: "img/jp-20.webp", ulke: "JP", sehir: "Kyoto", tr: "Tempura kasesi", en: "A tempura bowl" },
-  { dosya: "img/jp-21.webp", ulke: "JP", sehir: "Kyoto", tr: "Kyoto İstasyonu", en: "Kyoto Station" },
   { dosya: "img/jp-22.webp", ulke: "JP", sehir: "Kyoto", tr: "Fushimi Inari girişi, Kyoto", en: "The entrance to Fushimi Inari, Kyoto" },
-  { dosya: "img/jp-24.webp", ulke: "JP", sehir: "Kyoto", tr: "Fushimi Inari'de bir karga", en: "A crow at Fushimi Inari" },
 
   // İtalya · Aralık 2024
   { dosya: "img/it-03.webp", ulke: "IT", sehir: { tr: "Venedik", en: "Venice" }, tr: "Bir çiçekçi", en: "A flower shop" },
@@ -643,33 +621,16 @@ const FOTOGRAFLAR = [
 
   // Mauritius · Temmuz 2025
   { dosya: "img/mu-01.webp", ulke: "MU", tr: "Kızıl toprak ve dağ", en: "Red earth and a mountain" },
-  { dosya: "img/mu-02.webp", ulke: "MU", tr: "Şeker kamışı tarlaları", en: "Sugarcane fields" },
-  { dosya: "img/mu-03.webp", ulke: "MU", tr: "Hindistan cevizi ağacı", en: "A coconut palm" },
   { dosya: "img/mu-04.webp", ulke: "MU", tr: "Teknelerin demirlediği bir koy", en: "Boats moored in a bay" },
-  { dosya: "img/mu-05.webp", ulke: "MU", tr: "Kumsal", en: "On the beach" },
   { dosya: "img/mu-06.webp", ulke: "MU", tr: "Berrak lagün suyu", en: "Clear lagoon water" },
-  { dosya: "img/mu-07.webp", ulke: "MU", tr: "Ağaçların gölgesinde kumsal", en: "A beach in the shade of trees" },
-  { dosya: "img/mu-08.webp", ulke: "MU", tr: "Mangrovlar ve dağ", en: "Mangroves and a mountain" },
   { dosya: "img/mu-09.webp", ulke: "MU", tr: "Gün batımında tekneler", en: "Boats at sunset" },
-  { dosya: "img/mu-10.webp", ulke: "MU", sehir: "Port Louis", tr: "Port Louis'de eski bir bina", en: "An old building in Port Louis" },
   { dosya: "img/mu-11.webp", ulke: "MU", sehir: "Port Louis", tr: "Port Louis pazarı", en: "Port Louis market" },
   { dosya: "img/mu-12.webp", ulke: "MU", sehir: "Port Louis", tr: "Çin Mahallesi kapısı, Port Louis", en: "Chinatown gate, Port Louis" },
-  { dosya: "img/mu-13.webp", ulke: "MU", sehir: "Port Louis", tr: "Port Louis limanı", en: "Port Louis harbour" },
-  { dosya: "img/mu-14.webp", ulke: "MU", sehir: "Port Louis", tr: "Limandan bakış, Port Louis", en: "Harbour view, Port Louis" },
-  { dosya: "img/mu-15.webp", ulke: "MU", sehir: "Pamplemousses", tr: "Botanik bahçesinde bir yol", en: "A path in the botanical garden" },
   { dosya: "img/mu-16.webp", ulke: "MU", sehir: "Pamplemousses", tr: "Dev nilüferler", en: "Giant water lilies" },
-  { dosya: "img/mu-17.webp", ulke: "MU", sehir: "Pamplemousses", tr: "Açmış bir nilüfer", en: "A water lily in bloom" },
   { dosya: "img/mu-18.webp", ulke: "MU", sehir: "Pamplemousses", tr: "Palmiye yolu", en: "Palm avenue" },
-  { dosya: "img/mu-19.webp", ulke: "MU", sehir: "Pamplemousses", tr: "Dev kaplumbağalar", en: "Giant tortoises" },
-  { dosya: "img/mu-20.webp", ulke: "MU", tr: "Kıyı yolu", en: "The coastal road" },
-  { dosya: "img/mu-21.webp", ulke: "MU", tr: "Koya bakış", en: "A view over the bay" },
   { dosya: "img/mu-22.webp", ulke: "MU", tr: "Turkuaz deniz", en: "Turquoise sea" },
-  { dosya: "img/mu-23.webp", ulke: "MU", tr: "Kayalık kıyıda dalgalar", en: "Waves on the rocky coast" },
   { dosya: "img/mu-24.webp", ulke: "MU", tr: "Kumsal ve dağlar", en: "Beach and mountains" },
-  { dosya: "img/mu-25.webp", ulke: "MU", tr: "Banyan ağaçlarıyla bir yol", en: "A road lined with banyan trees" },
-  { dosya: "img/mu-26.webp", ulke: "MU", sehir: "Black River Gorges", tr: "Yeşil vadiler", en: "Green valleys" },
   { dosya: "img/mu-27.webp", ulke: "MU", sehir: "Black River Gorges", tr: "Black River Gorges manzarası", en: "View over Black River Gorges" },
-  { dosya: "img/mu-28.webp", ulke: "MU", sehir: "Black River Gorges", tr: "Maymunlar", en: "Monkeys" },
   { dosya: "img/mu-29.webp", ulke: "MU", sehir: "Black River Gorges", tr: "Manzaraya bakan bir maymun", en: "A monkey with a view" }
 ];
 
@@ -707,6 +668,7 @@ const METINLER = {
     rrSonuc: "12 kategoride 141 ürüne ait 24.500 yorum analiz edildi. Kullanıcı bir kategoriyi aradığında rakiplerin en çok şikâyet aldığı konuları, müşterilerin beğendiği yönleri ve pazara girerken dikkat edilmesi gerekenleri tek ekranda görüyor. Proje 2027 yazına kadar geliştirilmeye devam edecek.",
     rrDugme: "Siteyi aç →",
     rrGorselAlt: "ReviewRadar ana sayfasının ekran görüntüsü: arama kutusu ve kategori kartları",
+    rrVideoAlt: "ReviewRadar demosu: termos aranıyor, en sık şikâyetler, kimin şikâyet ettiği, öneriler ve müşterilerin sevdikleri gösteriliyor",
 
     panelBaslik: "Firma Ortakları Kontrol Paneli",
     panelDurum: "Kullanıma alınıyor",
@@ -760,6 +722,7 @@ const METINLER = {
     rrSonuc: "24,500 reviews of 141 products across 12 categories analysed. Users search a category and see, on one screen, competitors' most common complaints, what customers like, and what to watch for when entering the market. Development continues through summer 2027.",
     rrDugme: "Open the site →",
     rrGorselAlt: "Screenshot of the ReviewRadar home page: search box and category cards",
+    rrVideoAlt: "ReviewRadar demo: searching for thermos, showing the most common complaints, who complains, recommendations and what customers like",
 
     panelBaslik: "Business Partners Dashboard",
     panelDurum: "Rolling out",
@@ -804,6 +767,7 @@ function metinleriYaz() {
   // data-m="anahtar" taşıyan her öğenin içine o dildeki metin yazılır
   document.querySelectorAll("[data-m]").forEach(el => { el.innerHTML = m(el.dataset.m); });
   document.querySelectorAll("[data-m-alt]").forEach(el => { el.alt = m(el.dataset.mAlt); });
+  document.querySelectorAll("[data-m-aria]").forEach(el => { el.setAttribute("aria-label", m(el.dataset.mAria)); });
   document.querySelectorAll(".dil button").forEach(b => b.setAttribute("aria-pressed", b.dataset.dil === dil));
   document.getElementById("haritaBaslik").textContent = m("haritaBaslik");
   duraklariYaz();
@@ -1259,6 +1223,18 @@ svg.addEventListener("click", e => {
   clearTimeout(ipucuZamani);
   ipucuZamani = setTimeout(() => { ipucu.hidden = true; }, 2500);
 });
+
+/* ------------------------------------------------------------------
+   ReviewRadar demo videosu
+   ------------------------------------------------------------------ */
+const rrDemo = document.getElementById("rrDemo");
+if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  rrDemo.controls = true;   // kendiliğinden oynamaz; isteyen oynatır
+} else {
+  new IntersectionObserver(girisler => {
+    girisler.forEach(g => { if (g.isIntersecting) rrDemo.play().catch(() => {}); else rrDemo.pause(); });
+  }, { threshold: 0.4 }).observe(rrDemo);
+}
 
 /* ==================================================================
    H) SAYFALAR
