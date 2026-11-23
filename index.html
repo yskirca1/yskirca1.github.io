@@ -84,6 +84,9 @@
     .menu.acik { display: block; }
     .menu a { display: block; padding: 0.75rem 0; color: var(--metin); text-decoration: none; font-size: 1rem; }
     .menu a:hover { color: var(--vurgu); }
+    .menu a[aria-current="page"] { color: var(--vurgu); text-decoration: underline; text-underline-offset: 0.4em; }
+    /* Menüden bir bölüm seçilince yalnızca o bölüm görünür */
+    .tek-sayfa .bolum { border-top: 0; min-height: 70vh; }
     .menu-dugme { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; background: none; border: 0; border-radius: 6px; }
     .menu-dugme svg { width: 1.4rem; height: 1.4rem; }
     .dil { display: inline-flex; border: 1px solid var(--cizgi); border-radius: 999px; padding: 2px; }
@@ -818,10 +821,31 @@ svg.addEventListener("click", e => {
 });
 
 /* ==================================================================
-   H) BAŞLAT
+   H) SAYFALAR
+   Ana sayfada tüm bölümler alt alta durur. Üst menüden bir bölüm
+   seçilince (adres #projeler gibi olur) yalnızca o bölüm gösterilir.
+   Üstteki ada tıklamak ana sayfaya döndürür; tarayıcının geri tuşu da çalışır.
+   ================================================================== */
+const SAYFALAR = ["hakkimda", "projeler", "geziler", "iletisim"];
+
+function sayfayiGoster() {
+  const secili = location.hash.slice(1);
+  const sayfa = SAYFALAR.includes(secili) ? secili : "";   // boşsa ana sayfa
+  document.querySelectorAll("main > section").forEach(b => { b.hidden = sayfa !== "" && b.id !== sayfa; });
+  document.body.classList.toggle("tek-sayfa", sayfa !== "");
+  document.querySelectorAll(".menu a").forEach(a => {
+    if (a.getAttribute("href") === "#" + sayfa) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  });
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+window.addEventListener("hashchange", sayfayiGoster);
+
+/* ==================================================================
+   I) BAŞLAT
    ================================================================== */
 seridiYaz();
 metinleriYaz();
+sayfayiGoster();
 </script>
 </body>
 </html>
