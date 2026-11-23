@@ -147,9 +147,13 @@
     .harita-kutu svg { display: block; width: 100%; height: 100%; touch-action: pan-x pan-y; }
     .harita-kutu svg.suruklenebilir { cursor: grab; }
     .harita-kutu svg.surukleniyor { cursor: grabbing; }
-    .ulke { fill: var(--cizgi); stroke: #fff; stroke-width: 0.5; vector-effect: non-scaling-stroke; }
-    .ulke.gidilen { fill: var(--vurgu); }
-    .ulke.ev { fill: var(--ev); }
+    /* Sınır çizgisi ekranda hep aynı incelikte kalır; yakınlaşınca da ülkeler ayırt edilir */
+    .ulke { fill: var(--cizgi); stroke: #B9B2A6; stroke-width: 0.6; stroke-linejoin: round; vector-effect: non-scaling-stroke; transition: fill 0.15s; }
+    .ulke.gidilen { fill: var(--vurgu); stroke: #FAF8F5; }
+    .ulke.ev { fill: var(--ev); stroke: #FAF8F5; }
+    .ulke[data-k]:hover { fill: #D3CCC0; }
+    .ulke.gidilen[data-k]:hover { fill: var(--vurgu-koyu); }
+    .ulke.ev[data-k]:hover { fill: #000; }
     .nokta { stroke: #fff; vector-effect: non-scaling-stroke; fill: var(--vurgu); }
     .nokta-alan { fill: transparent; }
     .harita-durum { position: absolute; inset: 0; display: grid; place-items: center; color: var(--ikincil); font-size: 0.95rem; }
@@ -168,7 +172,26 @@
 
     .serit { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin: 2.5rem 0 0; padding: 0; list-style: none; }
     .serit li { aspect-ratio: 4 / 5; background: var(--cizgi); border-radius: 6px; overflow: hidden; }
-    .serit img { width: 100%; height: 100%; object-fit: cover; }
+    .serit img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease-out; }
+    .serit button { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+    .serit button:hover img { transform: scale(1.04); }
+
+    /* Fotoğraf büyütme kutusu (fotoğrafa tıklayınca açılır) */
+    .buyutec { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: var(--zemin); }
+    .buyutec::backdrop { background: rgba(20, 19, 17, 0.94); }
+    .buyutec[open] { display: grid; grid-template-rows: auto 1fr auto; }
+    body:has(.buyutec[open]) { overflow: hidden; }
+    .buyutec-ust { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; font-size: 0.9rem; color: #CFCBC4; }
+    .buyutec-sahne { position: relative; display: grid; place-items: center; min-height: 0; padding: 0 1rem; touch-action: pan-y; }
+    .buyutec-sahne img { max-width: 100%; max-height: calc(100dvh - 9.5rem); width: auto; height: auto; object-fit: contain; border-radius: 4px; }
+    .buyutec-alt { text-align: center; padding: 0.75rem 1rem 1.25rem; min-height: 3.25rem; margin: 0; font-family: var(--serif); font-style: italic; font-size: 1.1rem; }
+    .buyutec button { width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid rgba(250, 248, 245, 0.3); background: rgba(250, 248, 245, 0.08); color: var(--zemin); display: grid; place-items: center; transition: background 0.2s; }
+    .buyutec button:hover { background: rgba(250, 248, 245, 0.2); }
+    .buyutec button svg { width: 1.2rem; height: 1.2rem; }
+    .buyutec :focus-visible { outline-color: var(--zemin); }
+    .buyutec .onceki, .buyutec .sonraki { position: absolute; top: 50%; transform: translateY(-50%); }
+    .buyutec .onceki { left: 0.75rem; }
+    .buyutec .sonraki { right: 0.75rem; }
     .daha { margin: 1rem 0 0; }
 
     /* ============================================================
@@ -361,6 +384,26 @@
   <div class="dar">© 2026 Yusuf Selim Kırca</div>
 </footer>
 
+<!-- ================= FOTOĞRAF BÜYÜTME KUTUSU ================= -->
+<dialog class="buyutec" id="buyutec">
+  <div class="buyutec-ust">
+    <span id="buyutecSayac"></span>
+    <button type="button" id="buyutecKapat"><span class="gizli-etiket" data-m="kapat"></span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="buyutec-sahne" id="buyutecSahne">
+    <img id="buyutecResim" alt="">
+    <button type="button" class="onceki" id="buyutecOnceki"><span class="gizli-etiket" data-m="oncekiFoto"></span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <button type="button" class="sonraki" id="buyutecSonraki"><span class="gizli-etiket" data-m="sonrakiFoto"></span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+  <p class="buyutec-alt" id="buyutecAlt"></p>
+</dialog>
+
 <noscript><p style="padding:2rem;text-align:center">Bu sayfa JavaScript ile çalışır. / This page needs JavaScript.</p></noscript>
 
 <script>
@@ -406,8 +449,16 @@ const LINKEDIN_ADRESI = "";   // ör. "https://www.linkedin.com/in/..."
 const VSCO_ADRESI = "";       // boşken "Daha fazlası" linki gizli kalır
 
 // Gezi fotoğrafları. Boşken 6 gri kutu görünür.
+// Tıklanınca fotoğraf büyük açılır; altında tr/en açıklama yazar.
 // Örnek: { dosya: "img/gezi-1.webp", tr: "Kyoto'da bir sokak", en: "A street in Kyoto" }
-const FOTOGRAFLAR = [];
+const FOTOGRAFLAR = [
+  { dosya: "img/gezi-1.webp", tr: "Kiyomizu-dera, Kyoto", en: "Kiyomizu-dera, Kyoto" },
+  { dosya: "img/gezi-2.webp", tr: "Fushimi Inari'de toriiler, Kyoto", en: "Torii gates at Fushimi Inari, Kyoto" },
+  { dosya: "img/gezi-3.webp", tr: "Arashiyama bambu ormanı, Kyoto", en: "Arashiyama bamboo grove, Kyoto" },
+  { dosya: "img/gezi-4.webp", tr: "Nara Parkı'nda bir geyik", en: "A deer in Nara Park" },
+  { dosya: "img/gezi-5.webp", tr: "Dotonbori, Osaka", en: "Dotonbori, Osaka" },
+  { dosya: "img/gezi-6.webp", tr: "Sumida Nehri havai fişekleri, Tokyo", en: "Sumida River fireworks, Tokyo" }
+];
 
 // E-posta parçalı yazılır ki adres toplayan robotlar kolayca bulamasın.
 const EPOSTA = ["yskirca", "gmail", "com"];
@@ -462,6 +513,8 @@ const METINLER = {
     haritaIpucu: "Yakınlaştırma: + / −, iki parmak ya da Ctrl + tekerlek",
     ulkeListesi: "Ülke listesi",
     dahaFazla: "Daha fazlası →",
+    fotoBuyut: "Fotoğrafı büyüt", fotoKutusu: "Fotoğraf", kapat: "Kapat",
+    oncekiFoto: "Önceki fotoğraf", sonrakiFoto: "Sonraki fotoğraf",
 
     eposta: "E-posta",
     yakinda: "(adres eklenecek)"
@@ -510,6 +563,8 @@ const METINLER = {
     haritaIpucu: "Zoom: + / −, two fingers, or Ctrl + scroll",
     ulkeListesi: "Country list",
     dahaFazla: "More →",
+    fotoBuyut: "Enlarge photo", fotoKutusu: "Photo", kapat: "Close",
+    oncekiFoto: "Previous photo", sonrakiFoto: "Next photo",
 
     eposta: "Email",
     yakinda: "(address to come)"
@@ -533,6 +588,8 @@ function metinleriYaz() {
   document.getElementById("haritaBaslik").textContent = m("haritaBaslik");
   duraklariYaz();
   ulkeListesiniYaz();
+  seridiYaz();
+  document.getElementById("buyutec").setAttribute("aria-label", m("fotoKutusu"));
   iletisimiYaz();
   const daha = document.querySelector("#daha a");
   if (VSCO_ADRESI) { daha.href = VSCO_ADRESI; document.getElementById("daha").hidden = false; }
@@ -562,7 +619,15 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") menuyuAyarla
    ================================================================== */
 document.getElementById("sayac").textContent = ULKELER.filter(k => k !== EV).length;
 
-function ulkeAdi(kod) { return ULKE_ADLARI[kod] ? ULKE_ADLARI[kod][dil] : kod; }
+// Gidilen ülkelerin adı yukarıdaki listeden, diğerlerininki tarayıcının kendi ülke adları sözlüğünden gelir
+let ulkeSozlugu = {};
+function ulkeAdi(kod) {
+  if (ULKE_ADLARI[kod]) return ULKE_ADLARI[kod][dil];
+  try {
+    if (!ulkeSozlugu[dil]) ulkeSozlugu[dil] = new Intl.DisplayNames([dil], { type: "region" });
+    return ulkeSozlugu[dil].of(kod);
+  } catch (e) { return kod; }
+}
 
 // ["2026-01","2026-07"] -> "Ocak & Temmuz 2026"
 function tarihYaz(tarihler) {
@@ -606,18 +671,75 @@ function ulkeListesiniYaz() {
 
 function seridiYaz() {
   const serit = document.getElementById("serit");
+  serit.innerHTML = "";
   if (FOTOGRAFLAR.length === 0) {
     for (let i = 0; i < 6; i++) serit.append(document.createElement("li"));   // gri yer tutucular
     return;
   }
   serit.removeAttribute("aria-hidden");
-  FOTOGRAFLAR.forEach(f => {
+  FOTOGRAFLAR.forEach((f, sira) => {
     const li = document.createElement("li");
+    const dugme = document.createElement("button");
+    dugme.type = "button";
+    dugme.setAttribute("aria-label", m("fotoBuyut") + (f[dil] ? ": " + f[dil] : ""));
+    dugme.addEventListener("click", () => buyutecAc(sira));
     const img = document.createElement("img");
-    img.src = f.dosya; img.alt = f[dil] || ""; img.loading = "lazy"; img.width = 800; img.height = 1000;
-    li.append(img); serit.append(li);
+    img.src = f.dosya; img.alt = ""; img.loading = "lazy"; img.width = 800; img.height = 1000;
+    dugme.append(img); li.append(dugme); serit.append(li);
   });
 }
+
+/* ------------------------------------------------------------------
+   Fotoğraf büyütme kutusu
+   Açma: fotoğrafa tıkla. Geçiş: oklar, klavyede sol/sağ ok, telefonda kaydır.
+   Kapatma: × düğmesi, Esc ya da fotoğrafın dışına tıklama.
+   ------------------------------------------------------------------ */
+const buyutec = document.getElementById("buyutec");
+const buyutecResim = document.getElementById("buyutecResim");
+let fotoSira = 0;
+
+function fotoGoster(sira) {
+  const adet = FOTOGRAFLAR.length;
+  fotoSira = (sira + adet) % adet;   // sondan başa, baştan sona döner
+  const f = FOTOGRAFLAR[fotoSira];
+  buyutecResim.src = f.dosya;
+  buyutecResim.alt = f[dil] || "";
+  document.getElementById("buyutecAlt").textContent = f[dil] || "";
+  document.getElementById("buyutecSayac").textContent = (fotoSira + 1) + " / " + adet;
+  document.getElementById("buyutecOnceki").hidden = adet < 2;
+  document.getElementById("buyutecSonraki").hidden = adet < 2;
+  // Bir sonraki ve önceki fotoğrafı önceden yükle ki geçiş beklemesin
+  [1, -1].forEach(k => { new Image().src = FOTOGRAFLAR[(fotoSira + k + adet) % adet].dosya; });
+}
+
+function buyutecAc(sira) {
+  fotoGoster(sira);
+  buyutec.showModal();
+}
+
+buyutec.addEventListener("close", () => {
+  // Kapanınca odak, en son bakılan fotoğrafın küçüğüne döner
+  const kucuk = document.querySelectorAll("#serit button")[fotoSira];
+  if (kucuk) kucuk.focus();
+});
+document.getElementById("buyutecKapat").addEventListener("click", () => buyutec.close());
+document.getElementById("buyutecOnceki").addEventListener("click", () => fotoGoster(fotoSira - 1));
+document.getElementById("buyutecSonraki").addEventListener("click", () => fotoGoster(fotoSira + 1));
+buyutec.addEventListener("click", e => {
+  if (e.target === buyutec || e.target.id === "buyutecSahne") buyutec.close();   // fotoğrafın dışı
+});
+buyutec.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") fotoGoster(fotoSira - 1);
+  if (e.key === "ArrowRight") fotoGoster(fotoSira + 1);
+});
+let kaydirmaBasi = null;
+buyutec.addEventListener("touchstart", e => { kaydirmaBasi = e.touches.length === 1 ? e.touches[0].clientX : null; }, { passive: true });
+buyutec.addEventListener("touchend", e => {
+  if (kaydirmaBasi === null) return;
+  const fark = e.changedTouches[0].clientX - kaydirmaBasi;
+  if (Math.abs(fark) > 50) fotoGoster(fotoSira + (fark < 0 ? 1 : -1));
+  kaydirmaBasi = null;
+});
 
 /* ==================================================================
    F) İLETİŞİM — LinkedIn ve gizlenmiş e-posta
@@ -712,7 +834,7 @@ function veriYukle(dosya) {
       if (!yol) {
         yol = document.createElementNS(SVGNS, "path");
         yol.setAttribute("class", "ulke" + durumSinifi(u.k));
-        if (ULKELER.includes(u.k)) yol.dataset.k = u.k;
+        if (u.k) yol.dataset.k = u.k;   // ülke kodu olan her ülkenin üzerine gelince adı görünür
         // gidilen ülkeler üstte dursun diye sona, diğerleri başa eklenir
         if (ULKELER.includes(u.k)) svg.append(yol); else svg.prepend(yol);
         yollar[anahtar] = yol;
@@ -843,7 +965,6 @@ window.addEventListener("hashchange", sayfayiGoster);
 /* ==================================================================
    I) BAŞLAT
    ================================================================== */
-seridiYaz();
 metinleriYaz();
 sayfayiGoster();
 </script>
