@@ -18,6 +18,8 @@
   <meta property="og:image:alt" content="Yusuf Selim Kırca · Hâlâ öğreniyorum.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://yusufselimkirca.com/">
+  <meta name="theme-color" content="#FAF8F5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#161513" media="(prefers-color-scheme: dark)">
 
   <!-- Arama motorları için kişi bilgisi (Google bu sayfanın kime ait olduğunu buradan anlar) -->
   <script type="application/ld+json">
@@ -52,12 +54,44 @@
       --vurgu-koyu: #0A4654;   /* vurgunun üzerine gelince */
       --cizgi: #E7E3DC;        /* çizgiler ve haritada gidilmemiş ülkeler */
       --ev: #1C1B19;           /* haritada Türkiye ("ev") */
+      --zemin-2: #F3F0EA;      /* "Şu sıralar" kutusu */
+      --kutu: #FFFFFF;         /* harita kutusu */
+      --ust-zemin: rgba(250, 248, 245, 0.94);   /* üst şerit */
+      --vurgu-uzeri: #FFFFFF;  /* vurgu renginin üstündeki yazı */
+      --ulke-sinir: #B9B2A6;   /* haritada ülke sınırları */
+      --ulke-ustunde: #D3CCC0; /* haritada üzerine gelinen ülke */
+      --ev-ustunde: #000000;
+      --acik: #FAF8F5;         /* koyu zeminli fotoğraf kutusunda yazı (temadan bağımsız) */
       --serif: "Newsreader", Georgia, "Times New Roman", serif;
       --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
       --dar: 44rem;            /* yazı sütunu genişliği */
       --genis: 66rem;          /* harita ve görseller için geniş sütun */
       --kenar: 1.25rem;        /* sayfa kenar boşluğu */
     }
+
+    /* Koyu tema: telefon ya da bilgisayar koyu moddaysa kendiliğinden açılır */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --zemin: #161513;
+        --metin: #ECE8E1;
+        --ikincil: #A9A49B;
+        --vurgu: #6FBFD1;
+        --vurgu-koyu: #93D2E0;
+        --cizgi: #2E2B27;
+        --ev: #ECE8E1;
+        --zemin-2: #1F1D1A;
+        --kutu: #1B1A17;
+        --ust-zemin: rgba(22, 21, 19, 0.92);
+        --vurgu-uzeri: #0E1A1D;
+        --ulke-sinir: #4A463F;
+        --ulke-ustunde: #3A3631;
+        --ev-ustunde: #FFFFFF;
+      }
+      /* Koyu temada ülke paneli sayfadan ayrışsın */
+      .ulke-panel { background: var(--zemin-2); border: 1px solid var(--cizgi); }
+      .ulke-panel::backdrop { background: rgba(0, 0, 0, 0.7); }
+    }
+    :root { color-scheme: light dark; }
 
     /* ============================================================
        2) TEMEL
@@ -85,8 +119,8 @@
     :focus-visible { outline: 2px solid var(--vurgu); outline-offset: 3px; border-radius: 3px; }
 
     .gizli-etiket { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-    .atla { position: absolute; left: 1rem; top: -4rem; background: var(--vurgu); color: #fff; padding: 0.6rem 1rem; border-radius: 4px; z-index: 100; }
-    .atla:focus { top: 1rem; color: #fff; }
+    .atla { position: absolute; left: 1rem; top: -4rem; background: var(--vurgu); color: var(--vurgu-uzeri); padding: 0.6rem 1rem; border-radius: 4px; z-index: 100; }
+    .atla:focus { top: 1rem; color: var(--vurgu-uzeri); }
 
     .dar { max-width: var(--dar); margin-inline: auto; padding-inline: var(--kenar); }
     .genis { max-width: var(--genis); margin-inline: auto; padding-inline: var(--kenar); }
@@ -96,7 +130,7 @@
        ============================================================ */
     .ust {
       position: sticky; top: 0; z-index: 50;
-      background: rgba(250, 248, 245, 0.94);
+      background: var(--ust-zemin);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--cizgi);
     }
@@ -114,7 +148,7 @@
     .menu-dugme svg { width: 1.4rem; height: 1.4rem; }
     .dil { display: inline-flex; border: 1px solid var(--cizgi); border-radius: 999px; padding: 2px; }
     .dil button { background: none; border: 0; border-radius: 999px; min-width: 2.75rem; min-height: 2.4rem; font-size: 0.85rem; font-weight: 500; color: var(--ikincil); transition: background 0.2s, color 0.2s; }
-    .dil button[aria-pressed="true"] { background: var(--vurgu); color: #fff; }
+    .dil button[aria-pressed="true"] { background: var(--vurgu); color: var(--vurgu-uzeri); }
 
     /* ============================================================
        4) GİRİŞ
@@ -124,6 +158,11 @@
     .giris h1 { font-size: clamp(2.5rem, 9vw, 4.25rem); }
     .giris-alt { margin: 1.1rem 0 0; color: var(--ikincil); line-height: 1.6; }
     .giris-alt span { display: block; }
+    .giris-ozet { margin: 0.9rem 0 0; font-family: var(--serif); font-size: clamp(1.25rem, 3.6vw, 1.5rem); line-height: 1.4; color: var(--metin); max-width: 30rem; }
+    .giris-baglantilar { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; margin: 1.5rem 0 0; }
+    .giris-baglantilar a { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; color: var(--metin); text-decoration: none; font-size: 0.95rem; }
+    .giris-baglantilar a:hover { color: var(--vurgu); }
+    .giris-baglantilar svg { width: 1.15rem; height: 1.15rem; }
     .imza { margin: 1.75rem 0 0; font-family: var(--serif); font-style: italic; font-size: 1.5rem; color: var(--vurgu); }
 
     /* ============================================================
@@ -141,6 +180,7 @@
     .proje-bas { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; }
     .proje h3 { font-size: clamp(1.5rem, 5vw, 1.9rem); }
     .durum { font-size: 0.8rem; font-weight: 500; color: var(--vurgu); border: 1px solid var(--vurgu); border-radius: 999px; padding: 0.15rem 0.75rem; white-space: nowrap; }
+    .proje-yil { font-size: 0.85rem; color: var(--ikincil); font-variant-numeric: tabular-nums; }
     .proje-alt { font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: var(--ikincil); margin: 0.5rem 0 1.5rem; }
     .gorseller { display: grid; gap: 1rem; margin: 0 0 1.75rem; }
     .gorseller img, .gorseller video { width: 100%; height: auto; display: block; border: 1px solid var(--cizgi); border-radius: 8px; background: #1a1d24; }
@@ -151,8 +191,8 @@
     .adimlar dt { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--vurgu); margin-top: 1.4rem; }
     .adimlar dt:first-child { margin-top: 0; }
     .adimlar dd { margin: 0.3rem 0 0; }
-    .dugme { display: inline-block; margin-top: 1.75rem; padding: 0.7rem 1.3rem; background: var(--vurgu); color: #fff; text-decoration: none; border-radius: 6px; font-weight: 500; transition: background 0.2s; }
-    .dugme:hover { background: var(--vurgu-koyu); color: #fff; }
+    .dugme { display: inline-block; margin-top: 1.75rem; padding: 0.7rem 1.3rem; background: var(--vurgu); color: var(--vurgu-uzeri); text-decoration: none; border-radius: 6px; font-weight: 500; transition: background 0.2s; }
+    .dugme:hover { background: var(--vurgu-koyu); color: var(--vurgu-uzeri); }
 
     /* ============================================================
        7) GEZİLER
@@ -161,7 +201,7 @@
     .sayac b { font-family: var(--serif); font-weight: 500; font-size: 4rem; line-height: 1; color: var(--vurgu); }
     .sayac span { font-size: 1.15rem; color: var(--ikincil); }
     .duraklar { margin: 0 0 1.75rem; }
-    .su-siralar { margin-top: 2.25rem; padding: 1.25rem 1.5rem; border-left: 3px solid var(--vurgu); background: #F3F0EA; border-radius: 0 6px 6px 0; }
+    .su-siralar { margin-top: 2.25rem; padding: 1.25rem 1.5rem; border-left: 3px solid var(--vurgu); background: var(--zemin-2); border-radius: 0 6px 6px 0; }
     .su-siralar .bolum-etiket { margin-bottom: 0.6rem; }
     .su-siralar-tarih { color: var(--ikincil); font-weight: 500; letter-spacing: 0.06em; }
     .su-siralar ul { margin: 0; padding-left: 1.1rem; }
@@ -171,18 +211,18 @@
     .durak-liste li { position: relative; padding: 0.15rem 0; }
     .sehirler { color: var(--ikincil); }
 
-    .harita-kutu { position: relative; border: 1px solid var(--cizgi); border-radius: 8px; background: #fff; overflow: hidden; aspect-ratio: 4 / 3; }
+    .harita-kutu { position: relative; border: 1px solid var(--cizgi); border-radius: 8px; background: var(--kutu); overflow: hidden; aspect-ratio: 4 / 3; }
     .harita-kutu svg { display: block; width: 100%; height: 100%; touch-action: pan-x pan-y; }
     .harita-kutu svg.suruklenebilir { cursor: grab; }
     .harita-kutu svg.surukleniyor { cursor: grabbing; }
     /* Sınır çizgisi ekranda hep aynı incelikte kalır; yakınlaşınca da ülkeler ayırt edilir */
-    .ulke { fill: var(--cizgi); stroke: #B9B2A6; stroke-width: 0.6; stroke-linejoin: round; vector-effect: non-scaling-stroke; transition: fill 0.15s; }
-    .ulke.gidilen { fill: var(--vurgu); stroke: #FAF8F5; }
-    .ulke.ev { fill: var(--ev); stroke: #FAF8F5; }
-    .ulke[data-k]:hover { fill: #D3CCC0; }
+    .ulke { fill: var(--cizgi); stroke: var(--ulke-sinir); stroke-width: 0.6; stroke-linejoin: round; vector-effect: non-scaling-stroke; transition: fill 0.15s; }
+    .ulke.gidilen { fill: var(--vurgu); stroke: var(--kutu); }
+    .ulke.ev { fill: var(--ev); stroke: var(--kutu); }
+    .ulke[data-k]:hover { fill: var(--ulke-ustunde); }
     .ulke.gidilen[data-k]:hover { fill: var(--vurgu-koyu); }
-    .ulke.ev[data-k]:hover { fill: #000; }
-    .nokta { stroke: #fff; vector-effect: non-scaling-stroke; fill: var(--vurgu); }
+    .ulke.ev[data-k]:hover { fill: var(--ev-ustunde); }
+    .nokta { stroke: var(--kutu); vector-effect: non-scaling-stroke; fill: var(--vurgu); }
     .nokta-alan { fill: transparent; }
     .harita-durum { position: absolute; inset: 0; display: grid; place-items: center; color: var(--ikincil); font-size: 0.95rem; }
     .harita-dugmeler { position: absolute; right: 0.6rem; bottom: 0.6rem; display: grid; gap: 0.4rem; }
@@ -221,13 +261,13 @@
     .sehir-secici { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0.75rem 1.25rem 0; list-style: none; }
     .sehir-secici button { min-height: 2.5rem; padding: 0 1rem; border: 1px solid var(--cizgi); border-radius: 999px; background: none; font-size: 0.9rem; transition: background 0.2s, color 0.2s; }
     .sehir-secici button:hover { border-color: var(--vurgu); }
-    .sehir-secici button[aria-pressed="true"] { background: var(--vurgu); border-color: var(--vurgu); color: #fff; }
+    .sehir-secici button[aria-pressed="true"] { background: var(--vurgu); border-color: var(--vurgu); color: var(--vurgu-uzeri); }
     .panel-izgara { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: repeat(2, 1fr); align-content: start; gap: 0.5rem; margin: 0; padding: 1rem 1.25rem 1.25rem; list-style: none; overflow-y: auto; }
     .panel-izgara button { aspect-ratio: 4 / 5; height: auto; border-radius: 6px; overflow: hidden; background: var(--cizgi); }
     .ulke-listesi button { background: none; border: 0; padding: 0.15rem 0; color: var(--vurgu); text-decoration: underline; text-underline-offset: 0.2em; font-size: inherit; }
 
     /* Fotoğraf büyütme kutusu (fotoğrafa tıklayınca açılır) */
-    .buyutec { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: var(--zemin); }
+    .buyutec { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: var(--acik); }
     .buyutec::backdrop { background: rgba(20, 19, 17, 0.94); }
     .buyutec[open] { display: grid; grid-template-rows: auto 1fr auto; }
     body:has(.buyutec[open]) { overflow: hidden; }
@@ -235,10 +275,10 @@
     .buyutec-sahne { position: relative; display: grid; place-items: center; min-height: 0; padding: 0 1rem; touch-action: pan-y; }
     .buyutec-sahne img { max-width: 100%; max-height: calc(100dvh - 9.5rem); width: auto; height: auto; object-fit: contain; border-radius: 4px; }
     .buyutec-alt { text-align: center; padding: 0.75rem 1rem 1.25rem; min-height: 3.25rem; margin: 0; font-family: var(--serif); font-style: italic; font-size: 1.1rem; }
-    .buyutec button { width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid rgba(250, 248, 245, 0.3); background: rgba(250, 248, 245, 0.08); color: var(--zemin); display: grid; place-items: center; transition: background 0.2s; }
+    .buyutec button { width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid rgba(250, 248, 245, 0.3); background: rgba(250, 248, 245, 0.08); color: var(--acik); display: grid; place-items: center; transition: background 0.2s; }
     .buyutec button:hover { background: rgba(250, 248, 245, 0.2); }
     .buyutec button svg { width: 1.2rem; height: 1.2rem; }
-    .buyutec :focus-visible { outline-color: var(--zemin); }
+    .buyutec :focus-visible { outline-color: var(--acik); }
     .buyutec .onceki, .buyutec .sonraki { position: absolute; top: 50%; transform: translateY(-50%); }
     .buyutec .onceki { left: 0.75rem; }
     .buyutec .sonraki { right: 0.75rem; }
@@ -319,11 +359,23 @@
     <img src="img/profil.webp" width="640" height="640" alt="Yusuf Selim Kırca" fetchpriority="high">
     <div>
       <h1>Yusuf Selim Kırca</h1>
+      <p class="giris-ozet" data-m="girisOzet"></p>
       <p class="giris-alt">
         <span data-m="girisSatir1"></span>
         <span data-m="girisSatir2"></span>
       </p>
       <p class="imza" data-m="imza"></p>
+      <!-- Girişte iletişim: LinkedIn ve e-posta (e-posta adresi betikte parçalı tutulur) -->
+      <p class="giris-baglantilar">
+        <a id="girisLinkedin" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.8v1.6h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.6 4.77 6V21h-4v-5c0-1.2-.02-2.73-1.66-2.73-1.67 0-1.93 1.3-1.93 2.64V21h-4z"/></svg>
+          <span>LinkedIn</span>
+        </a>
+        <a id="girisEposta">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>
+          <span data-m="eposta"></span>
+        </a>
+      </p>
     </div>
   </section>
 
@@ -354,6 +406,7 @@
         <div class="proje-bas">
           <h3>ReviewRadar</h3>
           <span class="durum" data-m="rrDurum"></span>
+          <span class="proje-yil">2026 –</span>
         </div>
         <p class="proje-alt" data-m="rrAlt"></p>
         <div class="gorseller">
@@ -375,6 +428,7 @@
         <div class="proje-bas">
           <h3 data-m="panelBaslik"></h3>
           <span class="durum" data-m="panelDurum"></span>
+          <span class="proje-yil">2026</span>
         </div>
         <p class="proje-alt" data-m="panelAlt"></p>
         <div class="gorseller iki">
@@ -649,6 +703,7 @@ const METINLER = {
     atla: "İçeriğe geç",
     menuHakkimda: "Hakkımda", menuProjeler: "Projeler", menuGeziler: "Geziler", menuIletisim: "İletişim",
     menuDugme: "Menü",
+    girisOzet: "İşin ihtiyacını görüp aracını kendim kuruyorum.",
     girisSatir1: "KOBİ Pazarlama · Kuveyt Türk",
     girisSatir2: "Endüstri Mühendisliği, İTÜ (son sınıf)",
     imza: "Hâlâ öğreniyorum.",
@@ -656,14 +711,14 @@ const METINLER = {
     hakkimdaBaslik: "Merhaba, ben Yusuf.",
     suSiralar: "Şu sıralar",
     hakkimda1: "İTÜ Endüstri Mühendisliği'nde son sınıftayım. Yaklaşık bir buçuk yıldır, kampüs programı kapsamında Kuveyt Türk'te KOBİ Pazarlama bünyesinde, Firma Ortakları Yönetimi biriminde çalışıyorum.",
-    hakkimda2: "Bir iş ihtiyacı çıktığında, o işi en iyi bilen kişi olarak aracını da kendim tasarlamayı tercih ediyorum. Yazılımcı değilim, ama yapay zekâ araçlarıyla bunu yapmak artık mümkün: sorunu tanımlıyorum, aracı birlikte kuruyoruz, gerçekten işe yarayana kadar iyileştiriyorum. Aşağıdaki projeler bu şekilde ortaya çıktı.",
+    hakkimda2: "Bir iş ihtiyacı çıktığında, o işi en iyi bilen kişi olarak aracını da kendim tasarlamayı tercih ediyorum. Yazılımcı değilim ama yapay zekâ araçlarıyla bunu yapmak artık mümkün: sorunu tanımlıyorum, aracı birlikte kuruyoruz, gerçekten işe yarayana kadar iyileştiriyorum. Aşağıdaki projeler bu şekilde ortaya çıktı.",
     hakkimda3: "İş dışında gezmeyi ve gezdikçe gördüklerimi paylaşmayı seviyorum.",
 
     sorun: "Sorun", neYaptim: "Ne yaptım", neYaptik: "Ne yaptık", sonuc: "Sonuç",
 
     rrDurum: "Devam ediyor",
     rrAlt: "KOBİ'ler için rakip yorum analizi",
-    rrSorun: "Yeni bir ürün kategorisine girmek isteyen küçük bir işletme o pazarda müşterilerin neyi sevdiğini, neye kızdığını bilmeden yola çıkıyor. Bu bilgi aslında binlerce ürün yorumunda duruyor, ama tek tek okumak kimsenin zamanı yetecek bir iş değil.",
+    rrSorun: "Yeni bir ürün kategorisine girmek isteyen küçük bir işletme, o pazarda müşterilerin neyi sevdiğini, neye kızdığını bilmeden yola çıkıyor. Bu bilgi aslında binlerce ürün yorumunda duruyor ama hepsini tek tek okumaya kimsenin zamanı yetmez.",
     rrNeYaptim: "Hamilik Okulu'nda pazarlama alanında değer üreten bir proje geliştirmemiz istendi. Ben bu fikri seçtim ve ürünü baştan sona yapay zekâyla kurdum. Veri toplamayı, analizi ve kodu yapay zekâ yaptı. Ürünün ne olacağını, tasarımını ve her iyileştirmeyi ben yönlendirdim.",
     rrSonuc: "12 kategoride 141 ürüne ait 24.500 yorum analiz edildi. Kullanıcı bir kategoriyi aradığında rakiplerin en çok şikâyet aldığı konuları, müşterilerin beğendiği yönleri ve pazara girerken dikkat edilmesi gerekenleri tek ekranda görüyor. Proje 2027 yazına kadar geliştirilmeye devam edecek.",
     rrDugme: "Siteyi aç →",
@@ -703,6 +758,7 @@ const METINLER = {
     atla: "Skip to content",
     menuHakkimda: "About", menuProjeler: "Projects", menuGeziler: "Travels", menuIletisim: "Contact",
     menuDugme: "Menu",
+    girisOzet: "I see what the work needs and build the tool myself.",
     girisSatir1: "SME Marketing · Kuveyt Türk",
     girisSatir2: "Industrial Engineering, ITU (final year)",
     imza: "Still learning.",
@@ -1026,6 +1082,10 @@ function iletisimiYaz() {
   const a = document.createElement("a");
   a.href = "mailto:" + adres; a.textContent = adres; a.setAttribute("aria-label", m("eposta") + ": " + adres);
   document.getElementById("eposta").replaceChildren(a);
+  const gl = document.getElementById("girisLinkedin");
+  if (LINKEDIN_ADRESI) gl.href = LINKEDIN_ADRESI; else gl.hidden = true;
+  const ge = document.getElementById("girisEposta");
+  ge.href = "mailto:" + adres; ge.setAttribute("aria-label", m("eposta") + ": " + adres);
 }
 
 /* ==================================================================
