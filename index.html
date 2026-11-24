@@ -33,6 +33,9 @@
     "jobTitle": "KOBİ Pazarlama",
     "worksFor": { "@type": "Organization", "name": "Kuveyt Türk" },
     "affiliation": { "@type": "CollegeOrUniversity", "name": "İstanbul Teknik Üniversitesi" },
+    "alumniOf": [{ "@type": "CollegeOrUniversity", "name": "İstanbul Teknik Üniversitesi" }, { "@type": "HighSchool", "name": "Kartal Anadolu İmam Hatip Lisesi" }],
+    "award": ["International Finance Awards 2026 – Most Innovative Customer Loyalty Program (Elit Patron ekibiyle)", "FLY UP Üniversiteler Arası Fikir Turnuvası – İkincilik (2026)"],
+    "knowsLanguage": ["tr", "en"],
     "sameAs": ["https://www.linkedin.com/in/yusufselimkirca/"]
   }
   </script>
@@ -48,7 +51,9 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  <!-- Yazı tipleri sayfanın ilk çizimini bekletmesin: önce yüklenir, hazır olunca devreye girer -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet"></noscript>
 
   <style>
     /* ============================================================
@@ -445,8 +450,8 @@
         <a href="#iletisim" data-m="menuIletisim"></a>
       </nav>
       <div class="dil" role="group" aria-label="Dil / Language">
-        <button type="button" data-dil="tr" aria-pressed="true" aria-label="Türkçe">TR</button>
-        <button type="button" data-dil="en" aria-pressed="false" aria-label="English">EN</button>
+        <button type="button" data-dil="tr" aria-pressed="true" aria-label="TR · Türkçe" lang="tr">TR</button>
+        <button type="button" data-dil="en" aria-pressed="false" aria-label="EN · English" lang="en">EN</button>
       </div>
       <button type="button" class="tema-dugme" id="temaDugme">
         <span class="gizli-etiket" id="temaEtiket"></span>
@@ -466,7 +471,7 @@
 
   <!-- ================= GİRİŞ ================= -->
   <section class="genis giris" id="ust">
-    <img src="img/profil.webp" width="640" height="640" alt="Yusuf Selim Kırca" fetchpriority="high">
+    <img src="img/profil.webp" srcset="img/profil-320.webp 320w, img/profil.webp 640w" sizes="8.5rem" width="640" height="640" alt="Yusuf Selim Kırca" fetchpriority="high">
     <div>
       <h1>Yusuf Selim Kırca</h1>
       <p class="giris-ozet" data-m="girisOzet"></p>
@@ -531,7 +536,7 @@
           <dt data-m="sonuc"></dt>      <dd data-m="rrSonuc"></dd>
         </dl>
         <a class="dugme" href="https://yusufselimkirca.com/reviewradar/" target="_blank" rel="noopener" data-m="rrDugme"></a>
-        <a class="paylasim-link" data-paylasim="reviewradar" target="_blank" rel="noopener" hidden></a>
+        <span data-paylasim="reviewradar"></span>
       </article>
 
       <!-- Proje 2: Firma Ortakları Kontrol Paneli -->
@@ -543,9 +548,9 @@
         </div>
         <p class="proje-alt" data-m="panelAlt"></p>
         <div class="gorseller iki">
-          <img src="img/panel-giris.webp" width="1424" height="884" loading="lazy" data-m-alt="panelGirisAlt" alt="">
+          <img src="img/panel-giris.webp" srcset="img/panel-giris-720.webp 720w, img/panel-giris.webp 1424w" sizes="(min-width: 44rem) 21rem, 100vw" width="1424" height="884" loading="lazy" data-m-alt="panelGirisAlt" alt="">
           <figure>
-            <img src="img/panel-ornek.webp" width="1440" height="900" loading="lazy" data-m-alt="panelOrnekAlt" alt="">
+            <img src="img/panel-ornek.webp" srcset="img/panel-ornek-720.webp 720w, img/panel-ornek.webp 1440w" sizes="(min-width: 44rem) 21rem, 100vw" width="1440" height="900" loading="lazy" data-m-alt="panelOrnekAlt" alt="">
             <figcaption class="gorsel-not" data-m="panelOrnekNot"></figcaption>
           </figure>
         </div>
@@ -554,7 +559,7 @@
           <dt data-m="neYaptik"></dt>   <dd data-m="panelNeYaptik"></dd>
           <dt data-m="sonuc"></dt>      <dd><span data-m="panelSonuc"></span><p class="gorsel-not" style="margin-top:1rem" data-m="panelNot"></p></dd>
         </dl>
-        <a class="paylasim-link" data-paylasim="panel" target="_blank" rel="noopener" hidden></a>
+        <span data-paylasim="panel"></span>
       </article>
     </div>
   </section>
@@ -615,7 +620,7 @@
       </details>
 
       <ul class="serit" id="serit" aria-hidden="true"></ul>
-      <p class="daha" id="daha" hidden><a target="_blank" rel="noopener" data-m="dahaFazla"></a></p>
+      <p class="daha" id="daha" hidden></p>
     </div>
   </section>
 
@@ -1032,8 +1037,11 @@ function metinleriYaz() {
   if (ulkePanel.open) paneliYaz();
   document.getElementById("buyutec").setAttribute("aria-label", m("fotoKutusu"));
   iletisimiYaz();
-  const daha = document.querySelector("#daha a");
-  if (VSCO_ADRESI) { daha.href = VSCO_ADRESI; document.getElementById("daha").hidden = false; }
+  if (VSCO_ADRESI) {
+    const daha = document.getElementById("daha");
+    daha.innerHTML = '<a target="_blank" rel="noopener"></a>';
+    daha.firstChild.href = VSCO_ADRESI; daha.firstChild.textContent = m("dahaFazla"); daha.hidden = false;
+  }
 }
 
 document.querySelectorAll(".dil button").forEach(b => b.addEventListener("click", () => {
@@ -1208,11 +1216,16 @@ function tarihYaz(tarihler) {
 }
 
 const LINKEDIN_IKON = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>';
+// Bağlantı yalnızca adres varsa oluşturulur (boş bağlantı arama motorlarına "tıklanamaz bağlantı" diye görünmesin)
 function paylasimlariYaz() {
-  document.querySelectorAll("[data-paylasim]").forEach(a => {
-    const adres = PROJE_PAYLASIMLARI[a.dataset.paylasim];
-    a.hidden = !adres;
-    if (adres) { a.href = adres; a.innerHTML = LINKEDIN_IKON + "<span>" + m("paylasimOku") + " →</span>"; }
+  document.querySelectorAll("[data-paylasim]").forEach(yer => {
+    const adres = PROJE_PAYLASIMLARI[yer.dataset.paylasim];
+    yer.innerHTML = "";
+    if (!adres) return;
+    const a = document.createElement("a");
+    a.className = "paylasim-link"; a.href = adres; a.target = "_blank"; a.rel = "noopener";
+    a.innerHTML = LINKEDIN_IKON + "<span>" + m("paylasimOku") + " →</span>";
+    yer.append(a);
   });
 }
 
@@ -1245,7 +1258,7 @@ function zamanCizelgesiniYaz() {
     a.href = linkedinBolumu(o.bolum, o.linkedin); a.target = "_blank"; a.rel = "noopener";
     a.title = o.kurum[dil] + " · " + sure; a.setAttribute("aria-label", a.title + " (LinkedIn)");
     a.style.setProperty("--a", yuzde(bas)); a.style.setProperty("--kat", o.kat);
-    const l = yap("img", "kurum-logo"); l.src = o.logo; l.alt = ""; l.width = 64; l.height = 64; a.append(l);
+    const l = yap("img", "kurum-logo"); l.src = o.logo; l.alt = ""; l.width = 64; l.height = 64; l.loading = "lazy"; a.append(l);
     g.append(c, a);
   });
   const b = yap("div", "zc-bugun"); b.style.setProperty("--a", yuzde(bugun)); g.append(b);
