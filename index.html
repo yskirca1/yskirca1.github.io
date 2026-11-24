@@ -748,8 +748,8 @@ const VSCO_ADRESI = "";
 const OZGECMIS = [
   { grup: { tr: "Deneyim", en: "Experience" }, ogeler: [
     { ad: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, logo: "img/logo-kuveytturk.svg", bolum: "experience", linkedin: "" },
-    { ad: { tr: "Turkish Technic", en: "Turkish Technic" }, logo: "img/logo-turkish-technic.webp", bolum: "experience", linkedin: "https://lnkd.in/p/d6kSXA7y" },
-    { ad: { tr: "İTÜ İnovasyon Kulübü", en: "ITU Innovation Club" }, logo: "img/logo-itu.webp", bolum: "experience", linkedin: "" }
+    { ad: { tr: "Turkish Technic", en: "Turkish Technic" }, logo: "img/logo-turkish-technic.webp?v=2", bolum: "experience", linkedin: "https://lnkd.in/p/d6kSXA7y" },
+    { ad: { tr: "İTÜ İnovasyon Kulübü", en: "ITU Innovation Club" }, logo: "img/logo-itu.webp?v=2", bolum: "experience", linkedin: "" }
   ]},
   { grup: { tr: "Ödüller ve sertifikalar", en: "Awards and certificates" }, ogeler: [
     { ad: { tr: "International Finance Awards 2026", en: "International Finance Awards 2026" }, bolum: "honors", linkedin: "" },
@@ -759,13 +759,13 @@ const OZGECMIS = [
     { ad: { tr: "IGCSE", en: "IGCSE" }, bolum: "certifications", linkedin: "" }
   ]},
   { grup: { tr: "Eğitim", en: "Education" }, ogeler: [
-    { ad: { tr: "İstanbul Teknik Üniversitesi", en: "Istanbul Technical University" }, logo: "img/logo-itu.webp", bolum: "education", linkedin: "" },
+    { ad: { tr: "İstanbul Teknik Üniversitesi", en: "Istanbul Technical University" }, logo: "img/logo-itu.webp?v=2", bolum: "education", linkedin: "" },
     { ad: { tr: "Hamilik Okulu Vakfı", en: "Hamilik Okulu Foundation" }, bolum: "", linkedin: "" },
-    { ad: { tr: "Kartal Anadolu İmam Hatip Lisesi", en: "Kartal Anatolian Imam Hatip High School" }, logo: "img/logo-kartal-aihl.webp", bolum: "education", linkedin: "" }
+    { ad: { tr: "Kartal Anadolu İmam Hatip Lisesi", en: "Kartal Anatolian Imam Hatip High School" }, logo: "img/logo-kartal-aihl.webp?v=2", bolum: "education", linkedin: "" }
   ]}
 ];
 // Logo sınıfları: yatay logolara geniş yer, tek renkli koyu logolar koyu temada beyaz
-const YATAY_LOGOLAR = ["img/logo-itu.webp", "img/logo-kartal-aihl.webp"], TEK_RENK_LOGOLAR = ["img/logo-itu.webp", "img/logo-kartal-aihl.webp"];
+const YATAY_LOGOLAR = ["img/logo-itu.webp?v=2", "img/logo-kartal-aihl.webp?v=2"], TEK_RENK_LOGOLAR = ["img/logo-itu.webp?v=2", "img/logo-kartal-aihl.webp?v=2"];
 const logoSinifi = src => "kurum-logo" + (YATAY_LOGOLAR.includes(src) ? " yatay" : "") + (TEK_RENK_LOGOLAR.includes(src) ? " tek-renk" : "");
 const linkedinBolumu = (bolum, ozel) => ozel || (LINKEDIN_ADRESI + (bolum ? "details/" + bolum + "/" : ""));
 
@@ -776,10 +776,10 @@ const linkedinBolumu = (bolum, ozel) => ozel || (LINKEDIN_ADRESI + (bolum ? "det
 const ZAMAN_CIZELGESI = {
   bas: "2018-01", son: "2027-12", sikistir: "2023-07", sikistirOran: 0.09,
   ogeler: [
-    { kurum: { tr: "Kartal Anadolu İmam Hatip Lisesi", en: "Kartal Anatolian Imam Hatip High School" }, bas: "2018-09", son: "2023-06", kat: 0, renk: "renk-aihl", logo: "img/logo-kartal-aihl.webp", bolum: "education" },
-    { kurum: { tr: "İTÜ Endüstri Mühendisliği", en: "ITU Industrial Engineering" }, bas: "2023-10", son: "2027-06", kat: 0, renk: "renk-itu", logo: "img/logo-itu.webp", bolum: "education" },
+    { kurum: { tr: "Kartal Anadolu İmam Hatip Lisesi", en: "Kartal Anatolian Imam Hatip High School" }, bas: "2018-09", son: "2023-06", kat: 0, renk: "renk-aihl", logo: "img/logo-kartal-aihl.webp?v=2", bolum: "education" },
+    { kurum: { tr: "İTÜ Endüstri Mühendisliği", en: "ITU Industrial Engineering" }, bas: "2023-10", son: "2027-06", kat: 0, renk: "renk-itu", logo: "img/logo-itu.webp?v=2", bolum: "education" },
     { kurum: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, bas: "2025-05", son: null, kat: 1, renk: "renk-kt", logo: "img/logo-kuveytturk.svg", bolum: "experience" },
-    { kurum: { tr: "Turkish Technic", en: "Turkish Technic" }, bas: "2026-08", son: "2026-09", kat: 2, renk: "renk-tt", logo: "img/logo-turkish-technic.webp", bolum: "experience", linkedin: "https://lnkd.in/p/d6kSXA7y" }
+    { kurum: { tr: "Turkish Technic", en: "Turkish Technic" }, bas: "2026-08", son: "2026-09", kat: 2, renk: "renk-tt", logo: "img/logo-turkish-technic.webp?v=2", bolum: "experience", linkedin: "https://lnkd.in/p/d6kSXA7y" }
   ]
 };
 
