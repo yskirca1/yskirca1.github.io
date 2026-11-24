@@ -18,6 +18,7 @@
   <meta property="og:image:alt" content="Yusuf Selim Kırca · Hâlâ öğreniyorum.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://yusufselimkirca.com/">
+  <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#FAF8F5" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#161513" media="(prefers-color-scheme: dark)">
 
@@ -76,7 +77,9 @@
     /* Koyu tema
        - Ziyaretçi seçim yapmadıysa cihazın ayarına uyar (koyu moddaysa koyu açılır).
        - Üst şeritteki tema düğmesiyle seçilirse <html data-tema="koyu"> ya da "acik" olur ve hatırlanır. */
-    :root { color-scheme: light; }
+    /* "only light": telefon karanlık moddayken tarayıcının (Chrome, Samsung İnternet) açık temayı
+       kendi kendine karartmasını engeller; yoksa krem zemin kahverengiye döner. */
+    :root { color-scheme: only light; }
     @media (prefers-color-scheme: dark) {
       :root:not([data-tema="acik"]) {
         --zemin: #161513;
