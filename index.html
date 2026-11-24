@@ -266,6 +266,40 @@
     .duraklar { margin: 0 0 1.75rem; }
     .cv-dugme { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.25rem; }
     .cv-dugme svg { width: 1.05rem; height: 1.05rem; }
+    /* Kilometre taşları */
+    .kt { margin-top: 2.75rem; }
+    .kt-baslik-ust { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); }
+    .kt-lejant { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; margin: 0.6rem 0 1.5rem; padding: 0; font-size: 0.85rem; color: var(--ikincil); }
+    .kt-lejant li { display: inline-flex; align-items: center; gap: 0.45rem; }
+    .kt-isaret { display: inline-block; width: 0.75rem; height: 0.75rem; border-radius: 50%; flex: none; box-sizing: border-box; }
+    .kt-isaret.kt-egitim { background: var(--zemin); border: 2px solid var(--vurgu); }
+    .kt-isaret.kt-kariyer { background: var(--vurgu); }
+    .kt-isaret.kt-odul { background: var(--vurgu); border-radius: 1px; transform: rotate(45deg) scale(0.85); }
+    .kt-isaret.kt-gelecek { background: var(--zemin); border: 2px solid var(--ikincil); opacity: 0.7; }
+    .kt-cizgi { position: relative; list-style: none; margin: 0; padding: 0 0 0 1.9rem; }
+    .kt-cizgi::before { content: ""; position: absolute; left: 0.55rem; top: 0.4rem; bottom: 0.4rem; width: 2px; background: var(--cizgi); }
+    .kt-yil { position: relative; margin: 1.6rem 0 0.5rem; font-family: var(--serif); font-size: 1.35rem; line-height: 1; }
+    .kt-yil:first-child { margin-top: 0; }
+    .kt-yil::before { content: ""; position: absolute; left: -1.9rem; top: 50%; width: 1.2rem; height: 2px; background: var(--cizgi); }
+    .kt-oge { position: relative; padding: 0.45rem 0; }
+    .kt-oge > .kt-isaret { position: absolute; left: calc(-1.9rem + 0.6rem - 0.375rem + 1px); top: 0.85rem; z-index: 1; }
+    .kt-tarih { display: block; font-size: 0.8rem; color: var(--ikincil); font-variant-numeric: tabular-nums; }
+    .kt-ad { display: block; font-weight: 500; line-height: 1.4; }
+    .kt-alt { display: block; font-size: 0.9rem; color: var(--ikincil); line-height: 1.45; }
+    .kt-oge.gelecek .kt-ad { color: var(--ikincil); }
+    @media (min-width: 40rem) {
+      /* Geniş ekranda çizgi ortada: eğitim solda, kariyer ve ödüller sağda */
+      .kt-cizgi { padding-left: 0; }
+      .kt-cizgi::before { left: calc(50% - 1px); }
+      .kt-yil { text-align: center; margin: 1.75rem 0 0.75rem; }
+      .kt-yil span { background: var(--zemin); padding: 0.2rem 0.6rem; position: relative; }
+      .kt-yil::before { display: none; }
+      .kt-oge { width: 50%; padding: 0.5rem 0; }
+      .kt-oge.sol { padding-right: 1.75rem; text-align: right; }
+      .kt-oge.sag { margin-left: 50%; padding-left: 1.75rem; }
+      .kt-oge.sol > .kt-isaret { left: auto; right: -0.375rem; }
+      .kt-oge.sag > .kt-isaret { left: -0.375rem; }
+    }
     .oz-grup { margin-top: 2.5rem; }
     .oz-grup > h3 { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); margin-bottom: 0.4rem; }
     .oz-liste { list-style: none; margin: 0; padding: 0; }
@@ -546,6 +580,18 @@
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>
         <span data-m="cvIndir"></span>
       </a>
+
+      <!-- Kilometre taşları: eğitim ve kariyer tek çizgide (veri: KILOMETRE_TASLARI) -->
+      <div class="kt">
+        <h3 class="kt-baslik-ust" data-m="ktBaslik"></h3>
+        <ul class="kt-lejant" aria-hidden="true">
+          <li><span class="kt-isaret kt-egitim"></span><span data-m="ktEgitim"></span></li>
+          <li><span class="kt-isaret kt-kariyer"></span><span data-m="ktKariyer"></span></li>
+          <li><span class="kt-isaret kt-odul"></span><span data-m="ktOdul"></span></li>
+        </ul>
+        <ol class="kt-cizgi" id="ktListe"></ol>
+      </div>
+
       <div id="ozgecmisIcerik"></div>
     </div>
   </section>
@@ -771,6 +817,25 @@ const OZGECMIS = [
   ]}
 ];
 
+// Kilometre taşları: eğitim ve kariyer tek çizgide, eskiden yeniye.
+//   yil: çizgideki yıl başlığı; tur: "egitim" | "kariyer" | "odul"; tarih: ay (yıl başlıkta yazar);
+//   gelecek: true ise henüz gerçekleşmemiş (kesik çizgili işaret)
+const KILOMETRE_TASLARI = [
+  { yil: 2018, tur: "egitim", tarih: { tr: "Eylül", en: "September" }, ad: { tr: "Kartal Anadolu İmam Hatip Lisesi", en: "Kartal Anatolian Imam Hatip High School" }, alt: { tr: "İngilizce hazırlık ve IGCSE programı", en: "English preparatory & IGCSE programme" } },
+  { yil: 2020, tur: "egitim", tarih: { tr: "Mayıs", en: "May" }, ad: { tr: "IGCSE", en: "IGCSE" }, alt: { tr: "University of Cambridge", en: "University of Cambridge" } },
+  { yil: 2023, tur: "egitim", tarih: { tr: "Haziran", en: "June" }, ad: { tr: "Lise mezuniyeti", en: "High school diploma" } },
+  { yil: 2023, tur: "egitim", tarih: { tr: "Ekim", en: "October" }, ad: { tr: "İTÜ Endüstri Mühendisliği", en: "ITU Industrial Engineering" }, alt: { tr: "Lisans", en: "BSc" } },
+  { yil: 2023, tur: "egitim", tarih: { tr: "Ekim", en: "October" }, ad: { tr: "İTÜ İnovasyon Kulübü", en: "ITU Innovation Club" }, alt: { tr: "inoFinance ve inoOperation ekipleri", en: "inoFinance and inoOperation teams" } },
+  { yil: 2023, tur: "egitim", tarih: { tr: "Kasım", en: "November" }, ad: { tr: "Hamilik Okulu Vakfı", en: "Hamilik Okulu Foundation" }, alt: { tr: "4 yıllık liderlik ve gelişim programı", en: "4-year leadership and development programme" } },
+  { yil: 2024, tur: "odul", tarih: { tr: "Mart", en: "March" }, ad: { tr: "FirstTech Staj Programı", en: "FirstTech Internship Programme" }, alt: { tr: "Başarı Belgesi · Intertech", en: "Certificate of Achievement · Intertech" } },
+  { yil: 2025, tur: "kariyer", tarih: { tr: "Mayıs", en: "May" }, ad: { tr: "Kuveyt Türk · KOBİ Pazarlama", en: "Kuveyt Türk · SME Marketing" }, alt: { tr: "Firma Ortakları Yönetimi, yarı zamanlı", en: "Business Partners Management, part-time" } },
+  { yil: 2026, tur: "odul", ad: { tr: "Genel Müdür Yardımcısı ödülü", en: "Deputy General Manager's award" }, alt: { tr: "Firma Ortakları Kontrol Paneli · AI Lab", en: "Business Partners Dashboard · AI Lab" } },
+  { yil: 2026, tur: "odul", ad: { tr: "International Finance Awards", en: "International Finance Awards" }, alt: { tr: "Most Innovative Customer Loyalty Program · Elit Patron ekibiyle", en: "Most Innovative Customer Loyalty Program · with the Elit Patron team" } },
+  { yil: 2026, tur: "odul", ad: { tr: "FLY UP Fikir Turnuvası", en: "FLY UP Idea Tournament" }, alt: { tr: "Üniversiteler arası, ikincilik", en: "Inter-university, second place" } },
+  { yil: 2026, tur: "kariyer", tarih: { tr: "Ağustos – Eylül", en: "August – September" }, ad: { tr: "Turkish Technic", en: "Turkish Technic" }, alt: { tr: "Mühendislik stajı · Hat Bakım", en: "Engineering internship · Line Maintenance" } },
+  { yil: 2027, tur: "egitim", gelecek: true, tarih: { tr: "Haziran (beklenen)", en: "June (expected)" }, ad: { tr: "İTÜ'den mezuniyet", en: "Graduation from ITU" } }
+];
+
 // Projelerin LinkedIn paylaşımları: adres yazılınca projenin altında "LinkedIn'deki paylaşımı oku" bağlantısı çıkar
 const PROJE_PAYLASIMLARI = {
   reviewradar: "",
@@ -909,6 +974,7 @@ const METINLER = {
     rrSonuc: "12 kategoride 141 ürüne ait 24.500 yorum analiz edildi. Kullanıcı bir kategoriyi aradığında rakiplerin en çok şikâyet aldığı konuları, müşterilerin beğendiği yönleri ve pazara girerken dikkat edilmesi gerekenleri tek ekranda görüyor. Proje 2027 yazına kadar geliştirilmeye devam edecek.",
     rrDugme: "Siteyi aç →",
     cvIndir: "CV'yi indir (PDF)",
+    ktBaslik: "Kilometre taşları", ktEgitim: "Eğitim ve gelişim", ktKariyer: "Kariyer", ktOdul: "Ödül ve belge",
     paylasimOku: "LinkedIn'deki paylaşımı oku",
     paylasimKisa: "LinkedIn'de oku",
     rrGorselAlt: "ReviewRadar ana sayfasının ekran görüntüsü: arama kutusu ve kategori kartları",
@@ -969,6 +1035,7 @@ const METINLER = {
     rrSonuc: "24,500 reviews of 141 products across 12 categories analysed. Users search a category and see, on one screen, competitors' most common complaints, what customers like, and what to watch for when entering the market. Development continues through summer 2027.",
     rrDugme: "Open the site →",
     cvIndir: "Download CV (PDF)",
+    ktBaslik: "Milestones", ktEgitim: "Education and development", ktKariyer: "Career", ktOdul: "Award and certificate",
     paylasimOku: "Read the LinkedIn post",
     paylasimKisa: "Read on LinkedIn",
     rrGorselAlt: "Screenshot of the ReviewRadar home page: search box and category cards",
@@ -1216,7 +1283,27 @@ function paylasimlariYaz() {
 }
 
 const CV_DOSYALARI = { tr: "cv/Yusuf_Selim_Kirca_CV_TR.pdf", en: "cv/Yusuf_Selim_Kirca_CV_EN.pdf" };
+function kilometreTaslariniYaz() {
+  const liste = document.getElementById("ktListe");
+  liste.innerHTML = "";
+  const yap = (etiket, sinif, metin) => { const e = document.createElement(etiket); if (sinif) e.className = sinif; if (metin) e.textContent = metin; return e; };
+  let sonYil = null;
+  KILOMETRE_TASLARI.forEach(k => {
+    if (k.yil !== sonYil) {
+      const y = yap("li", "kt-yil"); y.append(yap("span", "", String(k.yil))); liste.append(y);
+      sonYil = k.yil;
+    }
+    const li = yap("li", "kt-oge " + (k.tur === "egitim" ? "sol" : "sag") + (k.gelecek ? " gelecek" : ""));
+    li.append(yap("span", "kt-isaret kt-" + (k.gelecek ? "gelecek" : k.tur)));
+    if (k.tarih) li.append(yap("span", "kt-tarih", k.tarih[dil]));
+    li.append(yap("span", "kt-ad", k.ad[dil]));
+    if (k.alt) li.append(yap("span", "kt-alt", k.alt[dil]));
+    liste.append(li);
+  });
+}
+
 function ozgecmisiYaz() {
+  kilometreTaslariniYaz();
   document.getElementById("cvDugme").href = CV_DOSYALARI[dil];
   const kutu = document.getElementById("ozgecmisIcerik");
   kutu.innerHTML = "";
