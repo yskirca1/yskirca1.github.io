@@ -266,50 +266,51 @@
     .duraklar { margin: 0 0 1.75rem; }
     .cv-dugme { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.25rem; }
     .cv-dugme svg { width: 1.05rem; height: 1.05rem; }
-    /* Zaman çizelgesi
-       Telefonda zaman yukarıdan aşağı akar (şeritler sütun), genişte soldan sağa (şeritler satır).
-       Her çubuk --a (başlangıç) ve --b (bitiş) yüzdeleriyle konumlanır; --k: çubuğun geçmişte kalan kısmı. */
+    /* Zaman çizelgesi: tek tarih ekseni; dönemler eksenin üzerinde renkli çizgiler.
+       Kat 0 eksenin kendisi (eğitim), üst üste binen dönemler bir kat yukarıda.
+       Telefonda eksen dikey (yukarıdan aşağı), genişte yatay. --a / --b: başlangıç ve bitiş yüzdesi,
+       --k: çizginin geçmişte kalan kısmı (sonrası soluk), --kat: kaçıncı kat, --renk: çizgi rengi. */
     .zc { margin-top: 2.75rem; }
     .zc-baslik { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); margin-bottom: 1.25rem; }
-    .zc-grafik { position: relative; display: grid; grid-template-columns: 2.6rem repeat(3, 1fr); grid-template-rows: auto 36rem; padding-bottom: 3rem; font-size: 0.85rem; }
-    .zc-serit-ad { grid-row: 1; padding: 0 0 0.6rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ikincil); }
-    .zc-serit { grid-row: 2; position: relative; z-index: 1; }
-    .zc-eksen { grid-row: 2; grid-column: 1; position: relative; }
-    .zc-cizgiler { grid-row: 2; grid-column: 1 / -1; position: relative; pointer-events: none; }
-    .zc-tik { position: absolute; left: 0; right: 0; top: var(--a); border-top: 1px solid var(--cizgi); }
-    .zc-tik span { position: absolute; left: 0; top: -0.6rem; font-variant-numeric: tabular-nums; color: var(--ikincil); font-size: 0.75rem; background: var(--zemin); padding-right: 0.3rem; line-height: 1.2; }
-    .zc-bugun { position: absolute; left: 2.6rem; right: 0; top: var(--a); border-top: 2px dashed var(--vurgu); }
-    .zc-bugun span { position: absolute; left: 0.95rem; top: -1.15rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--vurgu); background: var(--zemin); padding-left: 0.3rem; }
-    .zc-cubuk { position: absolute; left: 0.25rem; width: 0.6rem; top: var(--a); height: max(0.5rem, calc(var(--b) - var(--a))); border-radius: 999px;
-      background: linear-gradient(to bottom, var(--vurgu) var(--k), color-mix(in srgb, var(--vurgu) 30%, transparent) var(--k)); }
-    .zc-cubuk.kariyer { background: linear-gradient(to bottom, var(--metin) var(--k), color-mix(in srgb, var(--metin) 25%, transparent) var(--k)); }
-    .zc-etiket { position: absolute; left: 1.15rem; top: var(--a); right: 0.25rem; line-height: 1.3; }
-    .zc-etiket b, .zc-etiket span { display: block; width: fit-content; background: var(--zemin); }
-    .zc-etiket b { font-weight: 500; }
+    .zc-grafik { --adim: 1.1rem; --kalin: 0.5rem; position: relative; height: 40rem; margin-left: 2.75rem; font-size: 0.85rem; }
+    .zc-eksen { position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--cizgi); }
+    .zc-yil { position: absolute; top: var(--a); left: -2.75rem; width: 2.25rem; transform: translateY(-50%); text-align: right; font-size: 0.75rem; color: var(--ikincil); font-variant-numeric: tabular-nums; }
+    .zc-yil::after { content: ""; position: absolute; right: -0.55rem; top: 50%; width: 0.4rem; height: 1px; background: var(--ikincil); }
+    .zc-cizgi { position: absolute; z-index: 3; top: var(--a); height: max(var(--kalin), calc(var(--b) - var(--a))); width: var(--kalin);
+      left: calc(1px - var(--kalin) / 2 + var(--kat) * var(--adim)); border-radius: 999px;
+      background: linear-gradient(to bottom, var(--renk) var(--k), color-mix(in srgb, var(--renk) 30%, transparent) var(--k)); }
+    .zc-etiket { position: absolute; top: var(--a); left: calc(2 * var(--adim) + 1rem); right: 0; line-height: 1.3; transform: translateY(-0.2rem); }
+    .zc-etiket { z-index: 2; }
+    .zc-etiket b, .zc-etiket span { display: block; width: fit-content; background: var(--zemin); padding-right: 0.25rem; }
+    .zc-etiket b { display: flex; align-items: center; gap: 0.45rem; font-weight: 500; }
     .zc-etiket span { color: var(--ikincil); font-size: 0.78rem; }
+    .zc-etiket .kurum-logo { margin: 0; }
+    .zc-etiket::before { content: ""; position: absolute; left: calc(-2 * var(--adim) - 1rem + var(--kat) * var(--adim) + var(--kalin) / 2 + 1px); right: 100%; top: 0.95rem; border-top: 1px dotted var(--renk); }
+    .zc-bugun { position: absolute; top: var(--a); left: -0.5rem; width: calc(3 * var(--adim)); border-top: 2px dashed var(--vurgu); }
+    .zc-bugun span { position: absolute; right: calc(100% + 0.95rem); top: -0.55rem; display: none; }
+    .zc-bugun-etiket { position: absolute; top: var(--a); right: 0; transform: translateY(-115%); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--vurgu); }
+    /* Kurum renkleri (koyu temada açık tonları) */
+    .renk-aihl { --renk: #0E7490; } .renk-itu { --renk: #1E40AF; } .renk-kt { --renk: #3F9E2A; } .renk-tt { --renk: #C8102E; }
+    @media (prefers-color-scheme: dark) { :root:not([data-tema="acik"]) .renk-aihl { --renk: #4CC3DC; } :root:not([data-tema="acik"]) .renk-itu { --renk: #8EA8FF; } :root:not([data-tema="acik"]) .renk-kt { --renk: #74CF5B; } :root:not([data-tema="acik"]) .renk-tt { --renk: #FF6B7D; } }
+    :root[data-tema="koyu"] .renk-aihl { --renk: #4CC3DC; } :root[data-tema="koyu"] .renk-itu { --renk: #8EA8FF; } :root[data-tema="koyu"] .renk-kt { --renk: #74CF5B; } :root[data-tema="koyu"] .renk-tt { --renk: #FF6B7D; }
     @media (min-width: 40rem) {
-      .zc-grafik { grid-template-columns: 7rem 1fr; grid-template-rows: repeat(3, 4.25rem) 2rem; padding-bottom: 0; }
-      .zc-serit-ad { grid-column: 1 !important; grid-row: auto; padding: 0.15rem 0.75rem 0 0; align-self: start; }
-      .zc-serit { grid-column: 2 !important; }
-      .zc-eksen { grid-column: 2; grid-row: 4; }
-      .zc-cizgiler { grid-column: 2; grid-row: 1 / 4; }
-      .zc-tik { left: var(--a); right: auto; top: 0; bottom: -1.6rem; border-top: 0; border-left: 1px solid var(--cizgi); }
-      .zc-tik span { left: -1rem; top: auto; bottom: 0; padding: 0; width: 2rem; text-align: center; }
-      .zc-bugun { left: var(--a); right: auto; top: -0.4rem; bottom: 0; border-top: 0; border-left: 2px dashed var(--vurgu); }
-      .zc-bugun span { left: 0.3rem; top: -0.3rem; padding: 0; }
-      .zc-cubuk { top: 2.55rem; left: var(--a); width: max(0.5rem, calc(var(--b) - var(--a))); height: 0.6rem;
-        background: linear-gradient(to right, var(--vurgu) var(--k), color-mix(in srgb, var(--vurgu) 30%, transparent) var(--k)); }
-      .zc-cubuk.kariyer { background: linear-gradient(to right, var(--metin) var(--k), color-mix(in srgb, var(--metin) 25%, transparent) var(--k)); }
-      .zc-etiket { top: 0; left: var(--a); right: auto; white-space: nowrap; }
-      .zc-etiket.sagdan { left: auto; right: calc(100% - var(--b) + 0.5rem); text-align: right; }
-      .zc-etiket.sagdan b, .zc-etiket.sagdan span { margin-left: auto; }
-      .zc-etiket b { display: flex; align-items: center; }
-      .zc-etiket .kurum-logo { display: inline-block; margin: -0.2rem 0.45rem 0 0; }
+      .zc-grafik { --adim: 4rem; --kalin: 0.45rem; height: calc(3 * var(--adim) + 4.25rem); margin-inline: 1.25rem; }
+      .zc-eksen { left: 0; right: 0; top: auto; bottom: 1.75rem; width: auto; height: 2px; }
+      .zc-yil { top: auto; bottom: 0; left: var(--a); width: 2.5rem; margin-left: -1.25rem; transform: none; text-align: center; }
+      .zc-yil::after { right: auto; left: 50%; top: -0.55rem; width: 1px; height: 0.4rem; }
+      .zc-cizgi { top: auto; left: var(--a); bottom: calc(1.75rem + 1px - var(--kalin) / 2 + var(--kat) * var(--adim)); height: var(--kalin); width: max(var(--kalin), calc(var(--b) - var(--a)));
+        background: linear-gradient(to right, var(--renk) var(--k), color-mix(in srgb, var(--renk) 30%, transparent) var(--k)); }
+      .zc-etiket { top: auto; right: auto; left: var(--a); bottom: calc(1.75rem + var(--kalin) / 2 + 0.5rem + var(--kat) * var(--adim)); transform: none; white-space: nowrap; line-height: 1.25; }
+      .zc-etiket.sagdan { left: auto; right: calc(100% - var(--b) + 0.6rem); text-align: right; }
+      .zc-etiket.sagdan b { justify-content: flex-end; }
+      .zc-etiket.sagdan b, .zc-etiket.sagdan span { margin-left: auto; padding: 0 0 0 0.25rem; }
+      .zc-etiket::before { display: none; }
+      .zc-bugun { top: 0; bottom: 1.75rem; left: var(--a); width: 0; border-top: 0; border-left: 2px dashed var(--vurgu); }
+      .zc-bugun-etiket { top: -1.1rem; right: auto; left: var(--a); transform: translateX(-50%); }
     }
     /* Kurum logoları: koyu temada da görünsün diye beyaz yuvarlak zemin */
     .kurum-logo { display: inline-block; vertical-align: middle; width: 1.6rem; height: 1.6rem; margin: -0.2rem 0.45rem 0 0; padding: 2px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 0 0 1px var(--cizgi); object-fit: contain; }
     .oz-baslik .kurum-logo { width: 1.9rem; height: 1.9rem; margin-right: 0.55rem; }
-    @media (max-width: 39.99rem) { .zc-etiket .kurum-logo { display: block; margin: 0 0 0.3rem; } }
     .oz-grup { margin-top: 2.5rem; }
     .oz-grup > h3 { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); margin-bottom: 0.4rem; }
     .oz-liste { list-style: none; margin: 0; padding: 0; }
@@ -822,22 +823,16 @@ const OZGECMIS = [
   ]}
 ];
 
-// Zaman çizelgesi: eğitim ve kariyer aynı eksende. bas/son: "YIL-AY" (son ay dahil).
-//   son: null ise bugüne kadar sürüyor; bugünden sonrası açık renkle (beklenen) gösterilir.
-//   logo: kurum logosu (img/ altında, kare); yoksa yazmayın
+// Zaman çizelgesi: tek tarih ekseni. bas/son: "YIL-AY" (son ay dahil); son: null ise bugüne kadar sürüyor.
+//   kat: 0 eksenin üzeri, 1–2 üst üste binen dönemler için üst katlar; renk: renk-aihl | renk-itu | renk-kt | renk-tt
+//   ad: boş bırakılırsa yalnızca logo görünür; logo: img/ altında kare kurum logosu
 const ZAMAN_CIZELGESI = {
   bas: "2018-01", son: "2027-12",
-  seritler: [
-    { ad: { tr: "Eğitim", en: "Education" }, tur: "egitim", ogeler: [
-      { ad: { tr: "Kartal AİHL", en: "Kartal AİHL" }, bas: "2018-09", son: "2023-06", logo: "img/logo-kartal-aihl.webp" },
-      { ad: { tr: "İTÜ Endüstri Müh.", en: "ITU Industrial Eng." }, bas: "2023-10", son: "2027-06", logo: "img/logo-itu.webp" }
-    ]},
-    { ad: { tr: "Kariyer", en: "Career" }, tur: "kariyer", ogeler: [
-      { ad: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, bas: "2025-05", son: null, logo: "img/logo-kuveytturk.webp" }
-    ]},
-    { ad: { tr: "Staj", en: "Internship" }, tur: "kariyer", ogeler: [
-      { ad: { tr: "Turkish Technic", en: "Turkish Technic" }, bas: "2026-08", son: "2026-09", logo: "img/logo-turkish-technic.webp" }
-    ]}
+  ogeler: [
+    { ad: null, kurum: "Kartal Anadolu İmam Hatip Lisesi", bas: "2018-09", son: "2023-06", kat: 0, renk: "renk-aihl", logo: "img/logo-kartal-aihl.webp" },
+    { ad: { tr: "İTÜ Endüstri Müh.", en: "ITU Industrial Eng." }, bas: "2023-10", son: "2027-06", kat: 0, renk: "renk-itu", logo: "img/logo-itu.webp" },
+    { ad: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, bas: "2025-05", son: null, kat: 1, renk: "renk-kt", logo: "img/logo-kuveytturk.webp" },
+    { ad: { tr: "Turkish Technic", en: "Turkish Technic" }, bas: "2026-08", son: "2026-09", kat: 2, renk: "renk-tt", logo: "img/logo-turkish-technic.webp" }
   ]
 };
 
@@ -1299,37 +1294,26 @@ function zamanCizelgesiniYaz() {
   const ayAdi = t => new Intl.DateTimeFormat(dil, { month: "short", year: "numeric" }).format(new Date(t + "-15"));
   const yap = (etiket, sinif, metin) => { const e = document.createElement(etiket); if (sinif) e.className = sinif; if (metin) e.textContent = metin; return e; };
 
-  // Yıl çizgileri ve "bugün"
-  const cizgiler = yap("div", "zc-cizgiler");
-  for (let y = Math.ceil(A / 12); y * 12 < B; y++) {
-    const t = yap("div", "zc-tik"); t.style.setProperty("--a", yuzde(y * 12)); t.append(yap("span", "", String(y))); cizgiler.append(t);
-  }
   g.append(yap("div", "zc-eksen"));
-  ZAMAN_CIZELGESI.seritler.forEach((s, i) => {
-    const ad = yap("div", "zc-serit-ad", s.ad[dil]); ad.style.gridColumn = String(i + 2); ad.style.gridRow = window.matchMedia("(min-width: 40rem)").matches ? String(i + 1) : ""; g.append(ad);
-    const serit = yap("div", "zc-serit"); serit.style.gridColumn = String(i + 2);
-    if (window.matchMedia("(min-width: 40rem)").matches) serit.style.gridRow = String(i + 1);
-    s.ogeler.forEach(o => {
-      const bas = ay(o.bas), son = o.son ? ay(o.son) + 1 : bugun;
-      const k = Math.min(Math.max((bugun - bas) / (son - bas), 0), 1) * 100;
-      const c = yap("div", "zc-cubuk " + s.tur);
-      c.style.setProperty("--a", yuzde(bas)); c.style.setProperty("--b", yuzde(son)); c.style.setProperty("--k", k.toFixed(1) + "%");
-      const e = yap("div", "zc-etiket" + ((bas - A) / (B - A) > 0.6 ? " sagdan" : ""));
-      e.style.setProperty("--a", yuzde(bas)); e.style.setProperty("--b", yuzde(son));
-      const ad = yap("b", "", o.ad[dil]);
-      if (o.logo) { const l = yap("img", "kurum-logo"); l.src = o.logo; l.alt = ""; l.width = 64; l.height = 64; ad.prepend(l); }
-      e.append(ad);
-      const bitis = !o.son ? m("zcDevam") : ayAdi(o.son) + (son > bugun ? " (" + m("zcBeklenen") + ")" : "");
-      e.append(yap("span", "", ayAdi(o.bas) + " – " + bitis));
-      serit.append(c, e);
-    });
-    g.append(serit);
+  for (let y = Math.ceil(A / 12); y * 12 < B; y++) {
+    const t = yap("div", "zc-yil", String(y)); t.style.setProperty("--a", yuzde(y * 12)); g.append(t);
+  }
+  ZAMAN_CIZELGESI.ogeler.forEach(o => {
+    const bas = ay(o.bas), son = o.son ? ay(o.son) + 1 : bugun;
+    const k = Math.min(Math.max((bugun - bas) / (son - bas), 0), 1) * 100;
+    const ayarla = el => { el.style.setProperty("--a", yuzde(bas)); el.style.setProperty("--b", yuzde(son)); el.style.setProperty("--kat", o.kat); };
+    const c = yap("div", "zc-cizgi " + o.renk); ayarla(c); c.style.setProperty("--k", k.toFixed(1) + "%");
+    const e = yap("div", "zc-etiket " + o.renk + ((bas - A) / (B - A) > 0.7 ? " sagdan" : "")); ayarla(e);
+    const ad = yap("b", "", o.ad ? o.ad[dil] : "");
+    if (o.logo) { const l = yap("img", "kurum-logo"); l.src = o.logo; l.alt = o.ad ? "" : (o.kurum || ""); l.width = 64; l.height = 64; ad.prepend(l); }
+    e.append(ad);
+    const bitis = !o.son ? m("zcDevam") : ayAdi(o.son) + (son > bugun ? " (" + m("zcBeklenen") + ")" : "");
+    e.append(yap("span", "", ayAdi(o.bas) + " – " + bitis));
+    g.append(c, e);
   });
-  const b = yap("div", "zc-bugun"); b.style.setProperty("--a", yuzde(bugun)); b.append(yap("span", "", m("zcBugun")));
-  cizgiler.append(b);
-  g.append(cizgiler);
+  const b = yap("div", "zc-bugun"); b.style.setProperty("--a", yuzde(bugun)); g.append(b);
+  const be = yap("div", "zc-bugun-etiket", m("zcBugun")); be.style.setProperty("--a", yuzde(bugun)); g.append(be);
 }
-if (window.matchMedia) window.matchMedia("(min-width: 40rem)").addEventListener("change", () => zamanCizelgesiniYaz());
 
 function ozgecmisiYaz() {
   zamanCizelgesiniYaz();
