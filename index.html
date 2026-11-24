@@ -294,7 +294,7 @@
     .zc-bugun { position: absolute; z-index: 1; left: var(--a); bottom: calc(var(--eksen) - 0.3rem); height: calc(3 * var(--adim) + 0.6rem); border-left: 2px dashed var(--vurgu); }
     .zc-bugun-etiket { position: absolute; left: var(--a); bottom: calc(var(--eksen) + 1 * var(--adim) + 2px); margin-left: 0.35rem; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--vurgu); white-space: nowrap; line-height: 1; }
     @media (max-width: 39.99rem) { .zc-yil.ikinci { display: none; } }
-    @media (min-width: 40rem) { .zc-grafik { --kalin: 0.6rem; --logo: 2.2rem; margin: 0 1rem; } }
+    @media (min-width: 40rem) { .zc-grafik { --kalin: 0.6rem; --logo: 2.2rem; --yatay: 1.35; margin: 0 1rem; } }
     /* Kurum renkleri (koyu temada açık tonları) */
     .renk-aihl { --renk: #0E7490; } .renk-itu { --renk: #1E40AF; } .renk-kt { --renk: #3F9E2A; } .renk-tt { --renk: #C8102E; }
     @media (prefers-color-scheme: dark) { :root:not([data-tema="acik"]) .renk-aihl { --renk: #4CC3DC; } :root:not([data-tema="acik"]) .renk-itu { --renk: #8EA8FF; } :root:not([data-tema="acik"]) .renk-kt { --renk: #74CF5B; } :root:not([data-tema="acik"]) .renk-tt { --renk: #FF6B7D; } }
@@ -302,7 +302,7 @@
     /* Kurum logoları: arka plansız, olduğu gibi */
     .kurum-logo { display: inline-block; vertical-align: middle; width: 1.6rem; height: 1.6rem; max-width: none; object-fit: contain; }
     .kurum-logo.yatay { width: 2.9rem; }
-    .zc-logo .kurum-logo.yatay { width: calc(var(--logo) * 1.35); }
+    .zc-logo .kurum-logo.yatay { width: calc(var(--logo) * var(--yatay, 1.2)); }
     /* Tek renkli koyu logolar (İTÜ, Kartal AİHL) koyu temada beyaz görünür */
     @media (prefers-color-scheme: dark) { :root:not([data-tema="acik"]) .kurum-logo.tek-renk { filter: brightness(0) invert(1); opacity: 0.9; } }
     :root[data-tema="koyu"] .kurum-logo.tek-renk { filter: brightness(0) invert(1); opacity: 0.9; }
@@ -747,7 +747,7 @@ const VSCO_ADRESI = "";
 //   bolum: experience | honors | certifications | education | "" (profilin kendisi); linkedin: belirli bir paylaşımın adresi (varsa bölüm yerine o açılır)
 const OZGECMIS = [
   { grup: { tr: "Deneyim", en: "Experience" }, ogeler: [
-    { ad: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, logo: "img/logo-kuveytturk.webp", bolum: "experience", linkedin: "" },
+    { ad: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, logo: "img/logo-kuveytturk.svg", bolum: "experience", linkedin: "" },
     { ad: { tr: "Turkish Technic", en: "Turkish Technic" }, logo: "img/logo-turkish-technic.webp", bolum: "experience", linkedin: "https://lnkd.in/p/d6kSXA7y" },
     { ad: { tr: "İTÜ İnovasyon Kulübü", en: "ITU Innovation Club" }, logo: "img/logo-itu.webp", bolum: "experience", linkedin: "" }
   ]},
@@ -765,7 +765,7 @@ const OZGECMIS = [
   ]}
 ];
 // Logo sınıfları: yatay logolara geniş yer, tek renkli koyu logolar koyu temada beyaz
-const YATAY_LOGOLAR = ["img/logo-kartal-aihl.webp"], TEK_RENK_LOGOLAR = ["img/logo-itu.webp", "img/logo-kartal-aihl.webp"];
+const YATAY_LOGOLAR = ["img/logo-itu.webp", "img/logo-kartal-aihl.webp"], TEK_RENK_LOGOLAR = ["img/logo-itu.webp", "img/logo-kartal-aihl.webp"];
 const logoSinifi = src => "kurum-logo" + (YATAY_LOGOLAR.includes(src) ? " yatay" : "") + (TEK_RENK_LOGOLAR.includes(src) ? " tek-renk" : "");
 const linkedinBolumu = (bolum, ozel) => ozel || (LINKEDIN_ADRESI + (bolum ? "details/" + bolum + "/" : ""));
 
@@ -778,7 +778,7 @@ const ZAMAN_CIZELGESI = {
   ogeler: [
     { kurum: { tr: "Kartal Anadolu İmam Hatip Lisesi", en: "Kartal Anatolian Imam Hatip High School" }, bas: "2018-09", son: "2023-06", kat: 0, renk: "renk-aihl", logo: "img/logo-kartal-aihl.webp", bolum: "education" },
     { kurum: { tr: "İTÜ Endüstri Mühendisliği", en: "ITU Industrial Engineering" }, bas: "2023-10", son: "2027-06", kat: 0, renk: "renk-itu", logo: "img/logo-itu.webp", bolum: "education" },
-    { kurum: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, bas: "2025-05", son: null, kat: 1, renk: "renk-kt", logo: "img/logo-kuveytturk.webp", bolum: "experience" },
+    { kurum: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, bas: "2025-05", son: null, kat: 1, renk: "renk-kt", logo: "img/logo-kuveytturk.svg", bolum: "experience" },
     { kurum: { tr: "Turkish Technic", en: "Turkish Technic" }, bas: "2026-08", son: "2026-09", kat: 2, renk: "renk-tt", logo: "img/logo-turkish-technic.webp", bolum: "experience", linkedin: "https://lnkd.in/p/d6kSXA7y" }
   ]
 };
