@@ -303,12 +303,13 @@
       .zc-etiket { top: 0; left: var(--a); right: auto; white-space: nowrap; }
       .zc-etiket.sagdan { left: auto; right: calc(100% - var(--b) + 0.5rem); text-align: right; }
       .zc-etiket.sagdan b, .zc-etiket.sagdan span { margin-left: auto; }
+      .zc-etiket b { display: flex; align-items: center; }
+      .zc-etiket .kurum-logo { display: inline-block; margin: -0.2rem 0.45rem 0 0; }
     }
     /* Kurum logoları: koyu temada da görünsün diye beyaz yuvarlak zemin */
     .kurum-logo { display: inline-block; vertical-align: middle; width: 1.6rem; height: 1.6rem; margin: -0.2rem 0.45rem 0 0; padding: 2px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 0 0 1px var(--cizgi); object-fit: contain; }
     .oz-baslik .kurum-logo { width: 1.9rem; height: 1.9rem; margin-right: 0.55rem; }
-    .zc-etiket b { display: flex; align-items: center; }
-    .zc-etiket.sagdan b { justify-content: flex-end; }
+    @media (max-width: 39.99rem) { .zc-etiket .kurum-logo { display: block; margin: 0 0 0.3rem; } }
     .oz-grup { margin-top: 2.5rem; }
     .oz-grup > h3 { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); margin-bottom: 0.4rem; }
     .oz-liste { list-style: none; margin: 0; padding: 0; }
@@ -767,7 +768,7 @@ const OZGECMIS = [
         { tr: "Kuveyt Türk AI Lab'in ilk projelerinden biri olan Firma Ortakları Kontrol Paneli'ni uçtan uca geliştirdim (yukarıda, Projeler'de).", en: "Built the Business Partners Dashboard end to end, one of the first projects in Kuveyt Türk's AI Lab (see Projects above)." }
       ], linkedin: "" },
     { tarih: { tr: "Ağu – Eyl 2026", en: "Aug – Sep 2026" },
-      baslik: { tr: "Turkish Technic", en: "Turkish Technic" },
+      baslik: { tr: "Turkish Technic", en: "Turkish Technic" }, logo: "img/logo-turkish-technic.webp",
       alt: { tr: "Mühendislik Stajyeri · Hat Bakım", en: "Engineering Intern · Line Maintenance" },
       maddeler: [
         { tr: "Boeing Planlama, Yapısal Atölyeler ve Müşteri Uçakları bölümlerinde, arızalı bir uçağın bakım takvimine alınmasından çözümün doğrulanmasına kadar olan planlama sürecini ofiste ve sahada izledim.", en: "In Boeing Planning, Structural Workshops and Customer Aircraft, followed the planning process from scheduling a faulty aircraft for maintenance to verifying the fix, in the office and on the line." }
@@ -815,7 +816,7 @@ const OZGECMIS = [
         { tr: "Sektör profesyonelleri ve üst düzey yöneticilerle vaka analizleri, mentorluk ve kariyer planlama; finans, pazarlama ve iş etiği atölyeleri.", en: "Case studies, mentoring and career planning with industry professionals and senior executives; workshops on finance, marketing and business ethics." }
       ], linkedin: "" },
     { tarih: { tr: "2018 – 2023", en: "2018 – 2023" },
-      baslik: { tr: "Kartal Anadolu İmam Hatip Lisesi", en: "Kartal Anatolian Imam Hatip High School" },
+      baslik: { tr: "Kartal Anadolu İmam Hatip Lisesi", en: "Kartal Anatolian Imam Hatip High School" }, logo: "img/logo-kartal-aihl.webp",
       alt: { tr: "İngilizce Hazırlık ve IGCSE programı", en: "English Preparatory & IGCSE Programme" },
       linkedin: "" }
   ]}
@@ -828,14 +829,14 @@ const ZAMAN_CIZELGESI = {
   bas: "2018-01", son: "2027-12",
   seritler: [
     { ad: { tr: "Eğitim", en: "Education" }, tur: "egitim", ogeler: [
-      { ad: { tr: "Kartal AİHL", en: "Kartal AİHL" }, bas: "2018-09", son: "2023-06" },
+      { ad: { tr: "Kartal AİHL", en: "Kartal AİHL" }, bas: "2018-09", son: "2023-06", logo: "img/logo-kartal-aihl.webp" },
       { ad: { tr: "İTÜ Endüstri Müh.", en: "ITU Industrial Eng." }, bas: "2023-10", son: "2027-06", logo: "img/logo-itu.webp" }
     ]},
     { ad: { tr: "Kariyer", en: "Career" }, tur: "kariyer", ogeler: [
       { ad: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, bas: "2025-05", son: null, logo: "img/logo-kuveytturk.webp" }
     ]},
     { ad: { tr: "Staj", en: "Internship" }, tur: "kariyer", ogeler: [
-      { ad: { tr: "Turkish Technic", en: "Turkish Technic" }, bas: "2026-08", son: "2026-09" }
+      { ad: { tr: "Turkish Technic", en: "Turkish Technic" }, bas: "2026-08", son: "2026-09", logo: "img/logo-turkish-technic.webp" }
     ]}
   ]
 };
