@@ -266,39 +266,43 @@
     .duraklar { margin: 0 0 1.75rem; }
     .cv-dugme { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.25rem; }
     .cv-dugme svg { width: 1.05rem; height: 1.05rem; }
-    /* Kilometre taşları */
-    .kt { margin-top: 2.75rem; }
-    .kt-baslik-ust { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); }
-    .kt-lejant { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; margin: 0.6rem 0 1.5rem; padding: 0; font-size: 0.85rem; color: var(--ikincil); }
-    .kt-lejant li { display: inline-flex; align-items: center; gap: 0.45rem; }
-    .kt-isaret { display: inline-block; width: 0.75rem; height: 0.75rem; border-radius: 50%; flex: none; box-sizing: border-box; }
-    .kt-isaret.kt-egitim { background: var(--zemin); border: 2px solid var(--vurgu); }
-    .kt-isaret.kt-kariyer { background: var(--vurgu); }
-    .kt-isaret.kt-odul { background: var(--vurgu); border-radius: 1px; transform: rotate(45deg) scale(0.85); }
-    .kt-isaret.kt-gelecek { background: var(--zemin); border: 2px solid var(--ikincil); opacity: 0.7; }
-    .kt-cizgi { position: relative; list-style: none; margin: 0; padding: 0 0 0 1.9rem; }
-    .kt-cizgi::before { content: ""; position: absolute; left: 0.55rem; top: 0.4rem; bottom: 0.4rem; width: 2px; background: var(--cizgi); }
-    .kt-yil { position: relative; margin: 1.6rem 0 0.5rem; font-family: var(--serif); font-size: 1.35rem; line-height: 1; }
-    .kt-yil:first-child { margin-top: 0; }
-    .kt-yil::before { content: ""; position: absolute; left: -1.9rem; top: 50%; width: 1.2rem; height: 2px; background: var(--cizgi); }
-    .kt-oge { position: relative; padding: 0.45rem 0; }
-    .kt-oge > .kt-isaret { position: absolute; left: calc(-1.9rem + 0.6rem - 0.375rem + 1px); top: 0.85rem; z-index: 1; }
-    .kt-tarih { display: block; font-size: 0.8rem; color: var(--ikincil); font-variant-numeric: tabular-nums; }
-    .kt-ad { display: block; font-weight: 500; line-height: 1.4; }
-    .kt-alt { display: block; font-size: 0.9rem; color: var(--ikincil); line-height: 1.45; }
-    .kt-oge.gelecek .kt-ad { color: var(--ikincil); }
+    /* Zaman çizelgesi
+       Telefonda zaman yukarıdan aşağı akar (şeritler sütun), genişte soldan sağa (şeritler satır).
+       Her çubuk --a (başlangıç) ve --b (bitiş) yüzdeleriyle konumlanır; --k: çubuğun geçmişte kalan kısmı. */
+    .zc { margin-top: 2.75rem; }
+    .zc-baslik { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); margin-bottom: 1.25rem; }
+    .zc-grafik { position: relative; display: grid; grid-template-columns: 2.6rem repeat(3, 1fr); grid-template-rows: auto 36rem; padding-bottom: 3rem; font-size: 0.85rem; }
+    .zc-serit-ad { grid-row: 1; padding: 0 0 0.6rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ikincil); }
+    .zc-serit { grid-row: 2; position: relative; z-index: 1; }
+    .zc-eksen { grid-row: 2; grid-column: 1; position: relative; }
+    .zc-cizgiler { grid-row: 2; grid-column: 1 / -1; position: relative; pointer-events: none; }
+    .zc-tik { position: absolute; left: 0; right: 0; top: var(--a); border-top: 1px solid var(--cizgi); }
+    .zc-tik span { position: absolute; left: 0; top: -0.6rem; font-variant-numeric: tabular-nums; color: var(--ikincil); font-size: 0.75rem; background: var(--zemin); padding-right: 0.3rem; line-height: 1.2; }
+    .zc-bugun { position: absolute; left: 2.6rem; right: 0; top: var(--a); border-top: 2px dashed var(--vurgu); }
+    .zc-bugun span { position: absolute; left: 0.95rem; top: -1.15rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--vurgu); background: var(--zemin); padding-left: 0.3rem; }
+    .zc-cubuk { position: absolute; left: 0.25rem; width: 0.6rem; top: var(--a); height: max(0.5rem, calc(var(--b) - var(--a))); border-radius: 999px;
+      background: linear-gradient(to bottom, var(--vurgu) var(--k), color-mix(in srgb, var(--vurgu) 30%, transparent) var(--k)); }
+    .zc-cubuk.kariyer { background: linear-gradient(to bottom, var(--metin) var(--k), color-mix(in srgb, var(--metin) 25%, transparent) var(--k)); }
+    .zc-etiket { position: absolute; left: 1.15rem; top: var(--a); right: 0.25rem; line-height: 1.3; }
+    .zc-etiket b, .zc-etiket span { display: block; width: fit-content; background: var(--zemin); }
+    .zc-etiket b { font-weight: 500; }
+    .zc-etiket span { color: var(--ikincil); font-size: 0.78rem; }
     @media (min-width: 40rem) {
-      /* Geniş ekranda çizgi ortada: eğitim solda, kariyer ve ödüller sağda */
-      .kt-cizgi { padding-left: 0; }
-      .kt-cizgi::before { left: calc(50% - 1px); }
-      .kt-yil { text-align: center; margin: 1.75rem 0 0.75rem; }
-      .kt-yil span { background: var(--zemin); padding: 0.2rem 0.6rem; position: relative; }
-      .kt-yil::before { display: none; }
-      .kt-oge { width: 50%; padding: 0.5rem 0; }
-      .kt-oge.sol { padding-right: 1.75rem; text-align: right; }
-      .kt-oge.sag { margin-left: 50%; padding-left: 1.75rem; }
-      .kt-oge.sol > .kt-isaret { left: auto; right: -0.375rem; }
-      .kt-oge.sag > .kt-isaret { left: -0.375rem; }
+      .zc-grafik { grid-template-columns: 7rem 1fr; grid-template-rows: repeat(3, 4.25rem) 2rem; padding-bottom: 0; }
+      .zc-serit-ad { grid-column: 1 !important; grid-row: auto; padding: 0.15rem 0.75rem 0 0; align-self: start; }
+      .zc-serit { grid-column: 2 !important; }
+      .zc-eksen { grid-column: 2; grid-row: 4; }
+      .zc-cizgiler { grid-column: 2; grid-row: 1 / 4; }
+      .zc-tik { left: var(--a); right: auto; top: 0; bottom: -1.6rem; border-top: 0; border-left: 1px solid var(--cizgi); }
+      .zc-tik span { left: -1rem; top: auto; bottom: 0; padding: 0; width: 2rem; text-align: center; }
+      .zc-bugun { left: var(--a); right: auto; top: -0.4rem; bottom: 0; border-top: 0; border-left: 2px dashed var(--vurgu); }
+      .zc-bugun span { left: 0.3rem; top: -0.3rem; padding: 0; }
+      .zc-cubuk { top: 2.55rem; left: var(--a); width: max(0.5rem, calc(var(--b) - var(--a))); height: 0.6rem;
+        background: linear-gradient(to right, var(--vurgu) var(--k), color-mix(in srgb, var(--vurgu) 30%, transparent) var(--k)); }
+      .zc-cubuk.kariyer { background: linear-gradient(to right, var(--metin) var(--k), color-mix(in srgb, var(--metin) 25%, transparent) var(--k)); }
+      .zc-etiket { top: 0; left: var(--a); right: auto; white-space: nowrap; }
+      .zc-etiket.sagdan { left: auto; right: calc(100% - var(--b) + 0.5rem); text-align: right; }
+      .zc-etiket.sagdan b, .zc-etiket.sagdan span { margin-left: auto; }
     }
     .oz-grup { margin-top: 2.5rem; }
     .oz-grup > h3 { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); margin-bottom: 0.4rem; }
@@ -581,15 +585,10 @@
         <span data-m="cvIndir"></span>
       </a>
 
-      <!-- Kilometre taşları: eğitim ve kariyer tek çizgide (veri: KILOMETRE_TASLARI) -->
-      <div class="kt">
-        <h3 class="kt-baslik-ust" data-m="ktBaslik"></h3>
-        <ul class="kt-lejant" aria-hidden="true">
-          <li><span class="kt-isaret kt-egitim"></span><span data-m="ktEgitim"></span></li>
-          <li><span class="kt-isaret kt-kariyer"></span><span data-m="ktKariyer"></span></li>
-          <li><span class="kt-isaret kt-odul"></span><span data-m="ktOdul"></span></li>
-        </ul>
-        <ol class="kt-cizgi" id="ktListe"></ol>
+      <!-- Zaman çizelgesi: eğitim ve kariyer aynı zaman ekseninde, üst üste binen dönemlerle (veri: ZAMAN_CIZELGESI) -->
+      <div class="zc">
+        <h3 class="zc-baslik" data-m="zcBaslik"></h3>
+        <div class="zc-grafik" id="zamanCizelgesi" role="img"></div>
       </div>
 
       <div id="ozgecmisIcerik"></div>
@@ -817,24 +816,23 @@ const OZGECMIS = [
   ]}
 ];
 
-// Kilometre taşları: eğitim ve kariyer tek çizgide, eskiden yeniye.
-//   yil: çizgideki yıl başlığı; tur: "egitim" | "kariyer" | "odul"; tarih: ay (yıl başlıkta yazar);
-//   gelecek: true ise henüz gerçekleşmemiş (kesik çizgili işaret)
-const KILOMETRE_TASLARI = [
-  { yil: 2018, tur: "egitim", tarih: { tr: "Eylül", en: "September" }, ad: { tr: "Kartal Anadolu İmam Hatip Lisesi", en: "Kartal Anatolian Imam Hatip High School" }, alt: { tr: "İngilizce hazırlık ve IGCSE programı", en: "English preparatory & IGCSE programme" } },
-  { yil: 2020, tur: "egitim", tarih: { tr: "Mayıs", en: "May" }, ad: { tr: "IGCSE", en: "IGCSE" }, alt: { tr: "University of Cambridge", en: "University of Cambridge" } },
-  { yil: 2023, tur: "egitim", tarih: { tr: "Haziran", en: "June" }, ad: { tr: "Lise mezuniyeti", en: "High school diploma" } },
-  { yil: 2023, tur: "egitim", tarih: { tr: "Ekim", en: "October" }, ad: { tr: "İTÜ Endüstri Mühendisliği", en: "ITU Industrial Engineering" }, alt: { tr: "Lisans", en: "BSc" } },
-  { yil: 2023, tur: "egitim", tarih: { tr: "Ekim", en: "October" }, ad: { tr: "İTÜ İnovasyon Kulübü", en: "ITU Innovation Club" }, alt: { tr: "inoFinance ve inoOperation ekipleri", en: "inoFinance and inoOperation teams" } },
-  { yil: 2023, tur: "egitim", tarih: { tr: "Kasım", en: "November" }, ad: { tr: "Hamilik Okulu Vakfı", en: "Hamilik Okulu Foundation" }, alt: { tr: "4 yıllık liderlik ve gelişim programı", en: "4-year leadership and development programme" } },
-  { yil: 2024, tur: "odul", tarih: { tr: "Mart", en: "March" }, ad: { tr: "FirstTech Staj Programı", en: "FirstTech Internship Programme" }, alt: { tr: "Başarı Belgesi · Intertech", en: "Certificate of Achievement · Intertech" } },
-  { yil: 2025, tur: "kariyer", tarih: { tr: "Mayıs", en: "May" }, ad: { tr: "Kuveyt Türk · KOBİ Pazarlama", en: "Kuveyt Türk · SME Marketing" }, alt: { tr: "Firma Ortakları Yönetimi, yarı zamanlı", en: "Business Partners Management, part-time" } },
-  { yil: 2026, tur: "odul", ad: { tr: "Genel Müdür Yardımcısı ödülü", en: "Deputy General Manager's award" }, alt: { tr: "Firma Ortakları Kontrol Paneli · AI Lab", en: "Business Partners Dashboard · AI Lab" } },
-  { yil: 2026, tur: "odul", ad: { tr: "International Finance Awards", en: "International Finance Awards" }, alt: { tr: "Most Innovative Customer Loyalty Program · Elit Patron ekibiyle", en: "Most Innovative Customer Loyalty Program · with the Elit Patron team" } },
-  { yil: 2026, tur: "odul", ad: { tr: "FLY UP Fikir Turnuvası", en: "FLY UP Idea Tournament" }, alt: { tr: "Üniversiteler arası, ikincilik", en: "Inter-university, second place" } },
-  { yil: 2026, tur: "kariyer", tarih: { tr: "Ağustos – Eylül", en: "August – September" }, ad: { tr: "Turkish Technic", en: "Turkish Technic" }, alt: { tr: "Mühendislik stajı · Hat Bakım", en: "Engineering internship · Line Maintenance" } },
-  { yil: 2027, tur: "egitim", gelecek: true, tarih: { tr: "Haziran (beklenen)", en: "June (expected)" }, ad: { tr: "İTÜ'den mezuniyet", en: "Graduation from ITU" } }
-];
+// Zaman çizelgesi: eğitim ve kariyer aynı eksende. bas/son: "YIL-AY" (son ay dahil).
+//   son: null ise bugüne kadar sürüyor; bugünden sonrası açık renkle (beklenen) gösterilir.
+const ZAMAN_CIZELGESI = {
+  bas: "2018-01", son: "2027-12",
+  seritler: [
+    { ad: { tr: "Eğitim", en: "Education" }, tur: "egitim", ogeler: [
+      { ad: { tr: "Kartal AİHL", en: "Kartal AİHL" }, bas: "2018-09", son: "2023-06" },
+      { ad: { tr: "İTÜ Endüstri Müh.", en: "ITU Industrial Eng." }, bas: "2023-10", son: "2027-06" }
+    ]},
+    { ad: { tr: "Kariyer", en: "Career" }, tur: "kariyer", ogeler: [
+      { ad: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, bas: "2025-05", son: null }
+    ]},
+    { ad: { tr: "Staj", en: "Internship" }, tur: "kariyer", ogeler: [
+      { ad: { tr: "Turkish Technic", en: "Turkish Technic" }, bas: "2026-08", son: "2026-09" }
+    ]}
+  ]
+};
 
 // Projelerin LinkedIn paylaşımları: adres yazılınca projenin altında "LinkedIn'deki paylaşımı oku" bağlantısı çıkar
 const PROJE_PAYLASIMLARI = {
@@ -974,7 +972,7 @@ const METINLER = {
     rrSonuc: "12 kategoride 141 ürüne ait 24.500 yorum analiz edildi. Kullanıcı bir kategoriyi aradığında rakiplerin en çok şikâyet aldığı konuları, müşterilerin beğendiği yönleri ve pazara girerken dikkat edilmesi gerekenleri tek ekranda görüyor. Proje 2027 yazına kadar geliştirilmeye devam edecek.",
     rrDugme: "Siteyi aç →",
     cvIndir: "CV'yi indir (PDF)",
-    ktBaslik: "Kilometre taşları", ktEgitim: "Eğitim ve gelişim", ktKariyer: "Kariyer", ktOdul: "Ödül ve belge",
+    zcBaslik: "Zaman çizelgesi", zcBugun: "Bugün", zcDevam: "devam ediyor", zcBeklenen: "beklenen", zcAciklama: "Eğitim ve kariyerin zaman çizelgesi",
     paylasimOku: "LinkedIn'deki paylaşımı oku",
     paylasimKisa: "LinkedIn'de oku",
     rrGorselAlt: "ReviewRadar ana sayfasının ekran görüntüsü: arama kutusu ve kategori kartları",
@@ -1035,7 +1033,7 @@ const METINLER = {
     rrSonuc: "24,500 reviews of 141 products across 12 categories analysed. Users search a category and see, on one screen, competitors' most common complaints, what customers like, and what to watch for when entering the market. Development continues through summer 2027.",
     rrDugme: "Open the site →",
     cvIndir: "Download CV (PDF)",
-    ktBaslik: "Milestones", ktEgitim: "Education and development", ktKariyer: "Career", ktOdul: "Award and certificate",
+    zcBaslik: "Timeline", zcBugun: "Today", zcDevam: "present", zcBeklenen: "expected", zcAciklama: "Timeline of education and career",
     paylasimOku: "Read the LinkedIn post",
     paylasimKisa: "Read on LinkedIn",
     rrGorselAlt: "Screenshot of the ReviewRadar home page: search box and category cards",
@@ -1283,27 +1281,49 @@ function paylasimlariYaz() {
 }
 
 const CV_DOSYALARI = { tr: "cv/Yusuf_Selim_Kirca_CV_TR.pdf", en: "cv/Yusuf_Selim_Kirca_CV_EN.pdf" };
-function kilometreTaslariniYaz() {
-  const liste = document.getElementById("ktListe");
-  liste.innerHTML = "";
+function zamanCizelgesiniYaz() {
+  const g = document.getElementById("zamanCizelgesi");
+  g.innerHTML = "";
+  g.setAttribute("aria-label", m("zcAciklama"));
+  const ay = t => { const [y, a] = t.split("-").map(Number); return y * 12 + (a - 1); };
+  const simdi = new Date(), bugun = simdi.getFullYear() * 12 + simdi.getMonth() + simdi.getDate() / 31;
+  const A = ay(ZAMAN_CIZELGESI.bas), B = ay(ZAMAN_CIZELGESI.son) + 1;
+  const yuzde = v => (Math.min(Math.max((v - A) / (B - A), 0), 1) * 100).toFixed(2) + "%";
+  const ayAdi = t => new Intl.DateTimeFormat(dil, { month: "short", year: "numeric" }).format(new Date(t + "-15"));
   const yap = (etiket, sinif, metin) => { const e = document.createElement(etiket); if (sinif) e.className = sinif; if (metin) e.textContent = metin; return e; };
-  let sonYil = null;
-  KILOMETRE_TASLARI.forEach(k => {
-    if (k.yil !== sonYil) {
-      const y = yap("li", "kt-yil"); y.append(yap("span", "", String(k.yil))); liste.append(y);
-      sonYil = k.yil;
-    }
-    const li = yap("li", "kt-oge " + (k.tur === "egitim" ? "sol" : "sag") + (k.gelecek ? " gelecek" : ""));
-    li.append(yap("span", "kt-isaret kt-" + (k.gelecek ? "gelecek" : k.tur)));
-    if (k.tarih) li.append(yap("span", "kt-tarih", k.tarih[dil]));
-    li.append(yap("span", "kt-ad", k.ad[dil]));
-    if (k.alt) li.append(yap("span", "kt-alt", k.alt[dil]));
-    liste.append(li);
+
+  // Yıl çizgileri ve "bugün"
+  const cizgiler = yap("div", "zc-cizgiler");
+  for (let y = Math.ceil(A / 12); y * 12 < B; y++) {
+    const t = yap("div", "zc-tik"); t.style.setProperty("--a", yuzde(y * 12)); t.append(yap("span", "", String(y))); cizgiler.append(t);
+  }
+  g.append(yap("div", "zc-eksen"));
+  ZAMAN_CIZELGESI.seritler.forEach((s, i) => {
+    const ad = yap("div", "zc-serit-ad", s.ad[dil]); ad.style.gridColumn = String(i + 2); ad.style.gridRow = window.matchMedia("(min-width: 40rem)").matches ? String(i + 1) : ""; g.append(ad);
+    const serit = yap("div", "zc-serit"); serit.style.gridColumn = String(i + 2);
+    if (window.matchMedia("(min-width: 40rem)").matches) serit.style.gridRow = String(i + 1);
+    s.ogeler.forEach(o => {
+      const bas = ay(o.bas), son = o.son ? ay(o.son) + 1 : bugun;
+      const k = Math.min(Math.max((bugun - bas) / (son - bas), 0), 1) * 100;
+      const c = yap("div", "zc-cubuk " + s.tur);
+      c.style.setProperty("--a", yuzde(bas)); c.style.setProperty("--b", yuzde(son)); c.style.setProperty("--k", k.toFixed(1) + "%");
+      const e = yap("div", "zc-etiket" + ((bas - A) / (B - A) > 0.6 ? " sagdan" : ""));
+      e.style.setProperty("--a", yuzde(bas)); e.style.setProperty("--b", yuzde(son));
+      e.append(yap("b", "", o.ad[dil]));
+      const bitis = !o.son ? m("zcDevam") : ayAdi(o.son) + (son > bugun ? " (" + m("zcBeklenen") + ")" : "");
+      e.append(yap("span", "", ayAdi(o.bas) + " – " + bitis));
+      serit.append(c, e);
+    });
+    g.append(serit);
   });
+  const b = yap("div", "zc-bugun"); b.style.setProperty("--a", yuzde(bugun)); b.append(yap("span", "", m("zcBugun")));
+  cizgiler.append(b);
+  g.append(cizgiler);
 }
+if (window.matchMedia) window.matchMedia("(min-width: 40rem)").addEventListener("change", () => zamanCizelgesiniYaz());
 
 function ozgecmisiYaz() {
-  kilometreTaslariniYaz();
+  zamanCizelgesiniYaz();
   document.getElementById("cvDugme").href = CV_DOSYALARI[dil];
   const kutu = document.getElementById("ozgecmisIcerik");
   kutu.innerHTML = "";
