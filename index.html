@@ -1629,7 +1629,7 @@ function veriYukle(dosya) {
       if (!yol) {
         yol = document.createElementNS(SVGNS, "path");
         yol.setAttribute("class", "ulke" + durumSinifi(u.k));
-        if (u.k) yol.dataset.k = u.k;   // ülke kodu olan her ülkenin üzerine gelince adı görünür
+        if (ULKELER.includes(u.k)) yol.dataset.k = u.k;   // yalnızca gidilen ülkeler etkileşimli: üzerine gelince adı, tıklayınca fotoğrafları
         // gidilen ülkeler üstte dursun diye sona, diğerleri başa eklenir
         if (ULKELER.includes(u.k)) svg.append(yol); else svg.prepend(yol);
         yollar[anahtar] = yol;
