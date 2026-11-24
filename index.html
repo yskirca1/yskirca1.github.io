@@ -304,6 +304,11 @@
       .zc-etiket.sagdan { left: auto; right: calc(100% - var(--b) + 0.5rem); text-align: right; }
       .zc-etiket.sagdan b, .zc-etiket.sagdan span { margin-left: auto; }
     }
+    /* Kurum logoları: koyu temada da görünsün diye beyaz yuvarlak zemin */
+    .kurum-logo { display: inline-block; vertical-align: middle; width: 1.6rem; height: 1.6rem; margin: -0.2rem 0.45rem 0 0; padding: 2px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 0 0 1px var(--cizgi); object-fit: contain; }
+    .oz-baslik .kurum-logo { width: 1.9rem; height: 1.9rem; margin-right: 0.55rem; }
+    .zc-etiket b { display: flex; align-items: center; }
+    .zc-etiket.sagdan b { justify-content: flex-end; }
     .oz-grup { margin-top: 2.5rem; }
     .oz-grup > h3 { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); margin-bottom: 0.4rem; }
     .oz-liste { list-style: none; margin: 0; padding: 0; }
@@ -754,7 +759,7 @@ const VSCO_ADRESI = "";
 const OZGECMIS = [
   { grup: { tr: "Deneyim", en: "Experience" }, ogeler: [
     { tarih: { tr: "Mayıs 2025 – devam ediyor", en: "May 2025 – present" },
-      baslik: { tr: "Kuveyt Türk Katılım Bankası", en: "Kuveyt Türk Participation Bank" },
+      baslik: { tr: "Kuveyt Türk Katılım Bankası", en: "Kuveyt Türk Participation Bank" }, logo: "img/logo-kuveytturk.webp",
       alt: { tr: "Pazarlama Stajyeri · KOBİ & Firma Ortakları Yönetimi · yarı zamanlı", en: "Marketing Intern · SME & Business Partners Management · part-time" },
       maddeler: [
         { tr: "Elit Patron segmenti, mikro KOBİ'ler ve avukat, veteriner, taksici gibi profesyonel meslek gruplarına yönelik kampanyalarda analiz, segmentasyon ve süreç dokümantasyonu.", en: "Analysis, segmentation and process documentation for campaigns aimed at the Elit Patron segment, micro SMEs and professional groups such as lawyers, vets and taxi drivers." },
@@ -768,7 +773,7 @@ const OZGECMIS = [
         { tr: "Boeing Planlama, Yapısal Atölyeler ve Müşteri Uçakları bölümlerinde, arızalı bir uçağın bakım takvimine alınmasından çözümün doğrulanmasına kadar olan planlama sürecini ofiste ve sahada izledim.", en: "In Boeing Planning, Structural Workshops and Customer Aircraft, followed the planning process from scheduling a faulty aircraft for maintenance to verifying the fix, in the office and on the line." }
       ], linkedin: "" },
     { tarih: { tr: "Eki 2023 – Eyl 2025", en: "Oct 2023 – Sep 2025" },
-      baslik: { tr: "İTÜ İnovasyon Kulübü", en: "ITU Innovation Club" },
+      baslik: { tr: "İTÜ İnovasyon Kulübü", en: "ITU Innovation Club" }, logo: "img/logo-itu.webp",
       alt: { tr: "inoFinance ve inoOperation Ekip Üyesi", en: "inoFinance and inoOperation Team Member" },
       maddeler: [
         { tr: "Sponsorluk görüşmeleri ve iş birlikleri; etkinliklerin planlanması ve organizasyonu.", en: "Sponsorship talks and partnerships; planning and organising events." }
@@ -798,7 +803,7 @@ const OZGECMIS = [
   ]},
   { grup: { tr: "Eğitim", en: "Education" }, ogeler: [
     { tarih: { tr: "2023 – 2027", en: "2023 – 2027" },
-      baslik: { tr: "İstanbul Teknik Üniversitesi", en: "Istanbul Technical University" },
+      baslik: { tr: "İstanbul Teknik Üniversitesi", en: "Istanbul Technical University" }, logo: "img/logo-itu.webp",
       alt: { tr: "Endüstri Mühendisliği, lisans (son sınıf)", en: "BSc Industrial Engineering (final year)" },
       maddeler: [
         { tr: "Bitirme projesi (devam ediyor): insan analitiği, yetenek yönetimi ve kurum içi girişimcilik ekseninde stratejik yönetim çalışması.", en: "Graduation project (in progress): a strategic management study on people analytics, talent management and intrapreneurship." }
@@ -818,15 +823,16 @@ const OZGECMIS = [
 
 // Zaman çizelgesi: eğitim ve kariyer aynı eksende. bas/son: "YIL-AY" (son ay dahil).
 //   son: null ise bugüne kadar sürüyor; bugünden sonrası açık renkle (beklenen) gösterilir.
+//   logo: kurum logosu (img/ altında, kare); yoksa yazmayın
 const ZAMAN_CIZELGESI = {
   bas: "2018-01", son: "2027-12",
   seritler: [
     { ad: { tr: "Eğitim", en: "Education" }, tur: "egitim", ogeler: [
       { ad: { tr: "Kartal AİHL", en: "Kartal AİHL" }, bas: "2018-09", son: "2023-06" },
-      { ad: { tr: "İTÜ Endüstri Müh.", en: "ITU Industrial Eng." }, bas: "2023-10", son: "2027-06" }
+      { ad: { tr: "İTÜ Endüstri Müh.", en: "ITU Industrial Eng." }, bas: "2023-10", son: "2027-06", logo: "img/logo-itu.webp" }
     ]},
     { ad: { tr: "Kariyer", en: "Career" }, tur: "kariyer", ogeler: [
-      { ad: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, bas: "2025-05", son: null }
+      { ad: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, bas: "2025-05", son: null, logo: "img/logo-kuveytturk.webp" }
     ]},
     { ad: { tr: "Staj", en: "Internship" }, tur: "kariyer", ogeler: [
       { ad: { tr: "Turkish Technic", en: "Turkish Technic" }, bas: "2026-08", son: "2026-09" }
@@ -1309,7 +1315,9 @@ function zamanCizelgesiniYaz() {
       c.style.setProperty("--a", yuzde(bas)); c.style.setProperty("--b", yuzde(son)); c.style.setProperty("--k", k.toFixed(1) + "%");
       const e = yap("div", "zc-etiket" + ((bas - A) / (B - A) > 0.6 ? " sagdan" : ""));
       e.style.setProperty("--a", yuzde(bas)); e.style.setProperty("--b", yuzde(son));
-      e.append(yap("b", "", o.ad[dil]));
+      const ad = yap("b", "", o.ad[dil]);
+      if (o.logo) { const l = yap("img", "kurum-logo"); l.src = o.logo; l.alt = ""; l.width = 64; l.height = 64; ad.prepend(l); }
+      e.append(ad);
       const bitis = !o.son ? m("zcDevam") : ayAdi(o.son) + (son > bugun ? " (" + m("zcBeklenen") + ")" : "");
       e.append(yap("span", "", ayAdi(o.bas) + " – " + bitis));
       serit.append(c, e);
@@ -1336,7 +1344,9 @@ function ozgecmisiYaz() {
       const li = yap("li", "oz-oge");
       li.append(yap("span", "oz-tarih", o.tarih[dil] || ""));
       const govde = yap("div", "oz-govde");
-      govde.append(yap("span", "oz-baslik", o.baslik[dil]));
+      const baslik = yap("span", "oz-baslik", o.baslik[dil]);
+      if (o.logo) { const l = yap("img", "kurum-logo"); l.src = o.logo; l.alt = ""; l.width = 64; l.height = 64; l.loading = "lazy"; baslik.prepend(l); }
+      govde.append(baslik);
       if (o.alt) govde.append(yap("span", "oz-alt", o.alt[dil]));
       if (o.maddeler && o.maddeler.length) {
         const ul = yap("ul");
