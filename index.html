@@ -42,6 +42,9 @@
   <script>
     // Ziyaretçinin daha önce seçtiği tema (açık/koyu) varsa, sayfa çizilmeden uygula
     try { var t = localStorage.getItem("tema"); if (t === "acik" || t === "koyu") document.documentElement.dataset.tema = t; } catch (e) {}
+    // Uygulama içi tarayıcılar (LinkedIn, Instagram) açık temayı kendiliğinden karartmasın
+    function renkSemasi() { var t = document.documentElement.dataset.tema; document.querySelector('meta[name="color-scheme"]').content = t === "acik" ? "only light" : t === "koyu" ? "dark" : "light dark"; }
+    renkSemasi();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -935,6 +938,7 @@ function temaDugmesiniYaz() {
   d.title = m(koyu ? "acikTemayaGec" : "koyuTemayaGec");
   // Telefonda tarayıcı çubuğunun rengi
   document.querySelectorAll('meta[name="theme-color"]').forEach(x => x.setAttribute("content", koyu ? "#161513" : "#FAF8F5"));
+  renkSemasi();
 }
 function temayiUygula(yeni) {
   document.documentElement.dataset.tema = yeni;
