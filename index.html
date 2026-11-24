@@ -760,12 +760,12 @@ const OZGECMIS = [
   ]},
   { grup: { tr: "Eğitim", en: "Education" }, ogeler: [
     { ad: { tr: "İstanbul Teknik Üniversitesi", en: "Istanbul Technical University" }, logo: "img/logo-itu.webp?v=4", bolum: "education", linkedin: "" },
-    { ad: { tr: "Hamilik Okulu Vakfı", en: "Hamilik Okulu Foundation" }, bolum: "", linkedin: "" },
+    { ad: { tr: "Hamilik Okulu Vakfı", en: "Hamilik Okulu Foundation" }, logo: "img/logo-hamilik.webp", bolum: "", linkedin: "" },
     { ad: { tr: "Kartal Anadolu İmam Hatip Lisesi", en: "Kartal Anatolian Imam Hatip High School" }, logo: "img/logo-kartal-aihl.webp?v=2", bolum: "education", linkedin: "" }
   ]}
 ];
 // Logo sınıfları: yatay logolara geniş yer, tek renkli koyu logolar koyu temada beyaz
-const YATAY_LOGOLAR = ["img/logo-kartal-aihl.webp?v=2"], TEK_RENK_LOGOLAR = ["img/logo-itu.webp?v=4", "img/logo-kartal-aihl.webp?v=2"];
+const YATAY_LOGOLAR = ["img/logo-kartal-aihl.webp?v=2", "img/logo-hamilik.webp"], TEK_RENK_LOGOLAR = ["img/logo-itu.webp?v=4", "img/logo-kartal-aihl.webp?v=2", "img/logo-hamilik.webp"];
 const logoSinifi = src => "kurum-logo" + (YATAY_LOGOLAR.includes(src) ? " yatay" : "") + (TEK_RENK_LOGOLAR.includes(src) ? " tek-renk" : "");
 const linkedinBolumu = (bolum, ozel) => ozel || (LINKEDIN_ADRESI + (bolum ? "details/" + bolum + "/" : ""));
 
