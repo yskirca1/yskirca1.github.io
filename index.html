@@ -266,67 +266,44 @@
     .duraklar { margin: 0 0 1.75rem; }
     .cv-dugme { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.25rem; }
     .cv-dugme svg { width: 1.05rem; height: 1.05rem; }
-    /* Zaman çizelgesi: tek tarih ekseni; dönemler eksenin üzerinde renkli çizgiler.
-       Kat 0 eksenin kendisi (eğitim), üst üste binen dönemler bir kat yukarıda.
-       Telefonda eksen dikey (yukarıdan aşağı), genişte yatay. --a / --b: başlangıç ve bitiş yüzdesi,
-       --k: çizginin geçmişte kalan kısmı (sonrası soluk), --kat: kaçıncı kat, --renk: çizgi rengi. */
+    /* Zaman çizelgesi: tek tarih ekseni, dönemler eksenin üzerinde bitişik renkli çizgiler.
+       2018–2023 (lise) sıkıştırılmış gösterilir. Logolar çizgilerin başlangıcının üstünde, LinkedIn'e bağlanır.
+       --a / --b: başlangıç ve bitiş yüzdesi, --k: çizginin geçmişte kalan kısmı (sonrası soluk), --kat: kaçıncı kat. */
     .zc { margin-top: 2.75rem; }
-    .zc-baslik { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); margin-bottom: 1.25rem; }
-    .zc-grafik { --adim: 1.1rem; --kalin: 0.5rem; position: relative; height: 40rem; margin-left: 2.75rem; font-size: 0.85rem; }
-    .zc-eksen { position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--cizgi); }
-    .zc-yil { position: absolute; top: var(--a); left: -2.75rem; width: 2.25rem; transform: translateY(-50%); text-align: right; font-size: 0.75rem; color: var(--ikincil); font-variant-numeric: tabular-nums; }
-    .zc-yil::after { content: ""; position: absolute; right: -0.55rem; top: 50%; width: 0.4rem; height: 1px; background: var(--ikincil); }
-    .zc-cizgi { position: absolute; z-index: 3; top: var(--a); height: max(var(--kalin), calc(var(--b) - var(--a))); width: var(--kalin);
-      left: calc(1px - var(--kalin) / 2 + var(--kat) * var(--adim)); border-radius: 999px;
-      background: linear-gradient(to bottom, var(--renk) var(--k), color-mix(in srgb, var(--renk) 30%, transparent) var(--k)); }
-    .zc-etiket { position: absolute; top: var(--a); left: calc(2 * var(--adim) + 1rem); right: 0; line-height: 1.3; transform: translateY(-0.2rem); }
-    .zc-etiket { z-index: 2; }
-    .zc-etiket b, .zc-etiket span { display: block; width: fit-content; background: var(--zemin); padding-right: 0.25rem; }
-    .zc-etiket b { display: flex; align-items: center; gap: 0.45rem; font-weight: 500; }
-    .zc-etiket span { color: var(--ikincil); font-size: 0.78rem; }
-    .zc-etiket .kurum-logo { margin: 0; }
-    .zc-etiket::before { content: ""; position: absolute; left: calc(-2 * var(--adim) - 1rem + var(--kat) * var(--adim) + var(--kalin) / 2 + 1px); right: 100%; top: 0.95rem; border-top: 1px dotted var(--renk); }
-    .zc-bugun { position: absolute; top: var(--a); left: -0.5rem; width: calc(3 * var(--adim)); border-top: 2px dashed var(--vurgu); }
-    .zc-bugun span { position: absolute; right: calc(100% + 0.95rem); top: -0.55rem; display: none; }
-    .zc-bugun-etiket { position: absolute; top: var(--a); right: 0; transform: translateY(-115%); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--vurgu); }
+    .zc-baslik { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); margin-bottom: 1rem; }
+    .zc-grafik { --kalin: 0.55rem; --adim: calc(var(--kalin) + 2px); --logo: 1.9rem; --eksen: 1.6rem;
+      position: relative; height: calc(var(--eksen) + 3 * var(--adim) + var(--logo) + 1.6rem); margin: 0 0.5rem; }
+    .zc-eksen { position: absolute; left: 0; right: 0; bottom: var(--eksen); height: 2px; background: var(--cizgi); }
+    .zc-kirik { position: absolute; z-index: 3; bottom: calc(var(--eksen) - 0.45rem); left: var(--a); width: 0.6rem; height: 1rem; margin-left: -0.3rem; background: var(--zemin);
+      border-left: 2px solid var(--ikincil); border-right: 2px solid var(--ikincil); transform: skewX(-20deg); }
+    .zc-yil { position: absolute; bottom: 0; left: var(--a); width: 2.5rem; margin-left: -1.25rem; text-align: center; font-size: 0.75rem; color: var(--ikincil); font-variant-numeric: tabular-nums; }
+    .zc-yil::after { content: ""; position: absolute; left: 50%; top: -0.5rem; width: 1px; height: 0.35rem; background: var(--ikincil); }
+    .zc-yil.ilk { margin-left: 0; text-align: left; } .zc-yil.ilk::after { left: 0; }
+    .zc-cizgi { position: absolute; z-index: 2; left: var(--a); width: max(var(--kalin), calc(var(--b) - var(--a))); height: var(--kalin);
+      bottom: calc(var(--eksen) + 1px - var(--kalin) / 2 + var(--kat) * var(--adim)); border-radius: 999px;
+      background: linear-gradient(to right, var(--renk) var(--k), color-mix(in srgb, var(--renk) 30%, transparent) var(--k)); }
+    .zc-logo { position: absolute; z-index: 3; left: var(--a); bottom: calc(var(--eksen) + 3 * var(--adim) + 0.6rem); display: block; line-height: 0; border-radius: 50%; }
+    .zc-logo::after { content: ""; position: absolute; left: calc(var(--kalin) / 2 - 0.5px); top: 100%; width: 1px;
+      height: calc(0.6rem + (3 - var(--kat)) * var(--adim) - var(--kalin) / 2); background: var(--renk); }
+    .zc-logo .kurum-logo { width: var(--logo); height: var(--logo); margin: 0; transition: transform 0.15s; }
+    .zc-logo:hover .kurum-logo, .zc-logo:focus-visible .kurum-logo { transform: scale(1.12); }
+    .zc-bugun { position: absolute; z-index: 1; left: var(--a); top: 1rem; bottom: var(--eksen); border-left: 2px dashed var(--vurgu); }
+    .zc-bugun-etiket { position: absolute; left: var(--a); top: 0; transform: translateX(-50%); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--vurgu); white-space: nowrap; }
+    @media (min-width: 40rem) { .zc-grafik { --kalin: 0.6rem; --logo: 2.2rem; margin: 0 1rem; } }
     /* Kurum renkleri (koyu temada açık tonları) */
     .renk-aihl { --renk: #0E7490; } .renk-itu { --renk: #1E40AF; } .renk-kt { --renk: #3F9E2A; } .renk-tt { --renk: #C8102E; }
     @media (prefers-color-scheme: dark) { :root:not([data-tema="acik"]) .renk-aihl { --renk: #4CC3DC; } :root:not([data-tema="acik"]) .renk-itu { --renk: #8EA8FF; } :root:not([data-tema="acik"]) .renk-kt { --renk: #74CF5B; } :root:not([data-tema="acik"]) .renk-tt { --renk: #FF6B7D; } }
     :root[data-tema="koyu"] .renk-aihl { --renk: #4CC3DC; } :root[data-tema="koyu"] .renk-itu { --renk: #8EA8FF; } :root[data-tema="koyu"] .renk-kt { --renk: #74CF5B; } :root[data-tema="koyu"] .renk-tt { --renk: #FF6B7D; }
-    @media (min-width: 40rem) {
-      .zc-grafik { --adim: 4rem; --kalin: 0.45rem; height: calc(3 * var(--adim) + 4.25rem); margin-inline: 1.25rem; }
-      .zc-eksen { left: 0; right: 0; top: auto; bottom: 1.75rem; width: auto; height: 2px; }
-      .zc-yil { top: auto; bottom: 0; left: var(--a); width: 2.5rem; margin-left: -1.25rem; transform: none; text-align: center; }
-      .zc-yil::after { right: auto; left: 50%; top: -0.55rem; width: 1px; height: 0.4rem; }
-      .zc-cizgi { top: auto; left: var(--a); bottom: calc(1.75rem + 1px - var(--kalin) / 2 + var(--kat) * var(--adim)); height: var(--kalin); width: max(var(--kalin), calc(var(--b) - var(--a)));
-        background: linear-gradient(to right, var(--renk) var(--k), color-mix(in srgb, var(--renk) 30%, transparent) var(--k)); }
-      .zc-etiket { top: auto; right: auto; left: var(--a); bottom: calc(1.75rem + var(--kalin) / 2 + 0.5rem + var(--kat) * var(--adim)); transform: none; white-space: nowrap; line-height: 1.25; }
-      .zc-etiket.sagdan { left: auto; right: calc(100% - var(--b) + 0.6rem); text-align: right; }
-      .zc-etiket.sagdan b { justify-content: flex-end; }
-      .zc-etiket.sagdan b, .zc-etiket.sagdan span { margin-left: auto; padding: 0 0 0 0.25rem; }
-      .zc-etiket::before { display: none; }
-      .zc-bugun { top: 0; bottom: 1.75rem; left: var(--a); width: 0; border-top: 0; border-left: 2px dashed var(--vurgu); }
-      .zc-bugun-etiket { top: -1.1rem; right: auto; left: var(--a); transform: translateX(-50%); }
-    }
     /* Kurum logoları: koyu temada da görünsün diye beyaz yuvarlak zemin */
-    .kurum-logo { display: inline-block; vertical-align: middle; width: 1.6rem; height: 1.6rem; margin: -0.2rem 0.45rem 0 0; padding: 2px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 0 0 1px var(--cizgi); object-fit: contain; }
-    .oz-baslik .kurum-logo { width: 1.9rem; height: 1.9rem; margin-right: 0.55rem; }
-    .oz-grup { margin-top: 2.5rem; }
-    .oz-grup > h3 { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); margin-bottom: 0.4rem; }
-    .oz-liste { list-style: none; margin: 0; padding: 0; }
-    .oz-oge { padding-block: 1.1rem; border-bottom: 1px solid var(--cizgi); }
-    .oz-oge:last-child { border-bottom: 0; }
-    .oz-tarih { display: block; font-size: 0.85rem; color: var(--ikincil); font-variant-numeric: tabular-nums; }
-    .oz-baslik { display: block; font-family: var(--serif); font-size: 1.25rem; line-height: 1.3; margin-top: 0.15rem; }
-    .oz-alt { display: block; color: var(--ikincil); margin-top: 0.1rem; }
-    .oz-oge ul { margin: 0.6rem 0 0; padding-left: 1.1rem; }
-    .oz-oge li { margin: 0.2rem 0; }
-    .oz-oge .paylasim-link { margin-top: 0.6rem; font-size: 0.95rem; }
-    @media (min-width: 40rem) {
-      .oz-oge { display: grid; grid-template-columns: 8.5rem 1fr; gap: 0 1.5rem; }
-      .oz-tarih { padding-top: 0.3rem; }
-      .oz-govde { grid-column: 2; }
-    }
+    .kurum-logo { display: inline-block; vertical-align: middle; width: 1.6rem; height: 1.6rem; padding: 2px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 0 0 1px var(--cizgi); object-fit: contain; }
+    /* Özgeçmiş listesi: yalnızca başlıklar, her biri LinkedIn'deki ilgili bölüme gider */
+    .oz-grup { margin-top: 2rem; }
+    .oz-grup > h3 { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); margin-bottom: 0.6rem; }
+    .oz-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .oz-liste a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.85rem 0.35rem 0.4rem; border: 1px solid var(--cizgi); border-radius: 999px; color: var(--metin); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: border-color 0.2s, background 0.2s; }
+    .oz-liste a.logosuz { padding-left: 0.85rem; }
+    .oz-liste a:hover { border-color: var(--vurgu); background: var(--zemin-2); color: var(--metin); }
+    .oz-liste a::after { content: "↗"; color: var(--ikincil); font-size: 0.85em; }
     .su-siralar { margin-top: 2.25rem; padding: 1.25rem 1.5rem; border-left: 3px solid var(--vurgu); background: var(--zemin-2); border-radius: 0 6px 6px 0; }
     .su-siralar .bolum-etiket { margin-bottom: 0.6rem; }
     .su-siralar-tarih { color: var(--ikincil); font-weight: 500; letter-spacing: 0.06em; }
@@ -756,83 +733,39 @@ const SON_DURAKLAR = [
 // Bekleyenler: adres gelince tırnakların arasına yaz, gerisi kendiliğinden açılır.
 const LINKEDIN_ADRESI = "https://www.linkedin.com/in/yusufselimkirca/";
 const VSCO_ADRESI = "";
-// Özgeçmiş: LinkedIn profiliyle aynı tutulur. Her öğede:
-//   tarih: { tr, en }, baslik: { tr, en }, alt: { tr, en } (kurum, unvan), maddeler: [{ tr, en }], linkedin: paylaşım adresi (boşsa görünmez)
+// Özgeçmiş: yalnızca başlıklar; her biri LinkedIn profilinin ilgili bölümüne gider.
+//   bolum: experience | honors | certifications | education | "" (profilin kendisi); linkedin: belirli bir paylaşımın adresi (varsa bölüm yerine o açılır)
 const OZGECMIS = [
   { grup: { tr: "Deneyim", en: "Experience" }, ogeler: [
-    { tarih: { tr: "Mayıs 2025 – devam ediyor", en: "May 2025 – present" },
-      baslik: { tr: "Kuveyt Türk Katılım Bankası", en: "Kuveyt Türk Participation Bank" }, logo: "img/logo-kuveytturk.webp",
-      alt: { tr: "Pazarlama Stajyeri · KOBİ & Firma Ortakları Yönetimi · yarı zamanlı", en: "Marketing Intern · SME & Business Partners Management · part-time" },
-      maddeler: [
-        { tr: "Elit Patron segmenti, mikro KOBİ'ler ve avukat, veteriner, taksici gibi profesyonel meslek gruplarına yönelik kampanyalarda analiz, segmentasyon ve süreç dokümantasyonu.", en: "Analysis, segmentation and process documentation for campaigns aimed at the Elit Patron segment, micro SMEs and professional groups such as lawyers, vets and taxi drivers." },
-        { tr: "Elit Patron'da 15'ten fazla kampanyanın tasarım ve lansmanında yer aldım. Bu dönemde segmentin müşteri tabanı %11 büyüdü ve Kuveyt Türk Mobil'de segmente özel sekme hayata geçti.", en: "Took part in designing and launching 15+ Elit Patron campaigns. Over this period the segment's customer base grew 11% and a dedicated tab went live in the Kuveyt Türk Mobile app." },
-        { tr: "Kuveyt Türk AI Lab'in ilk projelerinden biri olan Firma Ortakları Kontrol Paneli'ni uçtan uca geliştirdim (yukarıda, Projeler'de).", en: "Built the Business Partners Dashboard end to end, one of the first projects in Kuveyt Türk's AI Lab (see Projects above)." }
-      ], linkedin: "" },
-    { tarih: { tr: "Ağu – Eyl 2026", en: "Aug – Sep 2026" },
-      baslik: { tr: "Turkish Technic", en: "Turkish Technic" }, logo: "img/logo-turkish-technic.webp",
-      alt: { tr: "Mühendislik Stajyeri · Hat Bakım", en: "Engineering Intern · Line Maintenance" },
-      maddeler: [
-        { tr: "Boeing Planlama, Yapısal Atölyeler ve Müşteri Uçakları bölümlerinde, arızalı bir uçağın bakım takvimine alınmasından çözümün doğrulanmasına kadar olan planlama sürecini ofiste ve sahada izledim.", en: "In Boeing Planning, Structural Workshops and Customer Aircraft, followed the planning process from scheduling a faulty aircraft for maintenance to verifying the fix, in the office and on the line." }
-      ], linkedin: "" },
-    { tarih: { tr: "Eki 2023 – Eyl 2025", en: "Oct 2023 – Sep 2025" },
-      baslik: { tr: "İTÜ İnovasyon Kulübü", en: "ITU Innovation Club" }, logo: "img/logo-itu.webp",
-      alt: { tr: "inoFinance ve inoOperation Ekip Üyesi", en: "inoFinance and inoOperation Team Member" },
-      maddeler: [
-        { tr: "Sponsorluk görüşmeleri ve iş birlikleri; etkinliklerin planlanması ve organizasyonu.", en: "Sponsorship talks and partnerships; planning and organising events." }
-      ], linkedin: "" }
+    { ad: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, logo: "img/logo-kuveytturk.webp", bolum: "experience", linkedin: "" },
+    { ad: { tr: "Turkish Technic", en: "Turkish Technic" }, logo: "img/logo-turkish-technic.webp", bolum: "experience", linkedin: "" },
+    { ad: { tr: "İTÜ İnovasyon Kulübü", en: "ITU Innovation Club" }, logo: "img/logo-itu.webp", bolum: "experience", linkedin: "" }
   ]},
   { grup: { tr: "Ödüller ve sertifikalar", en: "Awards and certificates" }, ogeler: [
-    { tarih: { tr: "2026", en: "2026" },
-      baslik: { tr: "Most Innovative Customer Loyalty Program", en: "Most Innovative Customer Loyalty Program" },
-      alt: { tr: "International Finance Awards · Elit Patron ekibiyle", en: "International Finance Awards · with the Elit Patron team" },
-      linkedin: "" },
-    { tarih: { tr: "2026", en: "2026" },
-      baslik: { tr: "Genel Müdür Yardımcısı ödülü", en: "Deputy General Manager's award" },
-      alt: { tr: "Kuveyt Türk · Firma Ortakları Kontrol Paneli için", en: "Kuveyt Türk · for the Business Partners Dashboard" },
-      linkedin: "" },
-    { tarih: { tr: "2026", en: "2026" },
-      baslik: { tr: "FLY UP Üniversiteler Arası Fikir Turnuvası", en: "FLY UP Inter-University Idea Tournament" },
-      alt: { tr: "İkincilik", en: "Second place" },
-      linkedin: "" },
-    { tarih: { tr: "2024", en: "2024" },
-      baslik: { tr: "FirstTech Staj Programı", en: "FirstTech Internship Programme" },
-      alt: { tr: "Başarı Belgesi · Intertech", en: "Certificate of Achievement · Intertech" },
-      linkedin: "" },
-    { tarih: { tr: "2020", en: "2020" },
-      baslik: { tr: "IGCSE", en: "IGCSE" },
-      alt: { tr: "University of Cambridge", en: "University of Cambridge" },
-      linkedin: "" }
+    { ad: { tr: "International Finance Awards 2026", en: "International Finance Awards 2026" }, bolum: "honors", linkedin: "" },
+    { ad: { tr: "Genel Müdür Yardımcısı ödülü", en: "Deputy General Manager's award" }, bolum: "experience", linkedin: "" },
+    { ad: { tr: "FLY UP Fikir Turnuvası · 2.", en: "FLY UP Idea Tournament · 2nd" }, bolum: "honors", linkedin: "" },
+    { ad: { tr: "FirstTech Staj Programı", en: "FirstTech Internship Programme" }, bolum: "certifications", linkedin: "" },
+    { ad: { tr: "IGCSE", en: "IGCSE" }, bolum: "certifications", linkedin: "" }
   ]},
   { grup: { tr: "Eğitim", en: "Education" }, ogeler: [
-    { tarih: { tr: "2023 – 2027", en: "2023 – 2027" },
-      baslik: { tr: "İstanbul Teknik Üniversitesi", en: "Istanbul Technical University" }, logo: "img/logo-itu.webp",
-      alt: { tr: "Endüstri Mühendisliği, lisans (son sınıf)", en: "BSc Industrial Engineering (final year)" },
-      maddeler: [
-        { tr: "Bitirme projesi (devam ediyor): insan analitiği, yetenek yönetimi ve kurum içi girişimcilik ekseninde stratejik yönetim çalışması.", en: "Graduation project (in progress): a strategic management study on people analytics, talent management and intrapreneurship." }
-      ], linkedin: "" },
-    { tarih: { tr: "Kas 2023 – devam ediyor", en: "Nov 2023 – present" },
-      baslik: { tr: "Hamilik Okulu Vakfı", en: "Hamilik Okulu Foundation" },
-      alt: { tr: "4 yıllık liderlik ve kişisel gelişim programı", en: "4-year leadership and personal development programme" },
-      maddeler: [
-        { tr: "Sektör profesyonelleri ve üst düzey yöneticilerle vaka analizleri, mentorluk ve kariyer planlama; finans, pazarlama ve iş etiği atölyeleri.", en: "Case studies, mentoring and career planning with industry professionals and senior executives; workshops on finance, marketing and business ethics." }
-      ], linkedin: "" },
-    { tarih: { tr: "2018 – 2023", en: "2018 – 2023" },
-      baslik: { tr: "Kartal Anadolu İmam Hatip Lisesi", en: "Kartal Anatolian Imam Hatip High School" }, logo: "img/logo-kartal-aihl.webp",
-      alt: { tr: "İngilizce Hazırlık ve IGCSE programı", en: "English Preparatory & IGCSE Programme" },
-      linkedin: "" }
+    { ad: { tr: "İstanbul Teknik Üniversitesi", en: "Istanbul Technical University" }, logo: "img/logo-itu.webp", bolum: "education", linkedin: "" },
+    { ad: { tr: "Hamilik Okulu Vakfı", en: "Hamilik Okulu Foundation" }, bolum: "", linkedin: "" },
+    { ad: { tr: "Kartal Anadolu İmam Hatip Lisesi", en: "Kartal Anatolian Imam Hatip High School" }, logo: "img/logo-kartal-aihl.webp", bolum: "education", linkedin: "" }
   ]}
 ];
+const linkedinBolumu = (bolum, ozel) => ozel || (LINKEDIN_ADRESI + (bolum ? "details/" + bolum + "/" : ""));
 
 // Zaman çizelgesi: tek tarih ekseni. bas/son: "YIL-AY" (son ay dahil); son: null ise bugüne kadar sürüyor.
-//   kat: 0 eksenin üzeri, 1–2 üst üste binen dönemler için üst katlar; renk: renk-aihl | renk-itu | renk-kt | renk-tt
-//   ad: boş bırakılırsa yalnızca logo görünür; logo: img/ altında kare kurum logosu
+//   kat: 0 eksenin üzeri, 1–2 üst üste binen dönemler; renk: renk-aihl | renk-itu | renk-kt | renk-tt
+//   sikistir: bu aya kadar olan kısım eksenin yalnızca "sikistirOran"ı kadar yer kaplar (lise yılları)
 const ZAMAN_CIZELGESI = {
-  bas: "2018-01", son: "2027-12",
+  bas: "2018-01", son: "2027-12", sikistir: "2023-09", sikistirOran: 0.14,
   ogeler: [
-    { ad: null, kurum: "Kartal Anadolu İmam Hatip Lisesi", bas: "2018-09", son: "2023-06", kat: 0, renk: "renk-aihl", logo: "img/logo-kartal-aihl.webp" },
-    { ad: { tr: "İTÜ Endüstri Müh.", en: "ITU Industrial Eng." }, bas: "2023-10", son: "2027-06", kat: 0, renk: "renk-itu", logo: "img/logo-itu.webp" },
-    { ad: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, bas: "2025-05", son: null, kat: 1, renk: "renk-kt", logo: "img/logo-kuveytturk.webp" },
-    { ad: { tr: "Turkish Technic", en: "Turkish Technic" }, bas: "2026-08", son: "2026-09", kat: 2, renk: "renk-tt", logo: "img/logo-turkish-technic.webp" }
+    { kurum: { tr: "Kartal Anadolu İmam Hatip Lisesi", en: "Kartal Anatolian Imam Hatip High School" }, bas: "2018-09", son: "2023-06", kat: 0, renk: "renk-aihl", logo: "img/logo-kartal-aihl.webp", bolum: "education" },
+    { kurum: { tr: "İTÜ Endüstri Mühendisliği", en: "ITU Industrial Engineering" }, bas: "2023-10", son: "2027-06", kat: 0, renk: "renk-itu", logo: "img/logo-itu.webp", bolum: "education" },
+    { kurum: { tr: "Kuveyt Türk", en: "Kuveyt Türk" }, bas: "2025-05", son: null, kat: 1, renk: "renk-kt", logo: "img/logo-kuveytturk.webp", bolum: "experience" },
+    { kurum: { tr: "Turkish Technic", en: "Turkish Technic" }, bas: "2026-08", son: "2026-09", kat: 2, renk: "renk-tt", logo: "img/logo-turkish-technic.webp", bolum: "experience" }
   ]
 };
 
@@ -1284,32 +1217,35 @@ function paylasimlariYaz() {
 
 const CV_DOSYALARI = { tr: "cv/Yusuf_Selim_Kirca_CV_TR.pdf", en: "cv/Yusuf_Selim_Kirca_CV_EN.pdf" };
 function zamanCizelgesiniYaz() {
-  const g = document.getElementById("zamanCizelgesi");
+  const Z = ZAMAN_CIZELGESI, g = document.getElementById("zamanCizelgesi");
   g.innerHTML = "";
   g.setAttribute("aria-label", m("zcAciklama"));
   const ay = t => { const [y, a] = t.split("-").map(Number); return y * 12 + (a - 1); };
   const simdi = new Date(), bugun = simdi.getFullYear() * 12 + simdi.getMonth() + simdi.getDate() / 31;
-  const A = ay(ZAMAN_CIZELGESI.bas), B = ay(ZAMAN_CIZELGESI.son) + 1;
-  const yuzde = v => (Math.min(Math.max((v - A) / (B - A), 0), 1) * 100).toFixed(2) + "%";
+  const A = ay(Z.bas), B = ay(Z.son) + 1, K = ay(Z.sikistir), F = Z.sikistirOran;
+  const oran = v => { v = Math.min(Math.max(v, A), B); return v < K ? (v - A) / (K - A) * F : F + (v - K) / (B - K) * (1 - F); };
+  const yuzde = v => (oran(v) * 100).toFixed(2) + "%";
   const ayAdi = t => new Intl.DateTimeFormat(dil, { month: "short", year: "numeric" }).format(new Date(t + "-15"));
   const yap = (etiket, sinif, metin) => { const e = document.createElement(etiket); if (sinif) e.className = sinif; if (metin) e.textContent = metin; return e; };
 
   g.append(yap("div", "zc-eksen"));
-  for (let y = Math.ceil(A / 12); y * 12 < B; y++) {
+  const kirik = yap("div", "zc-kirik"); kirik.style.setProperty("--a", (F * 50).toFixed(2) + "%"); g.append(kirik);
+  const ilk = yap("div", "zc-yil ilk", String(A / 12)); ilk.style.setProperty("--a", "0%"); g.append(ilk);
+  for (let y = Math.ceil(K / 12); y * 12 < B; y++) {
     const t = yap("div", "zc-yil", String(y)); t.style.setProperty("--a", yuzde(y * 12)); g.append(t);
   }
-  ZAMAN_CIZELGESI.ogeler.forEach(o => {
+  Z.ogeler.forEach(o => {
     const bas = ay(o.bas), son = o.son ? ay(o.son) + 1 : bugun;
     const k = Math.min(Math.max((bugun - bas) / (son - bas), 0), 1) * 100;
-    const ayarla = el => { el.style.setProperty("--a", yuzde(bas)); el.style.setProperty("--b", yuzde(son)); el.style.setProperty("--kat", o.kat); };
-    const c = yap("div", "zc-cizgi " + o.renk); ayarla(c); c.style.setProperty("--k", k.toFixed(1) + "%");
-    const e = yap("div", "zc-etiket " + o.renk + ((bas - A) / (B - A) > 0.7 ? " sagdan" : "")); ayarla(e);
-    const ad = yap("b", "", o.ad ? o.ad[dil] : "");
-    if (o.logo) { const l = yap("img", "kurum-logo"); l.src = o.logo; l.alt = o.ad ? "" : (o.kurum || ""); l.width = 64; l.height = 64; ad.prepend(l); }
-    e.append(ad);
-    const bitis = !o.son ? m("zcDevam") : ayAdi(o.son) + (son > bugun ? " (" + m("zcBeklenen") + ")" : "");
-    e.append(yap("span", "", ayAdi(o.bas) + " – " + bitis));
-    g.append(c, e);
+    const c = yap("div", "zc-cizgi " + o.renk);
+    c.style.setProperty("--a", yuzde(bas)); c.style.setProperty("--b", yuzde(son)); c.style.setProperty("--kat", o.kat); c.style.setProperty("--k", k.toFixed(1) + "%");
+    const sure = ayAdi(o.bas) + " – " + (!o.son ? m("zcDevam") : ayAdi(o.son) + (son > bugun ? " (" + m("zcBeklenen") + ")" : ""));
+    const a = yap("a", "zc-logo " + o.renk);
+    a.href = linkedinBolumu(o.bolum); a.target = "_blank"; a.rel = "noopener";
+    a.title = o.kurum[dil] + " · " + sure; a.setAttribute("aria-label", a.title + " (LinkedIn)");
+    a.style.setProperty("--a", yuzde(bas)); a.style.setProperty("--kat", o.kat);
+    const l = yap("img", "kurum-logo"); l.src = o.logo; l.alt = ""; l.width = 64; l.height = 64; a.append(l);
+    g.append(c, a);
   });
   const b = yap("div", "zc-bugun"); b.style.setProperty("--a", yuzde(bugun)); g.append(b);
   const be = yap("div", "zc-bugun-etiket", m("zcBugun")); be.style.setProperty("--a", yuzde(bugun)); g.append(be);
@@ -1326,26 +1262,12 @@ function ozgecmisiYaz() {
     grup.append(yap("h3", "", g.grup[dil]));
     const liste = yap("ul", "oz-liste");
     g.ogeler.forEach(o => {
-      const li = yap("li", "oz-oge");
-      li.append(yap("span", "oz-tarih", o.tarih[dil] || ""));
-      const govde = yap("div", "oz-govde");
-      const baslik = yap("span", "oz-baslik", o.baslik[dil]);
-      if (o.logo) { const l = yap("img", "kurum-logo"); l.src = o.logo; l.alt = ""; l.width = 64; l.height = 64; l.loading = "lazy"; baslik.prepend(l); }
-      govde.append(baslik);
-      if (o.alt) govde.append(yap("span", "oz-alt", o.alt[dil]));
-      if (o.maddeler && o.maddeler.length) {
-        const ul = yap("ul");
-        o.maddeler.forEach(x => ul.append(yap("li", "", x[dil])));
-        govde.append(ul);
-      }
-      if (o.linkedin) {
-        const a = yap("a", "paylasim-link");
-        a.href = o.linkedin; a.target = "_blank"; a.rel = "noopener";
-        a.innerHTML = LINKEDIN_IKON + "<span>" + m("paylasimOku") + " →</span>";
-        govde.append(a);
-      }
-      li.append(govde);
-      liste.append(li);
+      const li = yap("li");
+      const a = yap("a", o.logo ? "" : "logosuz");
+      a.href = linkedinBolumu(o.bolum, o.linkedin); a.target = "_blank"; a.rel = "noopener";
+      if (o.logo) { const l = yap("img", "kurum-logo"); l.src = o.logo; l.alt = ""; l.width = 64; l.height = 64; l.loading = "lazy"; a.append(l); }
+      a.append(yap("span", "", o.ad[dil]));
+      li.append(a); liste.append(li);
     });
     grup.append(liste);
     kutu.append(grup);
