@@ -299,8 +299,13 @@
     .renk-aihl { --renk: #0E7490; } .renk-itu { --renk: #1E40AF; } .renk-kt { --renk: #3F9E2A; } .renk-tt { --renk: #C8102E; }
     @media (prefers-color-scheme: dark) { :root:not([data-tema="acik"]) .renk-aihl { --renk: #4CC3DC; } :root:not([data-tema="acik"]) .renk-itu { --renk: #8EA8FF; } :root:not([data-tema="acik"]) .renk-kt { --renk: #74CF5B; } :root:not([data-tema="acik"]) .renk-tt { --renk: #FF6B7D; } }
     :root[data-tema="koyu"] .renk-aihl { --renk: #4CC3DC; } :root[data-tema="koyu"] .renk-itu { --renk: #8EA8FF; } :root[data-tema="koyu"] .renk-kt { --renk: #74CF5B; } :root[data-tema="koyu"] .renk-tt { --renk: #FF6B7D; }
-    /* Kurum logoları: koyu temada da görünsün diye beyaz yuvarlak zemin */
-    .kurum-logo { display: inline-block; vertical-align: middle; width: 1.6rem; height: 1.6rem; padding: 2px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 0 0 1px var(--cizgi); object-fit: contain; }
+    /* Kurum logoları: arka plansız, olduğu gibi */
+    .kurum-logo { display: inline-block; vertical-align: middle; width: 1.6rem; height: 1.6rem; max-width: none; object-fit: contain; }
+    .kurum-logo.yatay { width: 2.9rem; }
+    .zc-logo .kurum-logo.yatay { width: calc(var(--logo) * 1.35); }
+    /* Tek renkli koyu logolar (İTÜ, Kartal AİHL) koyu temada beyaz görünür */
+    @media (prefers-color-scheme: dark) { :root:not([data-tema="acik"]) .kurum-logo.tek-renk { filter: brightness(0) invert(1); opacity: 0.9; } }
+    :root[data-tema="koyu"] .kurum-logo.tek-renk { filter: brightness(0) invert(1); opacity: 0.9; }
     /* Özgeçmiş listesi: yalnızca başlıklar, her biri LinkedIn'deki ilgili bölüme gider */
     .oz-grup { margin-top: 2rem; }
     .oz-grup > h3 { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); margin-bottom: 0.6rem; }
@@ -759,6 +764,9 @@ const OZGECMIS = [
     { ad: { tr: "Kartal Anadolu İmam Hatip Lisesi", en: "Kartal Anatolian Imam Hatip High School" }, logo: "img/logo-kartal-aihl.webp", bolum: "education", linkedin: "" }
   ]}
 ];
+// Logo sınıfları: yatay logolara geniş yer, tek renkli koyu logolar koyu temada beyaz
+const YATAY_LOGOLAR = ["img/logo-kartal-aihl.webp"], TEK_RENK_LOGOLAR = ["img/logo-itu.webp", "img/logo-kartal-aihl.webp"];
+const logoSinifi = src => "kurum-logo" + (YATAY_LOGOLAR.includes(src) ? " yatay" : "") + (TEK_RENK_LOGOLAR.includes(src) ? " tek-renk" : "");
 const linkedinBolumu = (bolum, ozel) => ozel || (LINKEDIN_ADRESI + (bolum ? "details/" + bolum + "/" : ""));
 
 // Zaman çizelgesi: tek tarih ekseni. bas/son: "YIL-AY" (son ay dahil); son: null ise bugüne kadar sürüyor.
@@ -1258,7 +1266,7 @@ function zamanCizelgesiniYaz() {
     a.href = linkedinBolumu(o.bolum, o.linkedin); a.target = "_blank"; a.rel = "noopener";
     a.title = o.kurum[dil] + " · " + sure; a.setAttribute("aria-label", a.title + " (LinkedIn)");
     a.style.setProperty("--a", yuzde(bas)); a.style.setProperty("--kat", o.kat);
-    const l = yap("img", "kurum-logo"); l.src = o.logo; l.alt = ""; l.width = 64; l.height = 64; l.loading = "lazy"; a.append(l);
+    const l = yap("img", logoSinifi(o.logo)); l.src = o.logo; l.alt = ""; l.loading = "lazy"; a.append(l);
     g.append(c, a);
   });
   const b = yap("div", "zc-bugun"); b.style.setProperty("--a", yuzde(bugun)); g.append(b);
@@ -1279,7 +1287,7 @@ function ozgecmisiYaz() {
       const li = yap("li");
       const a = yap("a", o.logo ? "" : "logosuz");
       a.href = linkedinBolumu(o.bolum, o.linkedin); a.target = "_blank"; a.rel = "noopener";
-      if (o.logo) { const l = yap("img", "kurum-logo"); l.src = o.logo; l.alt = ""; l.width = 64; l.height = 64; l.loading = "lazy"; a.append(l); }
+      if (o.logo) { const l = yap("img", logoSinifi(o.logo)); l.src = o.logo; l.alt = ""; l.loading = "lazy"; a.append(l); }
       a.append(yap("span", "", o.ad[dil]));
       li.append(a); liste.append(li);
     });
