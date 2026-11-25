@@ -34,7 +34,7 @@
     "worksFor": { "@type": "Organization", "name": "Kuveyt Türk" },
     "affiliation": { "@type": "CollegeOrUniversity", "name": "İstanbul Teknik Üniversitesi" },
     "alumniOf": [{ "@type": "CollegeOrUniversity", "name": "İstanbul Teknik Üniversitesi" }, { "@type": "HighSchool", "name": "Kartal Anadolu İmam Hatip Lisesi" }],
-    "award": ["International Finance Awards 2026 – Most Innovative Customer Loyalty Program (Elit Patron ekibiyle)", "FLY UP Üniversiteler Arası Fikir Turnuvası – İkincilik (2026)"],
+    "award": ["En İyi Sunum Ödülü – Kuveyt Türk Quarterly Business Review (2026, Firma Ortakları Yönetimi ekibiyle)", "International Finance Awards 2026 – Most Innovative Customer Loyalty Program (Elit Patron ekibiyle)", "FLY UP Üniversiteler Arası Fikir Turnuvası – İkincilik (2026)"],
     "knowsLanguage": ["tr", "en"],
     "sameAs": ["https://www.linkedin.com/in/yusufselimkirca/"]
   }
@@ -311,10 +311,20 @@
     .oz-grup { margin-top: 2rem; }
     .oz-grup > h3 { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--vurgu); margin-bottom: 0.6rem; }
     .oz-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .oz-liste a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.85rem 0.35rem 0.4rem; border: 1px solid var(--cizgi); border-radius: 999px; color: var(--metin); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: border-color 0.2s, background 0.2s; }
+    .oz-liste a:not(.oz-kart) { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.85rem 0.35rem 0.4rem; border: 1px solid var(--cizgi); border-radius: 999px; color: var(--metin); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: border-color 0.2s, background 0.2s; }
     .oz-liste a.logosuz { padding-left: 0.85rem; }
-    .oz-liste a:hover { border-color: var(--vurgu); background: var(--zemin-2); color: var(--metin); }
-    .oz-liste a::after { content: "↗"; color: var(--ikincil); font-size: 0.85em; }
+    .oz-liste li.kartli { flex-basis: 100%; margin-bottom: 0.25rem; }
+    .oz-kart { display: grid; grid-template-columns: 1fr; border: 1px solid var(--cizgi); border-radius: 10px; overflow: hidden; color: var(--metin); text-decoration: none; background: var(--kutu); transition: border-color 0.2s; }
+    .oz-kart:hover { border-color: var(--vurgu); color: var(--metin); }
+    .oz-kart img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
+    .oz-kart-metin { display: flex; flex-direction: column; gap: 0.35rem; padding: 1rem 1.15rem 1.1rem; }
+    .oz-kart-metin b { font-family: var(--serif); font-weight: 500; font-size: 1.3rem; line-height: 1.25; }
+    .oz-kart-metin > span:not(.oz-kart-oku) { color: var(--ikincil); font-size: 0.95rem; line-height: 1.5; }
+    .oz-kart-oku { display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 0.35rem; color: var(--vurgu); font-weight: 500; font-size: 0.95rem; }
+    .oz-kart-oku svg { width: 1rem; height: 1rem; flex: none; }
+    @media (min-width: 40rem) { .oz-kart { grid-template-columns: 17rem 1fr; } .oz-kart img { height: 100%; } .oz-kart-metin { justify-content: center; padding: 1.25rem 1.5rem; } }
+    .oz-liste a:not(.oz-kart):hover { border-color: var(--vurgu); background: var(--zemin-2); color: var(--metin); }
+    .oz-liste a:not(.oz-kart)::after { content: "↗"; color: var(--ikincil); font-size: 0.85em; }
     .su-siralar { margin-top: 2.25rem; padding: 1.25rem 1.5rem; border-left: 3px solid var(--vurgu); background: var(--zemin-2); border-radius: 0 6px 6px 0; }
     .su-siralar .bolum-etiket { margin-bottom: 0.6rem; }
     .su-siralar-tarih { color: var(--ikincil); font-weight: 500; letter-spacing: 0.06em; }
@@ -753,6 +763,13 @@ const OZGECMIS = [
     { ad: { tr: "İTÜ İnovasyon Kulübü", en: "ITU Innovation Club" }, logo: "img/logo-itu.webp?v=4", bolum: "experience", linkedin: "" }
   ]},
   { grup: { tr: "Ödüller ve sertifikalar", en: "Awards and certificates" }, ogeler: [
+    // foto: varsa öğe fotoğraflı kart olarak görünür (foto600: telefon için küçük sürüm)
+    { ad: { tr: "QBR · En İyi Sunum Ödülü", en: "QBR · Best Presentation Award" },
+      alt: { tr: "Kuveyt Türk · Firma Ortakları Yönetimi ekibiyle, Genel Müdür Yardımcıları ve üst yönetime yapılan çeyrek dönem sunumlarında birincilik · 2026",
+             en: "Kuveyt Türk · First place with the Business Partners Management team at the quarterly business reviews presented to senior management · 2026" },
+      foto: "img/sunum-odulu.webp", foto600: "img/sunum-odulu-600.webp",
+      fotoAlt: { tr: "Firma Ortakları Yönetimi ekibi, En İyi Sunum ödülüyle", en: "The Business Partners Management team with the Best Presentation award" },
+      bolum: "honors", linkedin: "https://lnkd.in/p/dCdUtEEC" },
     { ad: { tr: "International Finance Awards 2026", en: "International Finance Awards 2026" }, bolum: "honors", linkedin: "" },
     { ad: { tr: "Genel Müdür Yardımcısı ödülü", en: "Deputy General Manager's award" }, bolum: "experience", linkedin: "https://lnkd.in/p/dcwsh8qe" },
     { ad: { tr: "FLY UP Fikir Turnuvası · İkincilik", en: "FLY UP Idea Tournament · 2nd place" }, bolum: "honors", linkedin: "https://lnkd.in/p/dVews4mm" },
@@ -1301,6 +1318,19 @@ function ozgecmisiYaz() {
     grup.append(yap("h3", "", g.grup[dil]));
     const liste = yap("ul", "oz-liste");
     g.ogeler.forEach(o => {
+      if (o.foto) {
+        // Fotoğraflı kart: fotoğraf, başlık, kısa açıklama; tıklayınca LinkedIn paylaşımı
+        const li = yap("li", "kartli");
+        const a = yap("a", "oz-kart");
+        a.href = linkedinBolumu(o.bolum, o.linkedin); a.target = "_blank"; a.rel = "noopener";
+        const f = yap("img"); f.src = o.foto; f.srcset = o.foto600 + " 600w, " + o.foto + " 1200w";
+        f.sizes = "(min-width: 44rem) 17rem, 100vw"; f.width = 1200; f.height = 800; f.loading = "lazy"; f.alt = o.fotoAlt[dil];
+        const metin = yap("div", "oz-kart-metin");
+        metin.append(yap("b", "", o.ad[dil]), yap("span", "", o.alt[dil]));
+        const oku = yap("span", "oz-kart-oku"); oku.innerHTML = LINKEDIN_IKON + "<span>" + m("paylasimOku") + " →</span>"; metin.append(oku);
+        a.append(f, metin); li.append(a); liste.append(li);
+        return;
+      }
       const li = yap("li");
       const a = yap("a", o.logo ? "" : "logosuz");
       a.href = linkedinBolumu(o.bolum, o.linkedin); a.target = "_blank"; a.rel = "noopener";
