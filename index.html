@@ -167,6 +167,7 @@
     .ust {
       position: sticky; top: 0; z-index: 50;
       background: var(--ust-zemin);
+      -webkit-backdrop-filter: blur(8px);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--cizgi);
     }
@@ -1157,6 +1158,7 @@ function kareleriHazirla(kareler) {
 }
 
 let gecisSuruyor = false;
+const WEBKIT = /AppleWebKit/.test(navigator.userAgent) && !/Chrome|Chromium|Edg\//.test(navigator.userAgent);
 document.getElementById("temaDugme").addEventListener("click", async e => {
   if (gecisSuruyor) return;   // geçiş bitmeden ikinci tıklama yeni bir geçiş başlatmasın
   const yeni = koyuMu() ? "acik" : "koyu";
@@ -1165,7 +1167,22 @@ document.getElementById("temaDugme").addEventListener("click", async e => {
   gecisSuruyor = true;
   try {
     const r = e.currentTarget.getBoundingClientRect();
-    const kareler = await kareleriHazirla(murekkepKareleri(r.left + r.width / 2, r.top + r.height / 2));
+    const x = r.left + r.width / 2, y = r.top + r.height / 2;
+    // Safari (iPhone, iPad, Mac; iOS'taki bütün tarayıcılar da WebKit kullanır) maske karelerini canlandıramıyor:
+    // orada yeni tema düğmeden açılan bir daireyle gelir. Diğer tarayıcılarda mürekkep efekti.
+    if (WEBKIT) {
+      document.documentElement.classList.add("tema-degisiyor");
+      const gecis = document.startViewTransition(() => temayiUygula(yeni));
+      await gecis.ready;
+      const R = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      document.documentElement.animate(
+        { clipPath: ["circle(0px at " + x + "px " + y + "px)", "circle(" + R + "px at " + x + "px " + y + "px)"] },
+        { duration: 650, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "both", pseudoElement: "::view-transition-new(root)" }
+      );
+      await gecis.finished;
+      return;
+    }
+    const kareler = await kareleriHazirla(murekkepKareleri(x, y));
     // Geçiş boyunca öğelerin kendi renk geçişlerini (0,2 sn) kapat; renkler tek seferde yeni temaya geçsin
     document.documentElement.classList.add("tema-degisiyor");
     const gecis = document.startViewTransition(() => temayiUygula(yeni));
