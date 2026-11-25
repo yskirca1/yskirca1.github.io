@@ -317,6 +317,7 @@
     .oz-kart { display: grid; grid-template-columns: 1fr; border: 1px solid var(--cizgi); border-radius: 10px; overflow: hidden; color: var(--metin); text-decoration: none; background: var(--kutu); transition: border-color 0.2s; }
     .oz-kart:hover { border-color: var(--vurgu); color: var(--metin); }
     .oz-kart img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
+    .oz-kart img.afis { object-fit: contain; background: #fff; }
     .oz-kart-metin { display: flex; flex-direction: column; gap: 0.35rem; padding: 1rem 1.15rem 1.1rem; }
     .oz-kart-metin b { font-family: var(--serif); font-weight: 500; font-size: 1.3rem; line-height: 1.25; }
     .oz-kart-metin > span:not(.oz-kart-oku) { color: var(--ikincil); font-size: 0.95rem; line-height: 1.5; }
@@ -763,16 +764,31 @@ const OZGECMIS = [
     { ad: { tr: "İTÜ İnovasyon Kulübü", en: "ITU Innovation Club" }, logo: "img/logo-itu.webp?v=4", bolum: "experience", linkedin: "" }
   ]},
   { grup: { tr: "Ödüller ve sertifikalar", en: "Awards and certificates" }, ogeler: [
-    // foto: varsa öğe fotoğraflı kart olarak görünür (foto600: telefon için küçük sürüm)
+    // Her ödül fotoğraflı kart olarak yazılır. foto: görsel (3:2); foto600: telefon için küçük sürüm (isteğe bağlı); afis: yazılı görsel, kırpılmadan gösterilir
     { ad: { tr: "QBR · En İyi Sunum Ödülü", en: "QBR · Best Presentation Award" },
       alt: { tr: "Kuveyt Türk · Firma Ortakları Yönetimi ekibiyle, Genel Müdür Yardımcıları ve üst yönetime yapılan çeyrek dönem sunumlarında birincilik · 2026",
              en: "Kuveyt Türk · First place with the Business Partners Management team at the quarterly business reviews presented to senior management · 2026" },
       foto: "img/sunum-odulu.webp", foto600: "img/sunum-odulu-600.webp",
       fotoAlt: { tr: "Firma Ortakları Yönetimi ekibi, En İyi Sunum ödülüyle", en: "The Business Partners Management team with the Best Presentation award" },
       bolum: "honors", linkedin: "https://lnkd.in/p/dCdUtEEC" },
-    { ad: { tr: "International Finance Awards 2026", en: "International Finance Awards 2026" }, bolum: "honors", linkedin: "" },
-    { ad: { tr: "Genel Müdür Yardımcısı ödülü", en: "Deputy General Manager's award" }, bolum: "experience", linkedin: "https://lnkd.in/p/dcwsh8qe" },
-    { ad: { tr: "FLY UP Fikir Turnuvası · İkincilik", en: "FLY UP Idea Tournament · 2nd place" }, bolum: "honors", linkedin: "https://lnkd.in/p/dVews4mm" },
+    { ad: { tr: "International Finance Awards 2026", en: "International Finance Awards 2026" },
+      alt: { tr: "Kuveyt Türk · Elit Patron programı “Most Innovative Customer Loyalty Program” ödülünü aldı; programın kampanya ve segment yönetimi süreçlerinde ekibin bir parçasıydım · 2026",
+             en: "Kuveyt Türk · The Elit Patron programme won “Most Innovative Customer Loyalty Program”; I was part of the team running its campaign and segment management · 2026" },
+      foto: "img/elit-patron-odulu.jpg", afis: true,
+      fotoAlt: { tr: "Elit Patron programının International Finance Awards 2026 ödül duyurusu", en: "Announcement of the Elit Patron programme's International Finance Awards 2026 win" },
+      bolum: "honors", linkedin: "" },
+    { ad: { tr: "Genel Müdür Yardımcısı ödülü", en: "Deputy General Manager's award" },
+      alt: { tr: "Kuveyt Türk Yapay Zekâ Laboratuvarı · Ekip arkadaşımla sunduğumuz Firma Ortakları Kontrol Paneli, KOBİ Bankacılığı'ndan sorumlu Genel Müdür Yardımcımızın ödülüne layık görüldü · 2026",
+             en: "Kuveyt Türk AI Lab · The Business Partners dashboard I presented with a teammate received an award from the Deputy General Manager responsible for SME Banking · 2026" },
+      foto: "img/gmy-odulu.jpg", foto600: "img/gmy-odulu-600.jpg",
+      fotoAlt: { tr: "Yapay Zekâ Laboratuvarı sunumunun ardından ödül anı", en: "Receiving the award after the AI Lab presentation" },
+      bolum: "experience", linkedin: "https://lnkd.in/p/dcwsh8qe" },
+    { ad: { tr: "FLY UP Fikir Turnuvası · İkincilik", en: "FLY UP Idea Tournament · 2nd place" },
+      alt: { tr: "Turkish Cargo · Tailwind takımıyla gerçek bir hava kargo vakasında ikincilik; müşteri segmentasyonu analizini üstlendim, jüri sunumunu takım arkadaşımla yaptım · 2026",
+             en: "Turkish Cargo · Second place with team Tailwind on a real air cargo case; I led the customer segmentation analysis and co-presented to the jury · 2026" },
+      foto: "img/flyup-odulu.jpg", foto600: "img/flyup-odulu-600.jpg",
+      fotoAlt: { tr: "FLY UP turnuvasının kapanışında pasta kesen katılımcılar", en: "Participants cutting the cake at the close of the FLY UP tournament" },
+      bolum: "honors", linkedin: "https://lnkd.in/p/dVews4mm" },
     { ad: { tr: "FirstTech Staj Programı", en: "FirstTech Internship Programme" }, bolum: "certifications", linkedin: "" },
     { ad: { tr: "IGCSE", en: "IGCSE" }, bolum: "certifications", linkedin: "" }
   ]},
@@ -941,6 +957,7 @@ const METINLER = {
     cvIndir: "CV'yi indir (PDF)",
     zcBaslik: "Zaman çizelgesi", zcBugun: "Bugün", zcDevam: "devam ediyor", zcBeklenen: "beklenen", zcAciklama: "Eğitim ve kariyerin zaman çizelgesi",
     paylasimOku: "LinkedIn'deki paylaşımı oku",
+    profildeGor: "LinkedIn profilimde gör",
     paylasimKisa: "LinkedIn'de oku",
     rrGorselAlt: "ReviewRadar ana sayfasının ekran görüntüsü: arama kutusu ve kategori kartları",
     rrVideoAlt: "ReviewRadar demosu: termos aranıyor, en sık şikâyetler, kimin şikâyet ettiği, öneriler ve müşterilerin sevdikleri gösteriliyor",
@@ -1002,6 +1019,7 @@ const METINLER = {
     cvIndir: "Download CV (PDF)",
     zcBaslik: "Timeline", zcBugun: "Today", zcDevam: "present", zcBeklenen: "expected", zcAciklama: "Timeline of education and career",
     paylasimOku: "Read the LinkedIn post",
+    profildeGor: "See it on my LinkedIn profile",
     paylasimKisa: "Read on LinkedIn",
     rrGorselAlt: "Screenshot of the ReviewRadar home page: search box and category cards",
     rrVideoAlt: "ReviewRadar demo: searching for thermos, showing the most common complaints, who complains, recommendations and what customers like",
@@ -1323,11 +1341,11 @@ function ozgecmisiYaz() {
         const li = yap("li", "kartli");
         const a = yap("a", "oz-kart");
         a.href = linkedinBolumu(o.bolum, o.linkedin); a.target = "_blank"; a.rel = "noopener";
-        const f = yap("img"); f.src = o.foto; f.srcset = o.foto600 + " 600w, " + o.foto + " 1200w";
+        const f = yap("img"); f.src = o.foto; if (o.afis) f.className = "afis"; if (o.foto600) f.srcset = o.foto600 + " 600w, " + o.foto + " 1200w";
         f.sizes = "(min-width: 44rem) 17rem, 100vw"; f.width = 1200; f.height = 800; f.loading = "lazy"; f.alt = o.fotoAlt[dil];
         const metin = yap("div", "oz-kart-metin");
         metin.append(yap("b", "", o.ad[dil]), yap("span", "", o.alt[dil]));
-        const oku = yap("span", "oz-kart-oku"); oku.innerHTML = LINKEDIN_IKON + "<span>" + m("paylasimOku") + " →</span>"; metin.append(oku);
+        const oku = yap("span", "oz-kart-oku"); oku.innerHTML = LINKEDIN_IKON + "<span>" + m(o.linkedin ? "paylasimOku" : "profildeGor") + " →</span>"; metin.append(oku);
         a.append(f, metin); li.append(a); liste.append(li);
         return;
       }
