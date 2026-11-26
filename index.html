@@ -246,7 +246,17 @@
     .proje h3 { font-size: clamp(1.5rem, 5vw, 1.9rem); }
     .durum { font-size: 0.8rem; font-weight: 500; color: var(--vurgu); border: 1px solid var(--vurgu); border-radius: 999px; padding: 0.15rem 0.75rem; white-space: nowrap; }
     .proje-yil { font-size: 0.85rem; color: var(--ikincil); font-variant-numeric: tabular-nums; }
-    .proje-alt { font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: var(--ikincil); margin: 0.5rem 0 1.5rem; }
+    .proje-alt { font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: var(--ikincil); margin: 0.5rem 0 0.9rem; }
+    .proje-ozet { margin: 0; }
+    .proje-baglanti { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; margin-top: 1.25rem; }
+    .proje-baglanti .dugme, .proje-baglanti .paylasim-link { margin: 0; }
+    .proje-baglanti [data-paylasim]:empty { display: none; }
+    .proje-detay { margin-top: 1rem; }
+    .proje-detay summary { cursor: pointer; list-style: none; width: fit-content; padding: 0.45rem 1rem; border: 1px solid var(--vurgu); border-radius: 6px; color: var(--vurgu); font-weight: 500; }
+    .proje-detay summary::-webkit-details-marker { display: none; }
+    .proje-detay summary::after { content: " +"; }
+    .proje-detay[open] summary::after { content: " −"; }
+    .proje-detay[open] summary { margin-bottom: 1.5rem; }
     .gorseller { display: grid; gap: 1rem; margin: 0 0 1.75rem; }
     .gorseller img, .gorseller video { width: 100%; height: auto; display: block; border: 1px solid var(--cizgi); border-radius: 8px; background: #1a1d24; }
     .gorsel-not { font-size: 0.9rem; font-style: italic; color: var(--ikincil); margin: 0; }
@@ -258,7 +268,6 @@
     .adimlar dd { margin: 0.3rem 0 0; }
     .dugme { display: inline-block; margin-top: 1.75rem; padding: 0.7rem 1.3rem; background: var(--vurgu); color: var(--vurgu-uzeri); text-decoration: none; border-radius: 6px; font-weight: 500; transition: background 0.2s; }
     .paylasim-link { display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 1.25rem; font-weight: 500; }
-    .proje .dugme { margin-right: 1.25rem; }
     .paylasim-link svg { width: 1rem; height: 1rem; flex: none; }
     .su-siralar li a { white-space: nowrap; font-size: 0.9em; }
     .dugme:hover { background: var(--vurgu-koyu); color: var(--vurgu-uzeri); }
@@ -541,19 +550,25 @@
           <span class="proje-yil">2026 –</span>
         </div>
         <p class="proje-alt" data-m="rrAlt"></p>
-        <div class="gorseller">
-          <!-- ReviewRadar'ın 16 saniyelik sessiz demosu: kendiliğinden ve döngüde oynar -->
-          <video id="rrDemo" width="1280" height="800" muted loop playsinline preload="metadata" poster="img/reviewradar.webp" data-m-aria="rrVideoAlt">
-            <source src="img/reviewradar-demo.mp4" type="video/mp4">
-          </video>
+        <p class="proje-ozet" data-m="rrOzet"></p>
+        <div class="proje-baglanti">
+          <a class="dugme" href="https://yusufselimkirca.com/reviewradar/" target="_blank" rel="noopener" data-m="rrDugme"></a>
+          <span data-paylasim="reviewradar"></span>
         </div>
-        <dl class="adimlar">
-          <dt data-m="sorun"></dt>      <dd data-m="rrSorun"></dd>
-          <dt data-m="neYaptim"></dt>   <dd data-m="rrNeYaptim"></dd>
-          <dt data-m="sonuc"></dt>      <dd data-m="rrSonuc"></dd>
-        </dl>
-        <a class="dugme" href="https://yusufselimkirca.com/reviewradar/" target="_blank" rel="noopener" data-m="rrDugme"></a>
-        <span data-paylasim="reviewradar"></span>
+        <details class="proje-detay">
+          <summary data-m="detaylar"></summary>
+          <div class="gorseller">
+            <!-- ReviewRadar'ın 16 saniyelik sessiz demosu: kendiliğinden ve döngüde oynar -->
+            <video id="rrDemo" width="1280" height="800" muted loop playsinline preload="metadata" poster="img/reviewradar.webp" data-m-aria="rrVideoAlt">
+              <source src="img/reviewradar-demo.mp4" type="video/mp4">
+            </video>
+          </div>
+          <dl class="adimlar">
+            <dt data-m="sorun"></dt>      <dd data-m="rrSorun"></dd>
+            <dt data-m="neYaptim"></dt>   <dd data-m="rrNeYaptim"></dd>
+            <dt data-m="sonuc"></dt>      <dd data-m="rrSonuc"></dd>
+          </dl>
+        </details>
       </article>
 
       <!-- Proje 2: Firma Ortakları Kontrol Paneli -->
@@ -564,19 +579,25 @@
           <span class="proje-yil">2026</span>
         </div>
         <p class="proje-alt" data-m="panelAlt"></p>
-        <div class="gorseller iki">
-          <img src="img/panel-giris.webp" srcset="img/panel-giris-720.webp 720w, img/panel-giris.webp 1424w" sizes="(min-width: 44rem) 21rem, 100vw" width="1424" height="884" loading="lazy" data-m-alt="panelGirisAlt" alt="">
-          <figure>
-            <img src="img/panel-ornek.webp" srcset="img/panel-ornek-720.webp 720w, img/panel-ornek.webp 1440w" sizes="(min-width: 44rem) 21rem, 100vw" width="1440" height="900" loading="lazy" data-m-alt="panelOrnekAlt" alt="">
-            <figcaption class="gorsel-not" data-m="panelOrnekNot"></figcaption>
-          </figure>
+        <p class="proje-ozet" data-m="panelOzet"></p>
+        <div class="proje-baglanti">
+          <span data-paylasim="panel"></span>
         </div>
-        <dl class="adimlar">
-          <dt data-m="sorun"></dt>      <dd data-m="panelSorun"></dd>
-          <dt data-m="neYaptik"></dt>   <dd data-m="panelNeYaptik"></dd>
-          <dt data-m="sonuc"></dt>      <dd><span data-m="panelSonuc"></span><p class="gorsel-not" style="margin-top:1rem" data-m="panelNot"></p></dd>
-        </dl>
-        <span data-paylasim="panel"></span>
+        <details class="proje-detay">
+          <summary data-m="detaylar"></summary>
+          <div class="gorseller iki">
+            <img src="img/panel-giris.webp" srcset="img/panel-giris-720.webp 720w, img/panel-giris.webp 1424w" sizes="(min-width: 44rem) 21rem, 100vw" width="1424" height="884" loading="lazy" data-m-alt="panelGirisAlt" alt="">
+            <figure>
+              <img src="img/panel-ornek.webp" srcset="img/panel-ornek-720.webp 720w, img/panel-ornek.webp 1440w" sizes="(min-width: 44rem) 21rem, 100vw" width="1440" height="900" loading="lazy" data-m-alt="panelOrnekAlt" alt="">
+              <figcaption class="gorsel-not" data-m="panelOrnekNot"></figcaption>
+            </figure>
+          </div>
+          <dl class="adimlar">
+            <dt data-m="sorun"></dt>      <dd data-m="panelSorun"></dd>
+            <dt data-m="neYaptik"></dt>   <dd data-m="panelNeYaptik"></dd>
+            <dt data-m="sonuc"></dt>      <dd><span data-m="panelSonuc"></span><p class="gorsel-not" style="margin-top:1rem" data-m="panelNot"></p></dd>
+          </dl>
+        </details>
       </article>
     </div>
   </section>
@@ -954,6 +975,9 @@ const METINLER = {
     rrNeYaptim: "Hamilik Okulu'nda pazarlama alanında değer üreten bir proje geliştirmemiz istendi. Ben bu fikri seçtim ve ürünü baştan sona yapay zekâyla kurdum. Veri toplamayı, analizi ve kodu yapay zekâ yaptı. Ürünün ne olacağını, tasarımını ve her iyileştirmeyi ben yönlendirdim.",
     rrSonuc: "12 kategoride 141 ürüne ait 24.500 yorum analiz edildi. Kullanıcı bir kategoriyi aradığında rakiplerin en çok şikâyet aldığı konuları, müşterilerin beğendiği yönleri ve pazara girerken dikkat edilmesi gerekenleri tek ekranda görüyor. Proje 2027 yazına kadar geliştirilmeye devam edecek.",
     rrDugme: "Siteyi aç →",
+    detaylar: "Detaylar",
+    rrOzet: "Ürün yorumlarından rakiplerin en çok şikâyet aldığı konuları ve sevilen yönleri tek ekranda gösteriyor. 141 ürün, 24.500 yorum.",
+    panelOzet: "Her ay Excel'lerden yeniden derlenen raporları tek panelde topluyor. Genel Müdür Yardımcısı ödülü aldı.",
     cvIndir: "CV'yi indir (PDF)",
     zcBaslik: "Zaman çizelgesi", zcBugun: "Bugün", zcDevam: "devam ediyor", zcBeklenen: "beklenen", zcAciklama: "Eğitim ve kariyerin zaman çizelgesi",
     paylasimOku: "LinkedIn'deki paylaşımı oku",
@@ -1016,6 +1040,9 @@ const METINLER = {
     rrNeYaptim: "At Hamilik Okulu, we were asked to build a project that creates value in marketing. I chose this idea and built the product end to end with AI. AI handled data collection, analysis and the code. I directed what the product should be, its design, and every improvement.",
     rrSonuc: "24,500 reviews of 141 products across 12 categories analysed. Users search a category and see, on one screen, competitors' most common complaints, what customers like, and what to watch for when entering the market. Development continues through summer 2027.",
     rrDugme: "Open the site →",
+    detaylar: "Details",
+    rrOzet: "Turns product reviews into one screen of competitors' most common complaints and what customers like. 141 products, 24,500 reviews.",
+    panelOzet: "Brings reports rebuilt from Excel every month into one dashboard. Received a Deputy General Manager award.",
     cvIndir: "Download CV (PDF)",
     zcBaslik: "Timeline", zcBugun: "Today", zcDevam: "present", zcBeklenen: "expected", zcAciklama: "Timeline of education and career",
     paylasimOku: "Read the LinkedIn post",
