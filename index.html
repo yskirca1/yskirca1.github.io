@@ -508,11 +508,15 @@
         <span data-m="girisSatir2"></span>
       </p>
       <p class="imza" data-m="imza"></p>
-      <!-- Girişte iletişim: LinkedIn ve e-posta (e-posta adresi betikte parçalı tutulur) -->
+      <!-- Girişte iletişim: LinkedIn, WhatsApp (kullanıcı adı @tutufsk; numara görünmez) ve e-posta (e-posta adresi betikte parçalı tutulur) -->
       <p class="giris-baglantilar">
         <a id="girisLinkedin" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.8v1.6h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.6 4.77 6V21h-4v-5c0-1.2-.02-2.73-1.66-2.73-1.67 0-1.93 1.3-1.93 2.64V21h-4z"/></svg>
           <span>LinkedIn</span>
+        </a>
+        <a href="https://wa.me/tutufsk" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.45 9.45 0 0 1-4.82-1.32l-.35-.21-3.58.94.96-3.49-.23-.36a9.43 9.43 0 0 1-1.45-5.03c0-5.22 4.25-9.47 9.48-9.47 2.53 0 4.91.99 6.7 2.78a9.41 9.41 0 0 1 2.77 6.7c0 5.22-4.25 9.46-9.47 9.46zm8.06-17.53A11.33 11.33 0 0 0 12.05.63C5.77.63.66 5.74.66 12.02c0 2.01.52 3.97 1.52 5.69L.57 23.6l6.03-1.58a11.36 11.36 0 0 0 5.44 1.39h.01c6.28 0 11.39-5.11 11.39-11.39 0-3.04-1.18-5.9-3.33-8.05z"/></svg>
+          <span>WhatsApp</span>
         </a>
         <button type="button" class="eposta-tetik" id="girisEposta" aria-haspopup="dialog" aria-expanded="false" aria-controls="epostaMenu">
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>
@@ -669,7 +673,7 @@
     <div class="dar">
       <h2 data-m="menuIletisim"></h2>
       <p class="iletisim-satir">
-        <span id="linkedin"></span><span class="ayrac" aria-hidden="true">·</span><span id="eposta"></span>
+        <span id="linkedin"></span><span class="ayrac" aria-hidden="true">·</span><a href="https://wa.me/tutufsk" target="_blank" rel="noopener">WhatsApp</a><span class="ayrac" aria-hidden="true">·</span><span id="eposta"></span>
       </p>
     </div>
   </section>
@@ -809,8 +813,8 @@ const OZGECMIS = [
     { ad: { tr: "FLY UP Fikir Turnuvası · İkincilik", en: "FLY UP Idea Tournament · 2nd place" },
       alt: { tr: "Turkish Cargo · Tailwind takımıyla gerçek bir hava kargo vakasında ikincilik; müşteri segmentasyonu analizini üstlendim, jüri sunumunu takım arkadaşımla yaptım · 2026",
              en: "Turkish Cargo · Second place with team Tailwind on a real air cargo case; I led the customer segmentation analysis and co-presented to the jury · 2026" },
-      foto: "img/flyup-odulu.jpg", foto600: "img/flyup-odulu-600.jpg",
-      fotoAlt: { tr: "FLY UP turnuvasının kapanışında pasta kesen katılımcılar", en: "Participants cutting the cake at the close of the FLY UP tournament" },
+      foto: "img/flyup-sertifika.jpg", foto600: "img/flyup-sertifika-600.jpg",
+      fotoAlt: { tr: "FLY UP Üniversiteler Arası Fikir Turnuvası'nda Turkish Cargo ekibiyle katılım sertifikalarıyla", en: "With the Turkish Cargo team and participation certificates at the FLY UP Inter-University Idea Tournament" },
       bolum: "honors", linkedin: "https://lnkd.in/p/dVews4mm" },
     { ad: { tr: "FirstTech Staj Programı", en: "FirstTech Internship Programme" }, bolum: "certifications", linkedin: "" },
     { ad: { tr: "IGCSE", en: "IGCSE" }, bolum: "certifications", linkedin: "" }
@@ -993,7 +997,7 @@ const METINLER = {
     panelAlt: "Her ay yeniden hazırlanan raporlardan kalıcı bir araca",
     panelSorun: "Ekip olarak her ay aynı verileri farklı Excel raporlarından derliyor, listeleri sıfırdan oluşturuyorduk. Her kişinin elinde verinin farklı bir versiyonu oluyordu, şubelere iletilmesi de ayrı bir iş yüküydü.",
     panelNeYaptik: "<a href=\"https://www.linkedin.com/in/beyza%C3%A7iftci/\" target=\"_blank\" rel=\"noopener\">Beyza Çiftci Aytunç</a> ile birlikte, bu tekrar eden işleri tek bir panelde toplamaya karar verdik ve paneli yapay zekâ destekli araçlarla geliştirdik. Panel, firma ortağı performansını bankadan şubeye kadar her seviyede izlemeyi sağlıyor. Temsilcilere günlük öncelik listeleri ve aksiyon dosyaları hazırlıyor. Kullanıcıların sade bir dille sordukları soruları müşteri listesine çeviriyor. Yönetim raporunu da kendisi oluşturuyor.",
-    panelSonuc: "Çalışmayı Kuveyt Türk bünyesindeki Yapay Zekâ Laboratuvarı'nda örnek verilerle sunduk ve KOBİ Bankacılığı'ndan sorumlu Genel Müdür Yardımcımızın ödülüne layık görüldük. Panel şimdi ekibin günlük işinin bir parçası olmak üzere kullanıma alınıyor.",
+    panelSonuc: "Örnek verilerle yaptığımız sunumun ardından çalışma ödüllendirildi. Panel şimdi ekibin günlük işinin bir parçası olmak üzere kullanıma alınıyor.",
     panelNot: "Ekran görüntüleri örnek verilerle hazırlanmıştır.",
     panelOrnekNot: "Uygulama içi ekranda tasarımdan veriye her şey temsilidir, orijinal uygulama değildir.",
     panelGirisAlt: "Kontrol Paneli giriş ekranı",
@@ -1058,7 +1062,7 @@ const METINLER = {
     panelAlt: "From monthly rebuilt reports to a lasting tool",
     panelSorun: "Every month, our team pulled the same data from different Excel reports and rebuilt the same lists from scratch. Everyone ended up with a slightly different version of the numbers, and getting them to branches was a job of its own.",
     panelNeYaptik: "Together with <a href=\"https://www.linkedin.com/in/beyza%C3%A7iftci/\" target=\"_blank\" rel=\"noopener\">Beyza Çiftci Aytunç</a>, we decided to bring this repetitive work into a single dashboard and built it with AI-assisted tools. It tracks business partner performance at every level, from the whole bank down to individual branches. It prepares daily priority lists and action files for representatives, turns questions asked in plain language into customer lists, and generates the management report on its own.",
-    panelSonuc: "We presented the work at Kuveyt Türk's AI Lab using sample data, and it received an award from the Deputy General Manager responsible for SME Banking. The dashboard is now being rolled out to become part of the team's daily routine.",
+    panelSonuc: "After we presented it with sample data, the work received an award. The dashboard is now being rolled out to become part of the team's daily routine.",
     panelNot: "Screenshots use sample data.",
     panelOrnekNot: "In the in-app screen, everything from design to data is representative; it is not the original application.",
     panelGirisAlt: "Dashboard sign-in screen",
