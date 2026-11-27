@@ -6,7 +6,7 @@
   <title>Yusuf Selim Kırca</title>
   <meta name="description" content="Yusuf Selim Kırca · KOBİ Pazarlama, Kuveyt Türk · Endüstri Mühendisliği, İTÜ. Projeler, geziler ve iletişim.">
   <meta property="og:title" content="Yusuf Selim Kırca">
-  <meta property="og:description" content="Hâlâ öğreniyorum. / Still learning.">
+  <meta property="og:description" content="Yusuf Selim Kırca - KOBİ Pazarlama, Kuveyt Türk, İTÜ Endüstri Mühendisliği">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://yusufselimkirca.com/">
   <meta property="og:site_name" content="Yusuf Selim Kırca">
@@ -39,7 +39,9 @@
     "sameAs": ["https://www.linkedin.com/in/yusufselimkirca/"]
   }
   </script>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230F5C6E'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' fill='%23FAF8F5'%3EY%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" sizes="64x64" href="/img/ikon-64.png">
+  <link rel="apple-touch-icon" href="/img/ikon-180.png">
+  <link rel="manifest" href="/site.webmanifest">
 
   <!-- Fontlar: başlıklar Newsreader, gövde Inter (ikisi de Türkçe karakter destekli) -->
   <script>
@@ -977,7 +979,7 @@ const METINLER = {
     rrDugme: "Siteyi aç →",
     detaylar: "Detaylar",
     rrOzet: "Ürün yorumlarından rakiplerin en çok şikâyet aldığı konuları ve sevilen yönleri tek ekranda gösteriyor. 141 ürün, 24.500 yorum.",
-    panelOzet: "Her ay Excel'lerden yeniden derlenen raporları tek panelde topluyor. Genel Müdür Yardımcısı ödülü aldı.",
+    panelOzet: "Birkaç saat uğraştığımız sorguları ve Excel tablolarını tek tıkla karşımıza getiriyor. Genel Müdür Yardımcısı ödülü aldı.",
     cvIndir: "CV'yi indir (PDF)",
     zcBaslik: "Zaman çizelgesi", zcBugun: "Bugün", zcDevam: "devam ediyor", zcBeklenen: "beklenen", zcAciklama: "Eğitim ve kariyerin zaman çizelgesi",
     paylasimOku: "LinkedIn'deki paylaşımı oku",
@@ -1042,7 +1044,7 @@ const METINLER = {
     rrDugme: "Open the site →",
     detaylar: "Details",
     rrOzet: "Turns product reviews into one screen of competitors' most common complaints and what customers like. 141 products, 24,500 reviews.",
-    panelOzet: "Brings reports rebuilt from Excel every month into one dashboard. Received a Deputy General Manager award.",
+    panelOzet: "Queries and Excel sheets that used to take us a few hours now come up in one click. Received a Deputy General Manager award.",
     cvIndir: "Download CV (PDF)",
     zcBaslik: "Timeline", zcBugun: "Today", zcDevam: "present", zcBeklenen: "expected", zcAciklama: "Timeline of education and career",
     paylasimOku: "Read the LinkedIn post",
@@ -1087,6 +1089,9 @@ const METINLER = {
    ================================================================== */
 let dil = "tr";
 try { dil = localStorage.getItem("dil") === "en" ? "en" : "tr"; } catch (e) {}
+// Paylaşılan bağlantıdaki dil (?lang=en ya da ?lang=tr) kayıtlı seçimin önüne geçer
+const adresDili = new URLSearchParams(location.search).get("lang");
+if (adresDili === "en" || adresDili === "tr") dil = adresDili;
 
 function m(anahtar) { return METINLER[dil][anahtar]; }
 
@@ -1118,6 +1123,9 @@ function metinleriYaz() {
 document.querySelectorAll(".dil button").forEach(b => b.addEventListener("click", () => {
   dil = b.dataset.dil;
   try { localStorage.setItem("dil", dil); } catch (e) {}
+  // Elle dil seçilince adresteki ?lang silinir; yoksa sayfa yenilenince seçim geri dönerdi
+  const adres = new URL(location.href);
+  if (adres.searchParams.has("lang")) { adres.searchParams.delete("lang"); history.replaceState(null, "", adres); }
   metinleriYaz();
 }));
 
